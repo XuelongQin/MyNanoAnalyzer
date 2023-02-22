@@ -1,0 +1,49 @@
+executable	= FinalSelection_tautau_single.sh
+output		= logs/FinalSelection_tautau_single_$(Process).out
+error		= logs/FinalSelection_tautau_single_$(Process).error
+log 		= logs/FinalSelection_tautau_single.log
+request_cpus = 1
++JobFlavour = "workday"
+requirements = (OpSysAndVer =?= "CentOS7")
+
+
+arguments = 2018 GGToTauTau GGToTauTau_Inclusive_M_50GeV_PTFilter_tautau
+queue 1
+arguments = 2018 DYJetsToLL_M-50 DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_tautau
+queue 1
+arguments = 2018 WJets WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_tautau
+queue 1
+arguments = 2018 WW2L2Nu WWTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_tautau
+queue 1
+arguments = 2018 WZ2Q2L WZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_tautau
+queue 1
+arguments = 2018 WZ3LNu WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8_tautau
+queue 1
+arguments = 2018 ZZ2L2Nu ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_tautau
+queue 1
+arguments = 2018 ZZ2Q2L ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_tautau
+queue 1
+arguments = 2018 ZZ4L ZZTo4L_TuneCP5_13TeV_powheg_pythia8_tautau
+queue 1
+arguments = 2018 TTTo2L2Nu TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_tautau
+queue 1
+arguments = 2018 TTToHadronic TTToHadronic_TuneCP5_13TeV-powheg-pythia8_tautau
+queue 1
+arguments = 2018 TTToSemiLeptonic TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_tautau
+queue 1
+arguments = 2018 ST_t_top ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_tautau
+queue 1
+arguments = 2018 ST_t_antitop ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_tautau
+queue 1
+arguments = 2018 ST_tW_top ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_tautau
+queue 1
+arguments = 2018 ST_tW_antitop ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_tautau
+queue 1
+arguments = 2018 dataA Tau_Run2018A-RunIISummer20UL18_NanoAODv9_tautau
+queue 1
+arguments = 2018 dataB Tau_Run2018B-RunIISummer20UL18_NanoAODv9_tautau
+queue 1
+arguments = 2018 dataC Tau_Run2018C-RunIISummer20UL18_NanoAODv9_tautau
+queue 1
+arguments = 2018 dataD Tau_Run2018D-RunIISummer20UL18_NanoAODv9_tautau
+queue 1

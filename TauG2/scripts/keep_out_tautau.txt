@@ -1,0 +1,49 @@
+# this is a comment
+drop *
+
+#keep event info
+keep run*
+keep event*
+keep luminosityBlock*
+keep genWeight*
+keep fixedGridRhoFastjetAll
+keep Generator_weight
+#keep nanoAOD content
+keep PV_*
+keep OtherPV*
+keep nOtherPV*
+keep MET_p*
+keep PuppiMET_p*
+
+keep HLT_DoubleTightChargedIsoPFTauHPS40_Trk1_eta2p1_Reg
+keep HLT_MediumChargedIsoPFTau180HighPtRelaxedIso_Trk50_eta2p1
+keep HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg
+keep HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg
+keep HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg
+keep HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg
+keep btagWeight_DeepCSVB*
+keep LHE_Vpt*
+keep LHE_Njets*
+
+keep beamspot*
+keep nCharged*
+keep Charged*
+keep nLost*
+keep Lost*
+keep GenVtx*
+
+#keep custom variables
+keep nGenCand
+keep GenCand*
+keep nZGenCand
+keep ZGenCand*
+keep nLepCand
+keep LepCand*
+keep nJets
+keep nElectrons
+keep nMuons
+keep nTaus
+keep JetCand*
+keep Lep*
+keep V_ge*
+keep pu_weight

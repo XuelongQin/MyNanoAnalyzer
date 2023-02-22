@@ -1,0 +1,49 @@
+executable	= ntrk_mutau.sh
+output		= logs/ntrk_mutau_$(Process).out
+error		= logs/ntrk_mutau_$(Process).error
+log 		= logs/ntrk_mutau.log
+request_cpus = 1
++JobFlavour = "testmatch"
+requirements = (OpSysAndVer =?= "CentOS7")
+
+
+arguments = 2018 GGToTauTau
+queue 1
+arguments = 2018 DYJetsToLL_M-50
+queue 1
+arguments = 2018 WJets
+queue 1
+arguments = 2018 WW2L2Nu
+queue 1
+arguments = 2018 WZ2Q2L
+queue 1
+arguments = 2018 WZ3LNu
+queue 1
+arguments = 2018 ZZ2L2Nu
+queue 1
+arguments = 2018 ZZ2Q2L
+queue 1
+arguments = 2018 ZZ4L
+queue 1
+arguments = 2018 TTTo2L2Nu
+queue 1
+arguments = 2018 TTToHadronic
+queue 1
+arguments = 2018 TTToSemiLeptonic
+queue 1
+arguments = 2018 ST_t_top
+queue 1
+arguments = 2018 ST_t_antitop
+queue 1
+arguments = 2018 ST_tW_top
+queue 1
+arguments = 2018 ST_tW_antitop
+queue 1
+arguments = 2018 dataA
+queue 1
+arguments = 2018 dataB
+queue 1
+arguments = 2018 dataC
+queue 1
+arguments = 2018 dataD
+queue 1
