@@ -8,13 +8,10 @@ name=${3}
 cd /afs/cern.ch/user/x/xuqin/work/taug-2/nanoAOD/CMSSW_12_4_2
 eval `scram r -sh`
 
-cd /afs/cern.ch/user/x/xuqin/work/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF_combine
+cd /afs/cern.ch/user/x/xuqin/work/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF/scripts_tautau
 
 echo "python3 FinalSelection_tautau.py ${year} ${sample} ${name}"
 python3 FinalSelection_tautau.py ${year} ${sample} ${name}
-
-echo "python3 ntrk_tautau.py ${year} ${sample}"
-python3 ntrk_tautau.py ${year} ${sample}
 
 echo $startMsg
 echo job finished on `date`

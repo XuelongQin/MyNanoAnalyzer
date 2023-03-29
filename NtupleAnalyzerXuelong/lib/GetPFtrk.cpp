@@ -1,6 +1,6 @@
 #include "GetPFtrk.h"
 
-ROOT::RVec<float> Computedz_mu(Vec_t Muontrk_dz, float mudz) {
+/*ROOT::RVec<float> Computedz_mu(Vec_t Muontrk_dz, float mudz) {
     auto mod = [mudz]( float dz) { return fabs(dz-mudz); };
     ROOT::RVec<float>  dz_mu = Map(Muontrk_dz,mod);
     return dz_mu;
@@ -30,6 +30,95 @@ ROOT::RVec<float> Compute_ditaudz(Vec_t trk_dz, float PV_z, float zvtxll){
     ROOT::RVec<float> ditaudz = Map(trk_dz,mod);
     return ditaudz;
 }
+*/
+ROOT::RVec<float> Computedz_lep(Vec_t PF_dz, float lepdz) {
+    auto mod = [lepdz]( float dz) { 
+        float deltadz = 0;
+        if (lepdz==-99){
+            deltadz = 99;
+        }
+        else {
+            deltadz = fabs(dz-lepdz);
+        }
+        return deltadz; };
+    ROOT::RVec<float>  dz_mu = Map(PF_dz,mod);
+    return dz_mu;
+}
+
+ROOT::RVec<float> Computediffpt_lep(Vec_t PF_pt, float leppt) {
+    auto mod = [leppt]( float pt) { 
+        float ptdiff = 0;
+        if (leppt==-99){
+            ptdiff= 99;
+        }
+        else {
+            ptdiff = fabs(pt-leppt)/leppt;
+        }
+
+        return ptdiff; };
+    ROOT::RVec<float> diffpt_lep = Map(PF_pt,mod);
+    return diffpt_lep;
+}
+
+ROOT::RVec<float> ComputedeltaR_lep(Vec_t PF_eta,Vec_t PF_phi, float lep_eta, float lep_phi) {
+
+    auto mod = [lep_eta,lep_phi](float eta, float phi){
+        float deltaR=0;
+        if (lep_eta==-99){
+            deltaR=99;
+        }
+        else{
+            float dphi = TVector2::Phi_mpi_pi(lep_phi-phi);
+            deltaR = sqrt((lep_eta - eta) * (lep_eta - eta) + dphi * dphi);
+        }
+        return deltaR;
+    };
+    ROOT::RVec<float> deltaR_lep = Map(PF_eta,PF_phi,mod);
+    return deltaR_lep;
+}
+
+ROOT::RVec<float> Compute_ditaudz(Vec_t trk_dz, float PV_z, float zvtxll){
+    auto mod = [PV_z, zvtxll](float dz){
+        float ditaudz = dz+PV_z-zvtxll;
+        return fabs(ditaudz);
+    };
+    ROOT::RVec<float> ditaudz = Map(trk_dz,mod);
+    return ditaudz;
+}
+
+/*ROOT::RVec<int> GetTautrk(float Tautrk_mintau1dz,float Tautrk_mintau2dz,float Tautrk_mintau3dz,Vec_t Tautrk_tau1dz,Vec_t Tautrk_tau2dz,Vec_t Tautrk_tau3dz){
+    auto mode = [Tautrk_mintau1dz,Tautrk_mintau2dz,Tautrk_mintau3dz](float tau1dz,float tau2dz, float tau3dz ){
+        bool istautrk=false; 
+        if (Tautrk_mintau1dz<1){
+            if (tau1dz==Tautrk_mintau1dz){
+                istautrk=true;
+            }
+        }
+        if (Tautrk_mintau2dz<1){
+            if (tau2dz==Tautrk_mintau2dz){
+                istautrk=true;
+            }
+        }
+        if (Tautrk_mintau3dz<1){
+            if (tau3dz==Tautrk_mintau3dz){
+                istautrk=true;
+            }
+        }
+        if (istautrk){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    };
+
+    ROOT::RVec<int> CutTautrk = Map(Tautrk_tau1dz,Tautrk_tau2dz,Tautrk_tau3dz,mode);
+    return CutTautrk;
+}
+*/
+
+
+
 
 ROOT::RVec<int> Getntrkcut_mutau(Vec_t ChargedPFCandidates_pt,Vec_t ChargedPFCandidates_eta,Vec_t ChargedPFCandidates_phi,Vec_t ChargedPFCandidates_dz,\
     Vec_t FinalMuontrk_pt, Vec_t FinalMuontrk_eta, Vec_t FinalMuontrk_phi, Vec_t FinalMuontrk_dz,\

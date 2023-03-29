@@ -3,11 +3,13 @@ output		= logs/FinalSelection_mutau_single_$(Process).out
 error		= logs/FinalSelection_mutau_single_$(Process).error
 log 		= logs/FinalSelection_mutau_single.log
 request_cpus = 1
-+JobFlavour = "workday"
++JobFlavour = "tomorrow"
 requirements = (OpSysAndVer =?= "CentOS7")
 
 
 arguments = 2018 GGToTauTau GGToTauTau_Inclusive_M_50GeV_PTFilter_mutau
+queue 1
+arguments = 2018 GGToWW GGToWW_M_50GeV_PTFilter_mutau
 queue 1
 arguments = 2018 DYJetsToLL_M-50 DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_mutau
 queue 1
@@ -49,7 +51,9 @@ arguments = 2018 ST_tW_antitop ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-po
 queue 1
 arguments = 2018 dataA RunIISummer20UL18_NanoAODv9_mutau
 queue 1
-arguments = 2018 dataB SingleMuon_Run2018B-RunIISummer20UL18_NanoAODv9_mutau
+arguments = 2018 dataBnoHPS SingleMuon_Run2018B-RunIISummer20UL18_NanoAODv9_mutau
+queue 1
+arguments = 2018 dataBHPS SingleMuon_Run2018B-RunIISummer20UL18_NanoAODv9_mutau
 queue 1
 arguments = 2018 dataC SingleMuon_Run2018C-RunIISummer20UL18_NanoAODv9_mutau
 queue 1

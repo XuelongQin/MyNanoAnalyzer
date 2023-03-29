@@ -41,10 +41,31 @@ def fit_histo(cut, decaymode, variablename , variabletitle):
         nPar = 3
         fitfunc = TF1("fitfunc", fitPoly2, fMin, fMax, nPar)
     elif variablename=="nTrk":
-        fMin = 0
-        fMax = 100
-        nPar = 2
-        fitfunc = TF1("fitfunc", fitLinear, fMin, fMax, nPar)
+        if cut =="QCD":
+            if decaymode==0:
+                fMin = -0.5
+                fMax = 99.5
+                nPar = 3
+                fitfunc = TF1("fitfunc", fitExp, fMin, fMax, nPar)
+            else:
+                fMin = -0.5
+                fMax = 99.5
+                nPar = 3
+                fitfunc = TF1("fitfunc", fitPoly2, fMin, fMax, nPar)
+
+        else:
+            if decaymode==1:
+                fMin = -0.5
+                fMax = 99.5
+                nPar = 3
+                fitfunc = TF1("fitfunc", fitPoly2, fMin, fMax, nPar)
+            else:
+                fMin = -0.5
+                fMax = 99.5
+                nPar = 3
+                fitfunc = TF1("fitfunc", fitExp, fMin, fMax, nPar)
+        #nPar = 2
+        #fitfunc = TF1("fitfunc", fitLinear, fMin, fMax, nPar)
     else:
         fMin = 0
         fMax = 1
@@ -83,7 +104,7 @@ def fit_histo(cut, decaymode, variablename , variabletitle):
     hFR.GetYaxis().SetTitleOffset(1.2)
     hFR.GetYaxis().SetTickLength(0.012)
     hFR.SetTitle("")
-    hFR.GetYaxis().SetTitle("FR")
+    hFR.GetYaxis().SetTitle("FF")
 
     hFR.SetMarkerStyle(20)
     hFR.SetMarkerSize(1)
@@ -140,7 +161,7 @@ class variable:
         self.binning = binning
 
 taupt = variable("taupt","#tau_{h} p_{T}",int(11),np.array([30,35,40,45,50,60,80,100,150,200,250,300],dtype=float))
-ntrk = variable("nTrk","N_{tracks}",int(21),np.array([0,1,2,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],dtype=float))
+ntrk = variable("nTrk","N_{tracks}",int(24),np.array([-0.5,0.5,1.5,2.5,3.5,4.5,9.5,14.5,19.5,24.5,29.5,34.5,39.5,44.5,49.5,54.5,59.5,64.5,69.5,74.5,79.5,84.5,89.5,94.5,99.5],dtype=float))
 Acopl = variable("Acopl","Acoplanarity",int(20),np.array([0,0.05,0.1,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00],dtype=float))
 variablelist = [taupt, ntrk, Acopl]
 outfile = TFile("FRfit_mutau.root","recreate")
@@ -154,8 +175,3 @@ for cut in ["QCD","W"]:
             fitfunc.Write()
 
 outfile.Close()
-            
-
-
-
-

@@ -3,7 +3,7 @@ output		= logs/FinalSelection_tautau_single_$(Process).out
 error		= logs/FinalSelection_tautau_single_$(Process).error
 log 		= logs/FinalSelection_tautau_single.log
 request_cpus = 1
-+JobFlavour = "workday"
++JobFlavour = "tomorrow"
 requirements = (OpSysAndVer =?= "CentOS7")
 
 

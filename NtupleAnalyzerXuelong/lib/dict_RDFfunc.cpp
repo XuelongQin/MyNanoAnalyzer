@@ -39,6 +39,7 @@
 #include "GetPFtrk.h"
 #include "Correction.h"
 #include "ApplyFR.h"
+#include "Sys.h"
 
 // Header files passed via #pragma extra_include
 
@@ -52,12 +53,13 @@ namespace {
 "GetPFtrk.h",
 "Correction.h",
 "ApplyFR.h",
-0
+"Sys.h",
+nullptr
     };
     static const char* includePaths[] = {
-"/cvmfs/cms.cern.ch/slc7_amd64_gcc10/lcg/root/6.24.07-bf41b0420bc269850b74e23486e2953a/include/",
-"/afs/cern.ch/work/x/xuqin/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF_combine/lib/",
-0
+"/cvmfs/sft.cern.ch/lcg/releases/ROOT/6.26.04-edd28/x86_64-centos7-gcc11-opt/include/",
+"/afs/cern.ch/work/x/xuqin/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF/lib/",
+nullptr
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
 #line 1 "dict_RDFfunc dictionary forward declarations' payload"
@@ -76,11 +78,11 @@ extern int __Cling_AutoLoading_Map;
 #include "GetPFtrk.h"
 #include "Correction.h"
 #include "ApplyFR.h"
+#include "Sys.h"
 
 #undef  _BACKWARD_BACKWARD_WARNING_H
 )DICTPAYLOAD";
     static const char* classesHeaders[] = {
-"GetFR_mutau", payloadCode, "@",
 nullptr
 };
     static bool isInitialized = false;

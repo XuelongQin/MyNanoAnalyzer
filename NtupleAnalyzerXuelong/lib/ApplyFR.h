@@ -16,7 +16,7 @@ using namespace ROOT::VecOps;
 using Vec_t = const ROOT::RVec<float>&;
 
 float GetFR_mutau(int taudecaymode, float mvis, float mtrans, float taupt, int nTrk);
-
+float GetFR_tautau(int taudecaymode,float taupt, int nTrk);
 
 
 #endif

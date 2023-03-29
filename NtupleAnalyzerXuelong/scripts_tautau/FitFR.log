@@ -1,0 +1,102 @@
+ FCN=5.12973 FROM MIGRAD    STATUS=CONVERGED      69 CALLS          70 TOTAL
+                     EDM=6.43196e-17    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           4.37211e-01   2.57317e-02   3.33757e-06   3.90325e-06
+   2  p1          -3.26317e-03   7.47738e-04   6.51895e-08   2.08762e-04
+   3  p2           1.53627e-05   4.89201e-06   1.67084e-09   1.24322e-02
+ FCN=24.6372 FROM MIGRAD    STATUS=CONVERGED      63 CALLS          64 TOTAL
+                     EDM=1.41153e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           1.39023e+00   3.67307e-02   2.13905e-05  -5.39788e-09
+   2  p1          -1.54261e-02   1.87193e-03   5.46344e-07  -3.22372e-05
+   3  p2           8.23351e-05   2.13880e-05   1.00364e-08  -2.87965e-03
+ FCN=19.6263 FROM MIGRAD    STATUS=CONVERGED      14 CALLS          15 TOTAL
+                     EDM=7.16263e-18    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           9.98443e-01   8.75515e-03   1.94153e-05   4.32302e-07
+ FCN=20.4048 FROM MIGRAD    STATUS=CONVERGED      68 CALLS          69 TOTAL
+                     EDM=6.39897e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           2.79681e-01   7.78046e-03   2.37356e-06  -7.63362e-07
+   2  p1          -1.68962e-03   2.09193e-04   4.51319e-08   3.85524e-04
+   3  p2           5.02957e-06   1.17577e-06   2.90188e-09   7.96929e-02
+ FCN=26.3941 FROM MIGRAD    STATUS=CONVERGED     276 CALLS         277 TOTAL
+                     EDM=2.47691e-08    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   0.3 per cent
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           7.11861e-01   3.12705e-02  -6.97371e-05  -2.45936e-02
+   2  p1           8.16989e-01   3.07232e-02  -7.25781e-05  -7.83820e-03
+   3  p2           3.70029e-02   4.53038e-03  -1.93869e-05   1.10492e-01
+   4  p3           0.00000e+00   1.41421e+00  -0.00000e+00   0.00000e+00
+ FCN=37.3973 FROM MIGRAD    STATUS=CONVERGED      14 CALLS          15 TOTAL
+                     EDM=4.17153e-17    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           9.98733e-01   5.04251e-03   2.90273e-05  -1.81141e-06
+ FCN=17.3783 FROM MIGRAD    STATUS=CONVERGED      69 CALLS          70 TOTAL
+                     EDM=4.2593e-18    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           4.34709e-02   9.14908e-03   2.04893e-06   2.71361e-06
+   2  p1           2.12546e-03   2.67632e-04   4.04050e-08   1.35408e-04
+   3  p2          -9.46951e-06   1.72992e-06   1.86340e-09   7.88847e-03
+ FCN=19.662 FROM MIGRAD    STATUS=CONVERGED     285 CALLS         286 TOTAL
+                     EDM=1.41786e-07    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   0.2 per cent
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           6.85422e-01   7.00012e-02   1.58446e-04   4.89361e-02
+   2  p1           7.23975e-01   4.73615e-02  -9.70676e-05   6.57630e-03
+   3  p2           2.97086e-02   7.30777e-03   1.51261e-05  -4.86788e-01
+   4  p3           0.00000e+00   1.41421e+00  -0.00000e+00   0.00000e+00
+ FCN=20.3235 FROM MIGRAD    STATUS=CONVERGED      14 CALLS          15 TOTAL
+                     EDM=1.74404e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           9.99226e-01   7.77944e-03   1.88273e-05  -2.40074e-06
+ FCN=4.62627 FROM MIGRAD    STATUS=CONVERGED      71 CALLS          72 TOTAL
+                     EDM=1.38835e-19    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           4.07096e-02   6.46574e-03   8.42554e-07  -5.95595e-07
+   2  p1           3.10359e-04   1.86685e-04   1.61854e-08  -3.45714e-05
+   3  p2           3.81685e-07   1.21452e-06   1.16093e-09  -2.37116e-03
+ FCN=30.3744 FROM MIGRAD    STATUS=CONVERGED      61 CALLS          62 TOTAL
+                     EDM=3.30814e-17    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           1.19760e+00   5.04082e-02   3.43011e-05   4.91979e-09
+   2  p1          -7.46378e-03   2.75825e-03   9.34460e-07  -1.01320e-05
+   3  p2           2.57166e-05   3.34951e-05   1.79726e-08  -8.69767e-04
+ FCN=28.0167 FROM MIGRAD    STATUS=CONVERGED      14 CALLS          15 TOTAL
+                     EDM=4.71586e-17    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           9.95788e-01   1.25800e-02   3.30882e-05   7.71997e-07
+Begin to fit cut_QCD decaymode_0 variable_tau2pt
+histo is  hFR_tau2pt_QCD_DM0
+Begin to fit cut_QCD decaymode_0 variable_nTrk
+histo is  hFR_nTrk_QCD_DM0
+Begin to fit cut_QCD decaymode_0 variable_Acopl
+histo is  hFR_Acopl_QCD_DM0
+Begin to fit cut_QCD decaymode_1 variable_tau2pt
+histo is  hFR_tau2pt_QCD_DM1
+Begin to fit cut_QCD decaymode_1 variable_nTrk
+histo is  hFR_nTrk_QCD_DM1
+Begin to fit cut_QCD decaymode_1 variable_Acopl
+histo is  hFR_Acopl_QCD_DM1
+Begin to fit cut_QCD decaymode_10 variable_tau2pt
+histo is  hFR_tau2pt_QCD_DM10
+Begin to fit cut_QCD decaymode_10 variable_nTrk
+histo is  hFR_nTrk_QCD_DM10
+Begin to fit cut_QCD decaymode_10 variable_Acopl
+histo is  hFR_Acopl_QCD_DM10
+Begin to fit cut_QCD decaymode_11 variable_tau2pt
+histo is  hFR_tau2pt_QCD_DM11
+Begin to fit cut_QCD decaymode_11 variable_nTrk
+histo is  hFR_nTrk_QCD_DM11
+Begin to fit cut_QCD decaymode_11 variable_Acopl
+histo is  hFR_Acopl_QCD_DM11

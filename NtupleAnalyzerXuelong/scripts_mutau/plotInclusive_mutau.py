@@ -1,8 +1,12 @@
 #!/usr/bin/env python
+import sys
+sys.path.append("..")
+from pyFunc.GetHisto import variable,cate
 import ROOT
 import re
 import argparse
 from array import array
+import numpy as np
 
 def add_lumi(year):
     lowX=0.55
@@ -74,17 +78,35 @@ parser.add_argument('--channel', '-c', default=None, help='channel to draw')
 parser.add_argument('--variable', '-v', default=None, help='Variable to draw')
 args = parser.parse_args()
 
+mvis = variable("mvis","m_{vis}",int(32),np.array([0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,400,500],dtype=float))
+taupt = variable("taupt","#tau p_{T}",int(34),np.array([30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,84,88,92,96,100,105,110,115,120],dtype=float))
+mupt = variable("mupt","#mu p_{T}",int(36),np.array([26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,84,88,92,96,100,105,110,115,120],dtype=float))
+Aco = variable("Acopl","acoplanarity",int(40),np.arange(0,1.025,0.025,dtype=float))
+mtranse = variable("mtrans","m_{T}(#mu,MET)",int(36),np.arange(0,185,5,dtype=float))
+nTrk = variable("nTrk","N_{tracks}",int(50),np.arange(0,102,2,dtype=float))
+MET = variable("MET_pt","MET",int(19),np.array([0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,80,90,100,110,120],dtype=float))
+taueta = variable("taueta","#tau #eta", int(25), np.arange(-2.5,2.7,0.2,dtype=float))
+mueta = variable("mueta","#mu #eta", int(25), np.arange(-2.5,2.7,0.2,dtype=float))
+
+variablelist = [mvis,taupt,mupt,Aco,mtranse,nTrk,MET,taueta,mueta]
+
+title="m_{vis}"
+for var in variablelist:
+    if args.variable == var.name:
+        title = var.title
+        
 c=ROOT.TCanvas("canvas","",0,0,800,800)
 c.cd()
 
-file=ROOT.TFile("./Taug2_mutau_2018.root","r")
+
+file=ROOT.TFile("./Inclusive_mutau_2018_{}.root".format(args.variable),"r")
 
 adapt=ROOT.gROOT.GetColor(12)
 new_idx=ROOT.gROOT.GetListOfColors().GetSize() + 1
 trans=ROOT.TColor(new_idx, adapt.GetRed(), adapt.GetGreen(),adapt.GetBlue(), "",0.5)
 #title="#tau p_{T}"
 #title="#mu p_{T}"
-title="m_{vis}"
+
 
 
 
@@ -93,13 +115,14 @@ Data=file.Get(args.channel).Get("data_obs")
 TT=file.Get(args.channel).Get("TT")
 VV=file.Get(args.channel).Get("VV")
 ZTT=file.Get(args.channel).Get("ZTT")
+ZLL = file.Get(args.channel).Get("ZLL")
 ST=file.Get(args.channel).Get("ST")
 GGTT=file.Get(args.channel).Get("GGTT")
 VV.Add(ST.Clone())
 #VV.Add(W.Clone())
 Fake=file.Get(args.channel).Get("Fake")
 
-GGTT.Scale(5)
+GGTT.Scale(10)
 
 
 Data.GetXaxis().SetTitle("")
@@ -115,10 +138,11 @@ Data.GetYaxis().SetTitle("Events/bin")
 Data.SetMinimum(0.1)
 
 #blind
-for k in range(1,Data.GetSize()):
-    Data.SetBinContent(k,0.0)
+#for k in range(1,Data.GetSize()):
+#    Data.SetBinContent(k,0.0)
 TT.SetFillColor(ROOT.TColor.GetColor("#4a4e4d"))
 ZTT.SetFillColor(ROOT.TColor.GetColor("#f6cd61"))
+ZLL.SetFillColor(ROOT.TColor.GetColor("#969df1"))
 VV.SetFillColor(ROOT.TColor.GetColor("#ff8c94"))
 Fake.SetFillColor(ROOT.TColor.GetColor("#3da4ab"))
 
@@ -126,6 +150,7 @@ Data.SetMarkerStyle(20)
 Data.SetMarkerSize(1)
 TT.SetLineColor(1)
 ZTT.SetLineColor(1)
+ZLL.SetLineColor(1)
 VV.SetLineColor(1)
 Fake.SetLineColor(1)
 Data.SetLineColor(1)
@@ -139,8 +164,10 @@ stack.Add(TT)
 stack.Add(Fake)
 stack.Add(VV)
 stack.Add(ZTT)
+stack.Add(ZLL)
 
 errorBand = ZTT.Clone()
+errorBand.Add(ZLL)
 errorBand.Add(TT)
 errorBand.Add(VV)
 errorBand.Add(Fake)
@@ -166,7 +193,7 @@ pad1.SetFrameFillStyle(0)
 pad1.SetFrameLineStyle(0)
 pad1.SetFrameBorderMode(0)
 pad1.SetFrameBorderSize(10)
-pad1.SetLogy()
+#pad1.SetLogy()
 
 Data.GetXaxis().SetLabelSize(0)
 Data.SetMaximum(max(Data.GetMaximum()*1.5,errorBand.GetMaximum()*1.5))
@@ -181,11 +208,11 @@ GGTT.Draw("histsame")
 legende=make_legend()
 legende.AddEntry(Data,"Observed","elp")
 legende.AddEntry(ZTT,"Z#rightarrow #tau#tau","f")
-#legende.AddEntry(ZLL,"Z#rightarrow ee","f")
+legende.AddEntry(ZLL,"Z#rightarrow #mu#mu","f")
 legende.AddEntry(TT,"t#bar{t}","f")
 legende.AddEntry(VV,"VV,single-t","f")
 legende.AddEntry(Fake,"Fake","f")
-legende.AddEntry(GGTT,"Signal x 5","l")
+legende.AddEntry(GGTT,"Signal x 10","l")
 legende.AddEntry(errorBand,"Uncertainty","f")
 legende.Draw()
 
@@ -249,5 +276,5 @@ pad1.Draw()
 ROOT.gPad.RedrawAxis()
 
 c.Modified()
-c.SaveAs("Plotsmutau/"+args.year+"full/control_"+args.variable+args.channel+".pdf")
-c.SaveAs("Plotsmutau/"+args.year+"full/control_"+args.variable+args.channel+".png")
+c.SaveAs("Plotsmutau/"+args.year+"inclusive/control_"+args.variable+args.channel+".pdf")
+c.SaveAs("Plotsmutau/"+args.year+"inclusive/control_"+args.variable+args.channel+".png")

@@ -1,0 +1,16 @@
+executable	= FinalSelection_mutau_single.sh
+output		= logs/FinalSelection_mutau_single_data_$(Process).out
+error		= logs/FinalSelection_mutau_single_data_$(Process).error
+log 		= logs/FinalSelection_mutau_single_data.log
+request_cpus = 1
++JobFlavour = "tomorrow"
+requirements = (OpSysAndVer =?= "CentOS7")
+
+arguments = 2018 dataBnoHPS SingleMuon_Run2018B-RunIISummer20UL18_NanoAODv9_mutau
+queue 1
+arguments = 2018 dataBHPS SingleMuon_Run2018B-RunIISummer20UL18_NanoAODv9_mutau
+queue 1
+arguments = 2018 dataC SingleMuon_Run2018C-RunIISummer20UL18_NanoAODv9_mutau
+queue 1
+arguments = 2018 dataD SingleMuon_Run2018D-RunIISummer20UL18_NanoAODv9_mutau
+queue 1

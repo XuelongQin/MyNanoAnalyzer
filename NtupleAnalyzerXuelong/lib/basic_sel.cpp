@@ -107,41 +107,144 @@ float Getxsweight_W(float LHE_Njets){
 }
 
 
-//Get SFweight for mutau final states
-TFile *f_reco = new TFile("./scalefactors/Efficiencies_muon_reco.root","READ");
-TFile *f_muonID= new TFile("./scalefactors/Efficiencies_muon_generalTracks_Z_Run2018_UL_ID.root","read");
-TFile *f_muonIso= new TFile("./scalefactors/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root","read");
-TFile *f_muonTrg= new TFile("./scalefactors/Efficiencies_muon_generalTracks_Z_Run2018_UL_SingleMuonTriggers.root","read");
+//Get SFweight for mutau final states, mu SF for singleMuon trigger
+TFile *f_reco = new TFile("/afs/cern.ch/work/x/xuqin/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF/scalefactors/Efficiencies_muon_reco.root","READ");
+TFile *f_muonID= new TFile("/afs/cern.ch/work/x/xuqin/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF/scalefactors/Efficiencies_muon_generalTracks_Z_Run2018_UL_ID.root","read");
+TFile *f_muonIso= new TFile("/afs/cern.ch/work/x/xuqin/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF/scalefactors/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root","read");
+TFile *f_muonTrg= new TFile("/afs/cern.ch/work/x/xuqin/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF/scalefactors/Efficiencies_muon_generalTracks_Z_Run2018_UL_SingleMuonTriggers.root","read");
 TH1F *h_muonRecoeff = (TH1F*)f_reco->Get("Efficiencies_muon_reco_abseta");
-TH1F *h_muonIsoSF= (TH1F*)f_muonIso->Get("NUM_TightRelIso_DEN_MediumID_abseta_pt");
-TH1F *h_muonIDSF= (TH1F*)f_muonID->Get("NUM_MediumID_DEN_TrackerMuons_abseta_pt");
-TH1F *h_muonTrgSF= (TH1F*)f_muonTrg->Get("NUM_IsoMu24_DEN_CutBasedIdMedium_and_PFIsoMedium_abseta_pt");
+TH1F *h_muonRecoeff_stat = (TH1F*)f_reco->Get("Efficiencies_muon_reco_abseta_stat");
+TH1F *h_muonRecoeff_syst = (TH1F*)f_reco->Get("Efficiencies_muon_reco_abseta_syst");
 
-float GetSFweight_mutau(TLorentzVector my_mu,float puweight, int tauindex, ROOT::VecOps::RVec<Float_t> &LepCand_gen, ROOT::VecOps::RVec<Float_t> &LepCand_tauidMsf, ROOT::VecOps::RVec<Float_t> &LepCand_antielesf,ROOT::VecOps::RVec<Float_t> &LepCand_antimusf){
+TH1F *h_muonIsoSF= (TH1F*)f_muonIso->Get("NUM_TightRelIso_DEN_MediumID_abseta_pt");
+TH1F *h_muonIsoSF_stat= (TH1F*)f_muonIso->Get("NUM_TightRelIso_DEN_MediumID_abseta_pt_stat");
+TH1F *h_muonIsoSF_syst= (TH1F*)f_muonIso->Get("NUM_TightRelIso_DEN_MediumID_abseta_pt_syst");
+
+TH1F *h_muonIDSF= (TH1F*)f_muonID->Get("NUM_MediumID_DEN_TrackerMuons_abseta_pt");
+TH1F *h_muonIDSF_stat= (TH1F*)f_muonID->Get("NUM_MediumID_DEN_TrackerMuons_abseta_pt_stat");
+TH1F *h_muonIDSF_syst= (TH1F*)f_muonID->Get("NUM_MediumID_DEN_TrackerMuons_abseta_pt_syst");
+
+TH1F *h_muonTrgSF= (TH1F*)f_muonTrg->Get("NUM_IsoMu24_DEN_CutBasedIdMedium_and_PFIsoMedium_abseta_pt");
+TH1F *h_muonTrgSF_stat= (TH1F*)f_muonTrg->Get("NUM_IsoMu24_DEN_CutBasedIdMedium_and_PFIsoMedium_abseta_pt_stat");
+TH1F *h_muonTrgSF_syst= (TH1F*)f_muonTrg->Get("NUM_IsoMu24_DEN_CutBasedIdMedium_and_PFIsoMedium_abseta_pt_syst");
+
+//muscale factor for mutau cross trigger
+TFile *f_HLTMu20Tau27 = new TFile("/afs/cern.ch/work/x/xuqin/taug-2/nanoAOD/CMSSW_12_4_2/src/MyNanoAnalyzer/NtupleAnalyzerXuelong_RDF/scalefactors/sf_mu_2018_HLTMu20Tau27.root","READ");
+TH2F *h_musf_HLTMu20Tau27 = (TH2F*) f_HLTMu20Tau27->Get("SF2D");// xaxis: mupt, yaxis: fabs(mueta)
+
+
+float GetMuonrecoSF(TLorentzVector my_mu){
+    float recosf = h_muonRecoeff->GetBinContent(h_muonRecoeff->GetXaxis()->FindBin(abs(my_mu.Eta())));
+    return recosf;
+}
+float GetMuonrecoSF_stat(TLorentzVector my_mu){
+    float recosf_stat = h_muonRecoeff_stat->GetBinContent(h_muonRecoeff_stat->GetXaxis()->FindBin(abs(my_mu.Eta())));
+    return recosf_stat;
+}
+float GetMuonrecoSF_syst(TLorentzVector my_mu){
+    float recosf_syst = h_muonRecoeff_syst->GetBinContent(h_muonRecoeff_syst->GetXaxis()->FindBin(abs(my_mu.Eta())));
+    return recosf_syst;
+}
+
+float GetMuonIsoSF(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float isosf= h_muonIsoSF->GetBinContent(h_muonIsoSF->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIsoSF->GetYaxis()->FindBin(mu_pt));
+    return isosf;
+}
+
+float GetMuonIsoSF_stat(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float isosf_stat = h_muonIsoSF_stat->GetBinError(h_muonIsoSF_stat->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIsoSF_stat->GetYaxis()->FindBin(mu_pt));
+    return isosf_stat;
+}
+
+float GetMuonIsoSF_syst(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float isosf_syst = h_muonIsoSF_syst->GetBinError(h_muonIsoSF_syst->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIsoSF_syst->GetYaxis()->FindBin(mu_pt));
+    return isosf_syst;
+}
+
+
+float GetMuonIDSF(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float idsf = h_muonIDSF->GetBinContent(h_muonIDSF->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIDSF->GetYaxis()->FindBin(mu_pt));
+    return idsf;
+}
+
+float GetMuonIDSF_stat(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float idsf_stat = h_muonIDSF_stat->GetBinError(h_muonIDSF_stat->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIDSF_stat->GetYaxis()->FindBin(mu_pt));
+    return idsf_stat;
+}
+
+float GetMuonIDSF_syst(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float idsf_syst = h_muonIDSF_syst->GetBinError(h_muonIDSF_syst->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIDSF_syst->GetYaxis()->FindBin(mu_pt));
+    return idsf_syst;
+}
+
+
+float GetMuonTriggerSF(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float trgsf = h_muonTrgSF->GetBinContent(h_muonTrgSF->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonTrgSF->GetYaxis()->FindBin(mu_pt));
+    return trgsf;
+}
+
+
+float GetMuonTriggerSF_stat(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float trgsf_stat = h_muonTrgSF_stat->GetBinError(h_muonTrgSF_stat->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonTrgSF_stat->GetYaxis()->FindBin(mu_pt));
+    return trgsf_stat;
+}
+
+float GetMuonTriggerSF_syst(TLorentzVector my_mu){
+    float mu_pt=my_mu.Pt();
+    if (mu_pt>120) mu_pt=119;
+    if (mu_pt<15) mu_pt=16;
+    float trgsf_syst = h_muonTrgSF_syst->GetBinError(h_muonTrgSF_syst->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonTrgSF_syst->GetYaxis()->FindBin(mu_pt));
+    return trgsf_syst;
+}
+
+float GetMuonSF_HLTMu20Tau27(float mupt,float mueta){
+    float musf = h_musf_HLTMu20Tau27->GetBinContent(h_musf_HLTMu20Tau27->GetXaxis()->FindBin(mupt),h_musf_HLTMu20Tau27->GetXaxis()->FindBin(fabs(mueta)));
+    return musf;
+}
+
+float GetSFweight_mutau(float murecosf, float muisosf,float muidsf, float mutrgsf,float musf_HLTMu20Tau27, float puweight, int tauindex, bool isSingleMuonTrigger, bool isMuonTauTrigger,  ROOT::VecOps::RVec<Float_t> &LepCand_gen, ROOT::VecOps::RVec<Float_t> &LepCand_tauidMsf, ROOT::VecOps::RVec<Float_t> &LepCand_antielesf,ROOT::VecOps::RVec<Float_t> &LepCand_antimusf,ROOT::VecOps::RVec<Float_t> &LepCand_tautriggersf){
     float aweight=1.0;
     aweight=aweight*puweight;
     if (LepCand_gen[tauindex]==5) aweight=aweight*LepCand_tauidMsf[tauindex];
     if (LepCand_gen[tauindex]==1 or LepCand_gen[tauindex]==3) aweight=aweight*LepCand_antielesf[tauindex];
     if (LepCand_gen[tauindex]==2 or LepCand_gen[tauindex]==4) aweight=aweight*LepCand_antimusf[tauindex];
-    float trgsf=1.0;
-    float recosf=1.0;
-    float idsf=1.0;
-    float muonIsoSF=1.0;
-    float mu_pt=my_mu.Pt();
-    if (mu_pt>120) mu_pt=119;
-    if (mu_pt<15) mu_pt=16;
-
-    recosf = h_muonRecoeff->GetBinContent(h_muonRecoeff->GetXaxis()->FindBin(abs(my_mu.Eta())));
-    trgsf = h_muonTrgSF->GetBinContent(h_muonTrgSF->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonTrgSF->GetYaxis()->FindBin(mu_pt));
-    idsf = h_muonIDSF->GetBinContent(h_muonIDSF->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIDSF->GetYaxis()->FindBin(mu_pt));
-    muonIsoSF = h_muonIsoSF->GetBinContent(h_muonIsoSF->GetXaxis()->FindBin(abs(my_mu.Eta())),h_muonIsoSF->GetYaxis()->FindBin(mu_pt));
-    aweight = aweight*recosf*trgsf*idsf*muonIsoSF;
+    aweight = aweight*murecosf*muidsf*muisosf;
+    if (isSingleMuonTrigger){
+        aweight = aweight*mutrgsf;
+    }
+    else if (isMuonTauTrigger){
+        aweight = aweight*musf_HLTMu20Tau27*LepCand_tautriggersf[tauindex];
+    }
     return aweight;
 }
 
 
 //Get SFweight for tautau final states
-float GetSFweight_tautau(float puweight, int tau1index, int tau2index, ROOT::VecOps::RVec<Float_t> &LepCand_gen, ROOT::VecOps::RVec<Float_t> &LepCand_tauidMsfDM, ROOT::VecOps::RVec<Float_t> &LepCand_antielesf,ROOT::VecOps::RVec<Float_t> &LepCand_antimusf,ROOT::VecOps::RVec<Float_t> LepCand_tautriggersf){
+float GetSFweight_tautau(float puweight, int tau1index, int tau2index, ROOT::VecOps::RVec<Float_t> &LepCand_gen, ROOT::VecOps::RVec<Float_t> &LepCand_tauidMsfDM, ROOT::VecOps::RVec<Float_t> &LepCand_antielesf,ROOT::VecOps::RVec<Float_t> &LepCand_antimusf,ROOT::VecOps::RVec<Float_t> &LepCand_tautriggersf){
     float aweight=1.0;
     aweight=aweight*puweight;
     if (LepCand_gen[tau1index]==5) aweight=aweight*LepCand_tauidMsfDM[tau1index];
