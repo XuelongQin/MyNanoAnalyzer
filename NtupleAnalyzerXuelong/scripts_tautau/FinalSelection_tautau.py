@@ -12,7 +12,7 @@ ROOT.gInterpreter.Declare('#include "GetPFtrk.h"')
 ROOT.gInterpreter.Declare('#include "Correction.h"')
 ROOT.gInterpreter.Declare('#include "ApplyFR.h"')
 ROOT.gSystem.Load('/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/lib/RDFfunc.so')
-
+ROOT.EnableImplicitMT()
 
 
 
@@ -36,9 +36,9 @@ arbre2.Add("/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuple_after_
 ngen = 0.
 isdata = True
 
-if (sample!="TauA" and sample!="TauB" and sample!="TauC" and sample!="TauD"):
+if ((sample =="GGToTauTau") or  (sample =="GGToTauTau_Ctb20") or ("Tau" not in sample)):
     isdata=False
-    rdf2 = RDataFrame("Runs","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_2018/{}.root".format(sample))
+    rdf2 = RDataFrame("Runs","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}/{}.root".format(year,sample))
     #ngen = rdf2.Sum("genEventCount").GetValue()
     ngen = rdf2.Sum("genEventSumw").GetValue()
  
@@ -107,7 +107,7 @@ elif (sample=="WZ2Q2L"):
     weight=luminosity*xs/ngen*eff
     
 elif (sample=="WW2L2Nu"): 
-    xs=118.7*0.3*0.3
+    xs=8.95
     eff=0.396603175
     weight=luminosity*xs/ngen*eff
     
@@ -140,6 +140,11 @@ elif (sample=="GGToTauTau"):
     xs = 1.161
     eff=0.00871
     weight=luminosity*xs/ngen*eff
+
+elif (sample=="GGToTauTau_Ctb20"):
+    xs = 1.355
+    eff= 0.027169
+    weight=luminosity*xs/ngen*eff
     
 elif (sample=="GGToWW"):
     xs = 0.40
@@ -159,7 +164,7 @@ print ("cross section is ", xs, " eff is ", eff, " xsweight is ", weight)
 
 #nentries = arbre.GetEntries()
 #print ("Before selection total entries", nentries)
-df = RDataFrame("Events","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_2018/{}.root".format(sample))
+df = RDataFrame("Events","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}/{}.root".format(year,sample))
 nentries = df.Count().GetValue()
 
 print ("Before selection total entries", nentries)
@@ -175,30 +180,45 @@ else:
     
 df_var = df_var.Define("tau1pt","my_tau1.Pt()").Define("tau1eta","my_tau1.Eta()").Define("tau1phi","my_tau1.Phi()").Define("tau1dz","LepCand_dz[tau1index]")\
                 .Define("tau2pt","my_tau2.Pt()").Define("tau2eta","my_tau2.Eta()").Define("tau2phi","my_tau2.Phi()").Define("tau2dz","LepCand_dz[tau2index]")\
-                .Define("isOS","GetisOS(LepCand_charge,tau1index,tau2index)").Define("is_isolated","Getis_isolated(LepCand_vsjet,tau2index)")
+                .Define("isOS","GetisOS(LepCand_charge,tau1index,tau2index)").Define("leading_isolated","Getis_isolated(LepCand_vsjet,tau1index)").Define("subleading_isolated","Getis_isolated(LepCand_vsjet,tau2index)")
                 
 ###Add some basic selection: tau eta, leading tauvsjet, trigger, deltaR,taupt(should be >40 later)
-df_sel = df_var.Filter("abs(tau1eta)<2.1 && abs(tau2eta)<2.1").Filter("LepCand_vsjet[tau1index]>=31").Filter("my_tau1.DeltaR(my_tau2)>0.5")\
+df_sel = df_var.Filter("abs(tau1eta)<2.1 && abs(tau2eta)<2.1").Filter("my_tau1.DeltaR(my_tau2)>0.5")\
     .Filter("tau1pt>38").Filter("tau2pt>38")
 
 #trigger
 doubletautrigger = "HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"
-if (sample == "TauA" or sample =="TauB"):
+if (year==2018 and (sample == "TauA" or sample =="TauB")):
     doubletautrigger = "(run>=317509 && HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg)\
         || (run<317509 && (HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg \
         || HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg \
         || HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg))"
+if ("2016" in year):
+    if sample == "TauH":
+        doubletautrigger = "HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"
+    else: 
+        doubletautrigger = "HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
+
+if (year == "2017"):
+    doubletautrigger = "(HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg || HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg\
+        || HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg)"
+
+
+
 
 df_sel = df_sel.Filter(doubletautrigger)
 
 ###Add xsweight and SFweight
 if (not isdata):
-    df_sel = df_sel.Define("xsweight","{}*genWeight".format(weight)).Define("SFweight","GetSFweight_tautau(puWeight,tau1index, tau2index, LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf)")
+    df_sel = df_sel.Define("xsweight","{}*genWeight".format(weight)).Define("SFweight","GetSFweight_tautau(puWeight,tau1index, tau2index, LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf,leading_isolated,subleading_isolated)")
+    if (year != "2018"):
+        print ("Add L1PreFiringWeight")
+        df_sel = df_sel.Redefine("SFweight","SFweight*L1PreFiringWeight_Nom")
 else:
     df_sel = df_sel.Define("xsweight","1.0").Define("SFweight","1.0")
 
 ###Add information of mass (mvis>40, transverse mass, collinear mass), acoplanarity
-df_sel = df_sel.Define("mvis","(my_tau1+my_tau2).M()").Filter("mvis>40")\
+df_sel = df_sel.Define("mvis","(my_tau1+my_tau2).M()")\
     .Define("mcol","GetCollMass(my_tau1,my_tau2,MET_pt,MET_phi)").Define("Acopl","GetAcopl(my_tau1,my_tau2)")
 
 ###Define vtxtautau with 3 definition(simple average, theta-average, pt-average)
@@ -216,6 +236,8 @@ else:
     else:
         df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0")
     df = df.Define("npvs_weight","Get_npvs_weight(PV_npvs)").Define("npvsDown_weight","Get_npvsDown_weight(PV_npvs)").Define("npvsUp_weight","Get_npvsUp_weight(PV_npvs)")
+    if (year != "2018"):
+        df = df.Redefine("npvs_weight","1.0").Redefine("npvsDown_weight","1.0").Redefine("npvsUp_weight","1.0") ##fixme
 
 
 
@@ -237,6 +259,13 @@ df = df.Define("Track_tau11ptdiff","Computediffpt_lep(Track_pt,LepCand_tk1Pt[tau
     .Define("Track_tau21match","Gettrkmatch(Track_tau21ptdiff,Track_tau21deltaR)")\
     .Define("Track_tau22match","Gettrkmatch(Track_tau22ptdiff,Track_tau22deltaR)")\
     .Define("Track_tau23match","Gettrkmatch(Track_tau23ptdiff,Track_tau23deltaR)")
+
+df = df.Define("tautrkcut", "Track_tau11match || Track_tau12match || Track_tau13match || Track_tau21match || Track_tau22match || Track_tau23match" )\
+    .Define("nFinalTautrk","Sum(tautrkcut)")\
+    .Define("FinalTautrk_pt","Track_pt[tautrkcut]")\
+    .Define("FinalTautrk_eta","Track_eta[tautrkcut]")\
+    .Define("FinalTautrk_phi","Track_phi[tautrkcut]")\
+    .Define("FinalTautrk_dz","Track_dz[tautrkcut]")
     
 '''##make new  mutrack and tautrack collection, choose highest pt muon track as mutrack, choose same dz as tautrack 
 
@@ -315,9 +344,14 @@ else:
             .Define("nHStrk","Sum(HStrkcut)")\
             .Define("nHStrkweight","1.0") 
 
+###elastic-elastic scale factor
+if (sample=="GGToTauTau" or sample=="GGToWW" or sample=="GGToTauTau_Ctb20"):
+    df = df.Define("eeSF", "GeteeSF(GenCand_pt, GenCand_eta, GenCand_phi, nTrk)")
+else :
+    df = df.Define("eeSF", "1.0")
 
 columns = ROOT.std.vector("string")()
-for c in ("run", "luminosityBlock", "event","HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg",\
+for c in ("run", "luminosityBlock", "event",\
     "MET_phi","MET_pt","PV_ndof","PV_x","PV_y","PV_z","PV_chi2","PV_score","PV_npvs","PV_npvsGood",\
     "nLepCand","LepCand_id","LepCand_pt","LepCand_eta","LepCand_phi","LepCand_charge","LepCand_dxy","LepCand_dz","LepCand_gen",\
     "LepCand_vse","LepCand_vsmu","LepCand_vsjet","LepCand_muonMediumId","LepCand_muonIso",\
@@ -328,29 +362,57 @@ for c in ("run", "luminosityBlock", "event","HLT_DoubleMediumChargedIsoPFTauHPS3
     "LepCand_antimusf","LepCand_antimusf_up","LepCand_antimusf_down",\
     "LepCand_antielesf","LepCand_antielesf_up","LepCand_antielesf_down",\
     "LepCand_tautriggersf","LepCand_tautriggersf_up","LepCand_tautriggersf_down",\
-    "LepCand_DecayMode",\
+    "LepCand_DecayMode","LepCand_trgmatch",\
     "LepCand_tk1Pt","LepCand_tk2Pt","LepCand_tk3Pt","LepCand_tk1Eta","LepCand_tk2Eta","LepCand_tk3Eta",\
     "LepCand_tk1Phi","LepCand_tk2Phi","LepCand_tk3Phi","LepCand_dz2","LepCand_dz3",\
     "nGenCand","GenCand_id","GenCand_pt","GenCand_eta","GenCand_phi",\
     "V_genpt","puWeight","puWeightUp","puWeightDown","tau1index","tau2index","my_tau1","my_tau2","tau1pt","tau1eta","tau1phi","tau1dz","tau2pt","tau2eta","tau2phi",\
-    "tau2dz","isOS","is_isolated","xsweight","SFweight","mvis","mcol","Acopl","zvtxll1",\
-    "nTrk","nPUtrk","nHStrk","Acoweight","npvs_weight","npvsDown_weight","npvsUp_weight","nPUtrkweight","nHStrkweight","genAco"):
+    "tau2dz","isOS","leading_isolated","subleading_isolated","xsweight","SFweight","mvis","mcol","Acopl","zvtxll1",\
+    "nTrk","nPUtrk","nHStrk","Acoweight","npvs_weight","npvsDown_weight","npvsUp_weight","nPUtrkweight","nHStrkweight","genAco","eeSF"):
     columns.push_back(c)
 
-
-if (sample == "TauA" or sample =="TauB"):
-    for c in ("HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg", "HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg", "HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"):
+if (year == "2018"):
+    columns.push_back("HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg")
+    if (sample == "TauA" or sample =="TauB"):
+        for c in ("HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg", "HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg", "HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"):
+            columns.push_back(c)
+elif (year == "2017"):
+    for c in ("HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg", "HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg", "HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg"):
         columns.push_back(c)
+elif ("2016" in year):
+    if sample=="TauH":
+        columns.push_back("HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg")
+    else:
+        columns.push_back("HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg")
 
 if (not isdata):
     columns.push_back("GenVtx_z")
+    if (year != "2018"):
+        columns.push_back("L1PreFiringWeight_Nom")
+        columns.push_back("L1PreFiringWeight_Dn")
+        columns.push_back("L1PreFiringWeight_Up")
 
-if sample=="GGToTauTau":
+if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
     branchlist = list(df.GetColumnNames())
     for taug2weights in list(filter(lambda x: "TauG2Weights" in str(x), branchlist)):
         columns.push_back(taug2weights)
-    
-df.Snapshot("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_2018_basicsel/{}.root".format(sample),columns)
+        
+'''
+columns.push_back("nTracks")
+branchlist = list(df.GetColumnNames())
+for weights in list(filter(lambda x: "Track_" in str(x), branchlist)):
+    columns.push_back(weights)
+
+branchlist = list(df.GetColumnNames())
+for weights in list(filter(lambda x: "Trk_" in str(x), branchlist)):
+    columns.push_back(weights)
+
+columns.push_back("nFinalTautrk")
+branchlist = list(df.GetColumnNames())
+for weights in list(filter(lambda x: "FinalTautrk_" in str(x), branchlist)):
+    columns.push_back(weights)
+    '''
+df.Snapshot("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}_basicsel/{}.root".format(year,sample),columns)
 
 nentries = df.Count().GetValue()
 print ("After selection entries", nentries)

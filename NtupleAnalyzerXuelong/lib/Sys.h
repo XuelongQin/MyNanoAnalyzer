@@ -18,9 +18,13 @@ using Vec_t = const ROOT::RVec<float>&;
 float Gettauidsysweight_dm(int decaymode, int taudecaymode, float taugen, float tauidsf, float tauidsf_change);
 float Gettauidsysweight(float taugen, float tauidsf, float tauidsf_change);
 float Getpusysweight( float puWeight, float puWeight_change,  float npvs_weight, float npvs_weight_change);
-float Getditautrigweight(float tautrigweight, float tautrigweight_change);
+float Getditautrigweight(int decaymode, int taudecaymode, float tautrigweight, float tautrigweight_change);
 TLorentzVector Gettauessys(int decaymode, int taudecaymode, float taugen, float taues, float taues_change, TLorentzVector my_tau);
 float Gettauantimusysweight( bool barrel, float taugen, float tau_antimusf, float tau_antimusf_change, float taueta);
 float Getmutautrgweight(bool isMuonTauTrigger, float tautrigsf, float tautrigsf_change);
-float Getsinglemutrgweight(bool isSingleMuonTrigger, float weight);
+float Getsinglemutrgweight(bool isSingleMuonTrigger, float mutrgSF, float mutrgSFchange);
+float GetL1PrefiringWeight(float  L1PreFiringWeight_Nom, float  L1PreFiringWeight_Change);
+float Getmusysweight(float muSF, float muSFchange);
+float GeteeSFsysweight(float eeSF, int nTrk, bool down);
+
 #endif

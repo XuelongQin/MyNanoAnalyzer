@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 import sys
 sys.path.append("..")
-from pyFunc.GetHisto import variable,cate
 import ROOT
 import re
 import argparse
 from array import array
 import numpy as np
+from pyFunc.gethisto import variable
 
 def add_lumi(year):
     lowX=0.55
     lowY=0.835
+    if (year=="2016pre" or year=="2016post"): lowX = 0.45
     lumi  = ROOT.TPaveText(lowX, lowY+0.06, lowX+0.30, lowY+0.16, "NDC")
     lumi.SetBorderSize(   0 )
     lumi.SetFillStyle(    0 )
@@ -19,6 +20,8 @@ def add_lumi(year):
     lumi.SetTextSize(0.06)
     lumi.SetTextFont (   42 )
     if (year=="2018"): lumi.AddText("2018, 60 fb^{-1} (13 TeV)")
+    if (year=="2016pre"): lumi.AddText("2016 preVFP, 19 fb^{-1} (13 TeV)")
+    if (year=="2016post"): lumi.AddText("2016 postVFP, 16 fb^{-1} (13 TeV)")
     if (year=="2017"): lumi.AddText("2017, 41 fb^{-1} (13 TeV)")
     if (year=="2016"): lumi.AddText("2016, 36 fb^{-1} (13 TeV)")
     return lumi
@@ -78,6 +81,7 @@ parser.add_argument('--channel', '-c', default=None, help='channel to draw')
 parser.add_argument('--variable', '-v', default=None, help='Variable to draw')
 args = parser.parse_args()
 
+
 mvis = variable("mvis","m_{vis}",int(32),np.array([0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,400,500],dtype=float))
 taupt = variable("taupt","#tau p_{T}",int(34),np.array([30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,84,88,92,96,100,105,110,115,120],dtype=float))
 mupt = variable("mupt","#mu p_{T}",int(39),np.array([20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,84,88,92,96,100,105,110,115,120],dtype=float))
@@ -99,7 +103,7 @@ c=ROOT.TCanvas("canvas","",0,0,800,800)
 c.cd()
 
 
-file=ROOT.TFile("./inclusivefile/Inclusive_mutau_2018_{}.root".format(args.variable),"r")
+file=ROOT.TFile("Histo/HistoInclu_{}/Inclusive_all.root".format(args.year),"r")
 
 adapt=ROOT.gROOT.GetColor(12)
 new_idx=ROOT.gROOT.GetListOfColors().GetSize() + 1
@@ -117,12 +121,12 @@ VV=file.Get(args.channel).Get("VV")
 ZTT=file.Get(args.channel).Get("ZTT")
 ZLL = file.Get(args.channel).Get("ZLL")
 ST=file.Get(args.channel).Get("ST")
-GGTT=file.Get(args.channel).Get("GGTT")
+#GGTT=file.Get(args.channel).Get("GGTT")
 VV.Add(ST.Clone())
 #VV.Add(W.Clone())
 Fake=file.Get(args.channel).Get("Fake")
 
-GGTT.Scale(1)
+#GGTT.Scale(1)
 
 
 Data.GetXaxis().SetTitle("")
@@ -157,8 +161,8 @@ Fake.SetLineColor(1)
 Data.SetLineColor(1)
 Data.SetLineWidth(2)
 
-GGTT.SetLineColor(2)
-GGTT.SetLineWidth(3)
+#GGTT.SetLineColor(2)
+#GGTT.SetLineWidth(3)
 
 stack=ROOT.THStack("stack","stack")
 stack.Add(TT)
@@ -204,7 +208,7 @@ stack.Draw("histsame")
 errorBand.Draw("e2same")
 Data.Draw("esame")
 
-GGTT.Draw("histsame")
+#GGTT.Draw("histsame")
 
 legende=make_legend()
 legende.AddEntry(Data,"Observed","elp")
@@ -213,7 +217,7 @@ legende.AddEntry(ZLL,"Z#rightarrow #mu#mu","f")
 legende.AddEntry(TT,"t#bar{t}","f")
 legende.AddEntry(VV,"VV,single-t","f")
 legende.AddEntry(Fake,"Fake","f")
-legende.AddEntry(GGTT,"Signal x 10","l")
+#legende.AddEntry(GGTT,"Signal x 10","l")
 legende.AddEntry(errorBand,"Uncertainty","f")
 legende.Draw()
 
@@ -239,8 +243,8 @@ pad2.SetGridy()
 pad2.Draw()
 pad2.cd()
 h1=Data.Clone()
-h1.SetMaximum(2.0)#FIXME(1.5)
-h1.SetMinimum(0.0)#FIXME(0.5)
+h1.SetMaximum(1.5)#FIXME(1.5)
+h1.SetMinimum(0.5)#FIXME(0.5)
 h1.SetMarkerStyle(20)
 h3=errorBand.Clone()
 hwoE=errorBand.Clone()
@@ -277,5 +281,5 @@ pad1.Draw()
 ROOT.gPad.RedrawAxis()
 
 c.Modified()
-c.SaveAs("Plotsmutau/"+args.year+"inclusive/control_"+args.variable+args.channel+".pdf")
-c.SaveAs("Plotsmutau/"+args.year+"inclusive/control_"+args.variable+args.channel+".png")
+c.SaveAs("Plotsmutau/"+args.year+"inclusive/control_"+args.variable+".pdf")
+c.SaveAs("Plotsmutau/"+args.year+"inclusive/control_"+args.variable+".png")

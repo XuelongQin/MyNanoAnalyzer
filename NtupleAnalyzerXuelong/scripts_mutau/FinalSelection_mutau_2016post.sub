@@ -1,0 +1,57 @@
+executable	= FinalSelection_mutau.sh
+output		= logs/FinalSelection_mutau_2016post_$(Process).out
+error		= logs/FinalSelection_mutau_2016post_$(Process).error
+log 		= logs/FinalSelection_mutau_2016post.log
+request_cpus = 8
++JobFlavour = "workday"
+requirements = (OpSysAndVer =?= "CentOS7")
+
+
+arguments = 2016post GGToTauTau
+queue 1
+arguments = 2016post GGToWW
+queue 1
+arguments = 2016post DY
+queue 1
+arguments = 2016post W
+queue 1
+arguments = 2016post W1
+queue 1
+arguments = 2016post W2
+queue 1
+arguments = 2016post W3
+queue 1
+arguments = 2016post W4
+queue 1
+arguments = 2016post WW2L2Nu
+queue 1
+arguments = 2016post WZ2Q2L
+queue 1
+arguments = 2016post WZ3LNu
+queue 1
+arguments = 2016post ZZ2L2Nu
+queue 1
+arguments = 2016post ZZ2Q2L
+queue 1
+arguments = 2016post ZZ4L
+queue 1
+arguments = 2016post TTTo2L2Nu
+queue 1
+arguments = 2016post TTToHadronic
+queue 1
+arguments = 2016post TTToSemiLeptonic
+queue 1
+arguments = 2016post ST_t_top
+queue 1
+arguments = 2016post ST_t_antitop
+queue 1
+arguments = 2016post ST_tW_top
+queue 1
+arguments = 2016post ST_tW_antitop
+queue 1
+arguments = 2016post SingleMuonF
+queue 1
+arguments = 2016post SingleMuonG
+queue 1
+arguments = 2016post SingleMuonH
+queue 1

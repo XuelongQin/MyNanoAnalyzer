@@ -62,8 +62,8 @@ def buildCondorFile(opt,FarmDirectory):
             sufix='mc'
             #dataset_name = dataset.split('/')[-1]
             dataset_name = dataset.split('/')[9]+"_"+dataset.split('/')[12]
-            if "RunII" in dataset.split('/')[9]:
-              dataset_name = dataset.split('/')[10]+"_"+dataset.split('/')[12]
+            #if "RunII" in dataset.split('/')[9]:
+              #dataset_name = dataset.split('/')[10]+"_"+dataset.split('/')[12]
             print "name: ",dataset_name
             if 'UL1' in dataset:
               year="20"+str(dataset.split('UL')[1][:2])
@@ -81,15 +81,20 @@ def buildCondorFile(opt,FarmDirectory):
             sufix='mc'
           else:
             sufix='data'
-          channels=['mutau'] #EDIT THIS (could be ee,emu,etau,mumu,mutau,tautau)
+          channels=['tautau'] #EDIT THIS (could be ee,emu,etau,mumu,mutau,tautau)
           print ('sufix = ', sufix)
 
           yearmodified=year
-          if "preVFP" in dataset and year=="2016" and sufix=="mc":
-             yearmodified="2016pre"
-          if "preVFP" not in dataset and year=="2016" and sufix=="mc":
-             yearmodified="2016post"
-
+          
+          #if "preVFP" in dataset and year=="2016" and sufix=="mc":
+          #   yearmodified="2016pre"
+          #if "preVFP" not in dataset and year=="2016" and sufix=="mc":
+          #   yearmodified="2016post"
+          if "2016pre" in opt.input and sufix=="mc":
+            yearmodified="2016pre"
+          if "2016post" in opt.input and sufix=="mc":
+            yearmodified="2016post"
+          
             
           #prepare output
           output=opt.output+'/'+dataset_name
@@ -179,9 +184,10 @@ def main():
     #configuration
     usage = 'usage: %prog [options]'
     parser = optparse.OptionParser(usage)
-    parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='reNanoAODSingleMuon2018.txt', type='string')
+    #parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='reNanoAODTau2016post.txt', type='string')
+    parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='reNanoAODMC2018_dijet.txt', type='string')
     #parser.add_option('-o', '--out',      dest='output',   help='output directory',  default='/eos/cms/store/user/ccaillol/TauG2/ntuples_mumu_2018', type='string') #EDIT THIS
-    parser.add_option('-o', '--out',      dest='output',   help='output directory',  default='/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_2018', type='string') #EDIT THIS
+    parser.add_option('-o', '--out',      dest='output',   help='output directory',  default='/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_2018', type='string') #EDIT THIS
     parser.add_option('-f', '--force',      dest='force',   help='force resubmission',  action='store_true')
     parser.add_option('-s', '--submit',   dest='submit',   help='submit jobs',       action='store_true')
     (opt, args) = parser.parse_args()

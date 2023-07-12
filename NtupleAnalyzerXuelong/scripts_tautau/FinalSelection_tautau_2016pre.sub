@@ -1,0 +1,47 @@
+executable	= FinalSelection_tautau.sh
+output		= logs/FinalSelection_tautau_2016pre_$(Process).out
+error		= logs/FinalSelection_tautau_2016pre_$(Process).error
+log 		= logs/FinalSelection_tautau_2016pre.log
+request_cpus = 8
++JobFlavour = "workday"
+requirements = (OpSysAndVer =?= "CentOS7")
+
+
+arguments = 2016pre DY
+queue 1
+arguments = 2016pre WW2L2Nu
+queue 1
+arguments = 2016pre WZ2Q2L
+queue 1
+arguments = 2016pre WZ3LNu
+queue 1
+arguments = 2016pre ZZ2L2Nu
+queue 1
+arguments = 2016pre ZZ2Q2L
+queue 1
+arguments = 2016pre ZZ4L
+queue 1
+arguments = 2016pre TTTo2L2Nu
+queue 1
+arguments = 2016pre TTToHadronic
+queue 1
+arguments = 2016pre TTToSemiLeptonic
+queue 1
+arguments = 2016pre ST_t_top
+queue 1
+arguments = 2016pre ST_t_antitop
+queue 1
+arguments = 2016pre ST_tW_top
+queue 1
+arguments = 2016pre ST_tW_antitop
+queue 1
+arguments = 2016pre TauB
+queue 1
+arguments = 2016pre TauC
+queue 1
+arguments = 2016pre TauD
+queue 1
+arguments = 2016pre TauE
+queue 1
+arguments = 2016pre TauF
+queue 1

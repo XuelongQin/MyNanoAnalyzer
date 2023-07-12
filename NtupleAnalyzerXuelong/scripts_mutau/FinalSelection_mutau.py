@@ -11,19 +11,19 @@ ROOT.gInterpreter.Declare('#include "GetPFtrk.h"')
 ROOT.gInterpreter.Declare('#include "Correction.h"')
 ROOT.gInterpreter.Declare('#include "ApplyFR.h"')
 ROOT.gSystem.Load('/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/lib/RDFfunc.so')
-
+ROOT.EnableImplicitMT()
 
 
 
 ### this code is used to perform basic selection on ntuples after nanoaod analyzer
-### year: 2016, 2017, 2018
+### year: 2016pre, 2016post, 2017, 2018
 ### name: name of ntuple after analyzer
 ### sample: output root file name
 year = sys.argv[1]
 sample = sys.argv[2]
 #name = sys.argv[3]
 
-print ("year is ", year , " sample is ", sample)
+print ("year is ", year , type(year)," " , " sample is ", sample)
 
 #fout = TFile("/eos/cms/store/user/xuqin/taug-2/ntuple_after_basicsel/{}.root".format(sample),"recreate")
 #fout = TFile("/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuple_after_basicsel/{}.root".format(sample),"recreate")
@@ -35,22 +35,31 @@ arbre2.Add("/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuple_after_
 ngen = 0.
 isdata = True
 isW = False
+#isTTSemileptonic = False
 
 #For W sample, we use genEventCount and don't consider genweight
 #For others, we use genEventsSumw and consider genweight
 if (sample=="W" or sample=="W1" or sample=="W2" or sample=="W3" or sample=="W4"):
     isW=True
+    
+#if ("TTToSemiLeptonic" in sample):
+#    isTTSemileptonic=True
 
-if (sample!="SingleMuonA" and sample!="SingleMuonB" and sample!="SingleMuonC" and sample!="SingleMuonD"):
+if ("SingleMuon" not in sample):
 ###for dataA, all events with run<317509, no HPS trigger is used
 ###for dataB, some with run<317509 while others with run>=317509, separate it to two parts
 ###for dataC and D, all events with run>=317509, only HPS trigger is saved and considered
     isdata=False
-    rdf2 = RDataFrame("Runs","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_2018/{}.root".format(sample))
+    rdf2=0
+    #if (isTTSemileptonic):
+    #    rdf2 = RDataFrame("Runs","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_2018/TTToSemiLeptonic.root")
+    #else:
+    rdf2 = RDataFrame("Runs","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_{}/{}.root".format(year,sample))
     #ngen = rdf2.Sum("genEventCount").GetValue()
     ngen = rdf2.Sum("genEventSumw").GetValue()
  
-print ("isdata ", isdata)
+#print ("isdata ", isdata, " isW ", isW, " isTTSemileptonic ", isTTSemileptonic)
+print ("isdata ", isdata, " isW ", isW)
 print ("ngen is ", ngen)
 xs = 1.0
 weight = 1.0
@@ -74,7 +83,7 @@ elif (sample=="TTTo2L2Nu"):
     eff=0.6571875
     weight=luminosity*xs/ngen*eff
     
-elif (sample=="TTToSemiLeptonic"): 
+elif (sample=="TTToSemiLeptonic" or "TTToSemiLeptonic" in sample): 
     xs=831.76*0.4392
     eff=0.401486111
     weight=luminosity*xs/ngen*eff
@@ -115,7 +124,7 @@ elif (sample=="WZ2Q2L"):
     weight=luminosity*xs/ngen*eff
     
 elif (sample=="WW2L2Nu"): 
-    xs=118.7*0.3*0.3
+    xs=8.95
     eff=0.396603175
     weight=luminosity*xs/ngen*eff
     
@@ -148,7 +157,12 @@ elif (sample=="GGToTauTau"):
     xs = 1.161
     eff=0.00871
     weight=luminosity*xs/ngen*eff
-    
+
+elif (sample=="GGToTauTau_Ctb20"):
+    xs = 1.355
+    eff= 0.027169
+    weight=luminosity*xs/ngen*eff
+
 elif (sample=="GGToWW"):
     xs = 0.40
     eff = 0.009625
@@ -168,7 +182,7 @@ print ("cross section is ", xs, " eff is ", eff, " xsweight is ", weight)
 #nentries = arbre.GetEntries()
 #print ("Before selection total entries", nentries)
 df = RDataFrame(0)
-df = RDataFrame("Events","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_2018/{}.root".format(sample))
+df = RDataFrame("Events","/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_{}/{}.root".format(year,sample))
 nentries = df.Count().GetValue()
 
 print ("Before selection total entries", nentries)
@@ -191,15 +205,30 @@ df_var = df_var.Define("my_mu","GetLepVector(muindex,LepCand_pt,LepCand_eta,LepC
 
 ###Take shape sys into consideration, mutrigger with taupt>28 (should change to 30), mutautrigger with taupt>30 (should change to 32) when get histogram
 
-df_sel = df_var.Filter("fabs(mueta)<2.4 && fabs(taueta)<2.3").Filter("LepCand_muonMediumId[muindex]==1 && LepCand_muonIso[muindex]<0.15")\
+df_sel = df_var.Filter("fabs(mueta)<2.4 && fabs(taueta)<2.3").Filter("LepCand_muonMediumId[muindex]==1 && LepCand_muonIso[muindex]<0.20")\
     .Filter("LepCand_vsmu[tauindex]>8").Filter("my_tau.DeltaR(my_mu)>=0.5")
 
 isSingleMuonTrigger = "HLT_IsoMu24 && (mupt>26) && (taupt>28)"
-
 isMuonTauTriggerdata = "((run>=317509 && HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1) || (run<317509 && HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1))\
     && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
-if (sample=="SingleMuonC" or sample=="SingleMuonD"):
+isMuonTauTriggerMC = "HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1 && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
+if (year == "2018" and ((sample=="SingleMuonC" or sample=="SingleMuonD"))):
     isMuonTauTriggerdata = "(HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1) && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
+    ##in 2016, finally cut taupt>30 for both SingleMuon and crosstrg
+if (year == "2016pre"):
+    isSingleMuonTrigger = "(HLT_IsoMu24 || HLT_IsoTkMu24) && (mupt>26) && (taupt>28)"
+    isMuonTauTriggerdata = "HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1 && (taupt>28) && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1"
+    isMuonTauTriggerMC = "HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1 && (taupt>28) && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1"
+if (year == "2016post"):
+    isSingleMuonTrigger = "(HLT_IsoMu24 || HLT_IsoTkMu24) && (mupt>26) && (taupt>28)"
+    isMuonTauTriggerdata = "HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1 && (taupt>28) && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1"
+    isMuonTauTriggerMC = "HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1 && (taupt>28) && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1"
+if (year == "2017"):
+    ##finally remember to cut taupt>30 for singleMuon and taupt>32 for cross trg
+    isSingleMuonTrigger = "HLT_IsoMu27 && (mupt>29) && (taupt>28)"
+    isMuonTauTriggerdata = " HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1 && mupt>21 && mupt<29 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
+    isMuonTauTriggerMC = " HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1 && mupt>21 && mupt<29 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
+    
 '''if (sample=="dataA"):
     isMuonTauTriggerdata = "(HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1) && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
 elif (sample=="dataBHPS"):
@@ -211,7 +240,6 @@ elif (sample=="dataBnoHPS"):
 elif (sample=="dataC" or sample=="dataD"):
     isMuonTauTriggerdata = "(HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1) && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
 '''
-isMuonTauTriggerMC = "HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1 && mupt>21 && mupt<26 && fabs(mueta<2.1) && fabs(taueta)<2.1 && taupt>30"
 
 if (isdata):
     df_sel = df_sel.Define("isSingleMuonTrigger", isSingleMuonTrigger).Define("isMuonTauTrigger",isMuonTauTriggerdata)
@@ -222,21 +250,24 @@ df_sel = df_sel.Filter("isSingleMuonTrigger || isMuonTauTrigger")
 
 ###Add xsweight and SFweight
 if (not isdata):
-    df_sel = df_sel.Define("murecosf","GetMuonrecoSF(my_mu)").Define("murecosf_stat","GetMuonrecoSF_stat(my_mu)").Define("murecosf_syst","GetMuonrecoSF_syst(my_mu)")\
-        .Define("mutrgsf","GetMuonTriggerSF(my_mu)").Define("mutrgsf_stat","GetMuonTriggerSF_stat(my_mu)").Define("mutrgsf_syst","GetMuonTriggerSF_syst(my_mu)")\
-        .Define("muidsf","GetMuonIDSF(my_mu)").Define("muidsf_stat","GetMuonIDSF_stat(my_mu)").Define("muidsf_syst","GetMuonIDSF_syst(my_mu)")\
-        .Define("muisosf","GetMuonIsoSF(my_mu)").Define("muisosf_stat","GetMuonIsoSF_stat(my_mu)").Define("muisosf_syst","GetMuonIsoSF_syst(my_mu)")\
-        .Define("musf_HLTMu20Tau27","GetMuonSF_HLTMu20Tau27(mupt,mueta)")
+    df_sel = df_sel.Define("murecosf","GetMuonrecoSF(my_mu,\"{}\")".format(year)).Define("murecosf_stat","GetMuonrecoSF_stat(my_mu,\"{}\")".format(year)).Define("murecosf_syst","GetMuonrecoSF_syst(my_mu,\"{}\")".format(year))\
+        .Define("mutrgsf","GetMuonTriggerSF(my_mu,\"{}\")".format(year)).Define("mutrgsf_stat","GetMuonTriggerSF_stat(my_mu,\"{}\")".format(year)).Define("mutrgsf_syst","GetMuonTriggerSF_syst(my_mu,\"{}\")".format(year))\
+        .Define("muidsf","GetMuonIDSF(my_mu,\"{}\")".format(year)).Define("muidsf_stat","GetMuonIDSF_stat(my_mu,\"{}\")".format(year)).Define("muidsf_syst","GetMuonIDSF_syst(my_mu,\"{}\")".format(year))\
+        .Define("muisosf","GetMuonIsoSF(my_mu,\"{}\")".format(year)).Define("muisosf_stat","GetMuonIsoSF_stat(my_mu,\"{}\")".format(year)).Define("muisosf_syst","GetMuonIsoSF_syst(my_mu,\"{}\")".format(year))\
+        .Define("mutrgsf_crosstrg","GetMuonTriggerSF_crosstrg(my_mu,\"{}\")".format(year))
     if (not isW):
-        df_sel = df_sel.Define("xsweight","{}*genWeight".format(weight)).Define("SFweight","GetSFweight_mutau(murecosf, muisosf,muidsf, mutrgsf,musf_HLTMu20Tau27,puWeight,tauindex,isSingleMuonTrigger,isMuonTauTrigger,LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf)")
+        df_sel = df_sel.Define("xsweight","{}*genWeight".format(weight)).Define("SFweight","GetSFweight_mutau(murecosf, muisosf,muidsf, mutrgsf,mutrgsf_crosstrg,puWeight,tauindex,isSingleMuonTrigger,isMuonTauTrigger,LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf, is_isolated)")
     else:
-        df_sel = df_sel.Define("xsweight","Getxsweight_W(LHE_Njets)").Define("SFweight","GetSFweight_mutau(murecosf, muisosf,muidsf, mutrgsf,musf_HLTMu20Tau27, puWeight,tauindex,isSingleMuonTrigger,isMuonTauTrigger,LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf)")
+        df_sel = df_sel.Define("xsweight","Getxsweight_W(LHE_Njets,\"{}\")".format(year)).Define("SFweight","GetSFweight_mutau(murecosf, muisosf,muidsf, mutrgsf,mutrgsf_crosstrg, puWeight,tauindex,isSingleMuonTrigger,isMuonTauTrigger,LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf, is_isolated)")
+    if (year != "2018"):
+        print ("Add L1PreFiringWeight")
+        df_sel = df_sel.Redefine("SFweight","SFweight*L1PreFiringWeight_Nom")
 else:
     df_sel = df_sel.Define("murecosf","1.0").Define("murecosf_stat","1.0").Define("murecosf_syst","1.0")\
         .Define("mutrgsf","1.0").Define("mutrgsf_stat","1.0").Define("mutrgsf_syst","1.0")\
         .Define("muidsf","1.0").Define("muidsf_stat","1.0").Define("muidsf_syst","1.0")\
         .Define("muisosf","1.0").Define("muisosf_stat","1.0").Define("muisosf_syst","1.0")\
-        .Define("musf_HLTMu20Tau27","1.0")
+        .Define("mutrgsf_crosstrg","1.0")
     df_sel = df_sel.Define("xsweight","1.0").Define("SFweight","1.0")
 ###Add information of mass (mvis>40, transverse mass, collinear mass), acoplanarity
 df_sel = df_sel.Define("mvis","(my_mu+my_tau).M()").Define("mtrans","GetTransmass(my_mu, MET_pt, MET_phi)")\
@@ -257,6 +288,8 @@ else:
     else:
         df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0")
     df = df.Define("npvs_weight","Get_npvs_weight(PV_npvs)").Define("npvsDown_weight","Get_npvsDown_weight(PV_npvs)").Define("npvsUp_weight","Get_npvsUp_weight(PV_npvs)")
+    if (year != "2018"):
+        df = df.Redefine("npvs_weight","1.0").Redefine("npvsDown_weight","1.0").Redefine("npvsUp_weight","1.0") ##fixme
 ##make new  mutrack and tautrack collection, choose highest pt muon track as mutrack, choose same dz as tautrack 
 
 
@@ -391,11 +424,15 @@ else:
             .Define("nHStrk","Sum(HStrkcut)")\
             .Define("nHStrkweight","1.0") 
 
+###elastic-elastic scale factor
+if (sample=="GGToTauTau" or sample=="GGToWW" or sample=="GGToTauTau_Ctb20"):
+    df = df.Define("eeSF", "GeteeSF(GenCand_pt, GenCand_eta, GenCand_phi, nTrk)")
+else :
+    df = df.Define("eeSF", "1.0")
 
 
 columns = ROOT.std.vector("string")()
 for c in ("run", "luminosityBlock", "event", \
-    "HLT_IsoMu24","HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1",\
     "isSingleMuonTrigger","isMuonTauTrigger",\
     "MET_phi","MET_pt","PV_ndof","PV_x","PV_y","PV_z","PV_chi2","PV_score","PV_npvs","PV_npvsGood",\
     "nLepCand","LepCand_id","LepCand_pt","LepCand_eta","LepCand_phi","LepCand_charge","LepCand_dxy","LepCand_dz","LepCand_gen",\
@@ -413,23 +450,49 @@ for c in ("run", "luminosityBlock", "event", \
     "nGenCand","GenCand_id","GenCand_pt","GenCand_eta","GenCand_phi",\
     "V_genpt","puWeight","puWeightUp","puWeightDown","tauindex","muindex","my_tau","my_mu","taupt","taueta","tauphi","taudz","mupt","mueta","muphi",\
     "mudz","isOS","is_isolated","xsweight","SFweight","mvis","mtrans","mcol","Acopl","zvtxll1",\
-    "murecosf","murecosf_stat","murecosf_syst","muidsf","muidsf_stat","muidsf_syst","muisosf","muisosf_stat","muisosf_syst","mutrgsf","mutrgsf_stat","mutrgsf_syst","musf_HLTMu20Tau27",\
-    "nTrk","nPUtrk","nHStrk","Acoweight","npvs_weight","npvsDown_weight","npvsUp_weight","nPUtrkweight","nHStrkweight","genAco"):
+    "murecosf","murecosf_stat","murecosf_syst","muidsf","muidsf_stat","muidsf_syst","muisosf","muisosf_stat","muisosf_syst","mutrgsf","mutrgsf_stat","mutrgsf_syst","mutrgsf_crosstrg",\
+    "nTrk","nPUtrk","nHStrk","Acoweight","npvs_weight","npvsDown_weight","npvsUp_weight","nPUtrkweight","nHStrkweight","genAco","eeSF"):
     columns.push_back(c)
 
 if (isdata):
-    if sample=="SingleMuonA" or sample=="SingleMuonB":
+    if (year == "2018"):
+        columns.push_back("HLT_IsoMu24")
+        columns.push_back("HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1")
+        if sample=="SingleMuonA" or sample=="SingleMuonB":
+            columns.push_back("HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1")
+    elif (year == "2017"):
+        columns.push_back("HLT_IsoMu27")
         columns.push_back("HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1")
+    else:
+        columns.push_back("HLT_IsoMu24")
+        columns.push_back("HLT_IsoTkMu24")
+        columns.push_back("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1")
+        
 else:
     columns.push_back("GenVtx_z")
-    
-if sample=="GGToTauTau":
+    if (year == "2018"):
+        columns.push_back("HLT_IsoMu24")
+        columns.push_back("HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1")
+    elif (year == "2017"):
+        columns.push_back("HLT_IsoMu27")
+        columns.push_back("HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1")
+        columns.push_back("L1PreFiringWeight_Nom")
+        columns.push_back("L1PreFiringWeight_Dn")
+        columns.push_back("L1PreFiringWeight_Up")
+    else:
+        columns.push_back("HLT_IsoMu24")
+        columns.push_back("HLT_IsoTkMu24")
+        columns.push_back("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1")
+        columns.push_back("L1PreFiringWeight_Nom")
+        columns.push_back("L1PreFiringWeight_Dn")
+        columns.push_back("L1PreFiringWeight_Up")
+if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
     branchlist = list(df.GetColumnNames())
     for taug2weights in list(filter(lambda x: "TauG2Weights" in str(x), branchlist)):
         columns.push_back(taug2weights)
 
 
-df.Snapshot("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_2018_basicsel/{}.root".format(sample),columns)
+df.Snapshot("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_{}_basicsel/{}.root".format(year,sample),columns)
 
 nentries = df.Count().GetValue()
 print ("After selection entries", nentries)

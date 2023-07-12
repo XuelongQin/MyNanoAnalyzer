@@ -22,9 +22,11 @@ float Getpusysweight( float puWeight, float puWeight_change,  float npvs_weight,
     return pusysweight;
 }
 
-float Getditautrigweight(float tautrigweight, float tautrigweight_change){
+float Getditautrigweight(int decaymode, int taudecaymode, float tautrigweight, float tautrigweight_change){
     float ditautrigweight=1.0;
-    ditautrigweight = tautrigweight_change/tautrigweight;
+    if ((decaymode==1011 && (taudecaymode==10 || taudecaymode==11))|| (decaymode!=1011 && taudecaymode==decaymode) ){
+        ditautrigweight = tautrigweight_change/tautrigweight;
+    }
     return ditautrigweight;
 }
 
@@ -95,14 +97,42 @@ float Getmutautrgweight(bool isMuonTauTrigger, float tautrigsf, float tautrigsf_
 
 }
 
-float Getsinglemutrgweight(bool isSingleMuonTrigger, float weight){
+float Getsinglemutrgweight(bool isSingleMuonTrigger, float mutrgSF, float mutrgSFchange){
     float singlemutrgweight=1.0;
     if (isSingleMuonTrigger){
-        singlemutrgweight = weight;
+        singlemutrgweight = mutrgSFchange/mutrgSF;
     }
     return singlemutrgweight;
 }
 
+float GetL1PrefiringWeight(float  L1PreFiringWeight_Nom, float  L1PreFiringWeight_Change){
+    float L1PrefiringWeight = 1.0;
+    L1PrefiringWeight = L1PreFiringWeight_Change/L1PreFiringWeight_Nom;
+    return L1PrefiringWeight;
+}
+
+
+float Getmusysweight(float muSF, float muSFchange){
+    float musysweight = 1.0;
+    musysweight = muSFchange/muSF;
+    return musysweight;
+}
+
+
+float GeteeSFsysweight(float eeSF, int nTrk, bool down){
+    float eeSFsysweight = 1.0;
+    float flatSF = 2.39;
+    if (nTrk==1){
+        flatSF = 2.16;
+    }
+    if (down){
+        eeSFsysweight = flatSF/eeSF;
+    }
+    else{
+        eeSFsysweight = 1.0 + 1.0 - flatSF/eeSF;
+    }
+    return eeSFsysweight;
+}
 
 
 

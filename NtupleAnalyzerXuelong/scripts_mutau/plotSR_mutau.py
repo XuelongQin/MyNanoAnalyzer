@@ -77,7 +77,7 @@ args = parser.parse_args()
 c=ROOT.TCanvas("canvas","",0,0,800,800)
 c.cd()
 
-file=ROOT.TFile("./Taug2_mutau_2018.root","r")
+file=ROOT.TFile("./Histo/HistoSR_{}/Taug2_mutau_{}.root".format(args.year,args.year),"r")
 
 adapt=ROOT.gROOT.GetColor(12)
 new_idx=ROOT.gROOT.GetListOfColors().GetSize() + 1
@@ -101,7 +101,7 @@ VV.Add(ST.Clone())
 #VV.Add(W.Clone())
 Fake=file.Get(args.channel).Get("Fake")
 
-GGTT.Scale(5)
+#GGTT.Scale(5)
 
 
 Data.GetXaxis().SetTitle("")
@@ -150,7 +150,7 @@ stack.Add(VV)
 stack.Add(ZTT)
 stack.Add(ZLL)
 stack.Add(GGWW)
-#stack.Add(GGTTfull)
+stack.Add(GGTTfull)
 
 errorBand = ZTT.Clone()
 errorBand.Add(TT)
@@ -158,7 +158,7 @@ errorBand.Add(ZLL)
 errorBand.Add(VV)
 errorBand.Add(Fake)
 errorBand.Add(GGWW)
-#errorBand.Add(GGTTfull)
+errorBand.Add(GGTTfull)
 
 errorBand.SetMarkerSize(0)
 errorBand.SetFillColor(new_idx)
@@ -184,14 +184,14 @@ pad1.SetFrameBorderSize(10)
 pad1.SetLogy()
 
 Data.GetXaxis().SetLabelSize(0)
-Data.SetMaximum(max(Data.GetMaximum()*1.5,errorBand.GetMaximum()*1.5))
+Data.SetMaximum(max(Data.GetMaximum()*10.,errorBand.GetMaximum()*10.))
 Data.SetMinimum(0.1)
 Data.Draw("e")
 stack.Draw("histsame")
 errorBand.Draw("e2same")
 Data.Draw("esame")
 
-GGTT.Draw("histsame")
+#GGTT.Draw("histsame")
 
 legende=make_legend()
 legende.AddEntry(Data,"Observed","elp")
@@ -201,7 +201,8 @@ legende.AddEntry(TT,"t#bar{t}","f")
 legende.AddEntry(VV,"VV,single-t","f")
 legende.AddEntry(Fake,"Fake","f")
 legende.AddEntry(GGWW,"#gamma#gamma#rightarrow WW","f")
-legende.AddEntry(GGTT,"Signal x 3","l")
+#legende.AddEntry(GGTT,"Signal x 3","l")
+legende.AddEntry(GGTTfull,"Signal","f")
 legende.AddEntry(errorBand,"Uncertainty","f")
 legende.Draw()
 
@@ -213,6 +214,18 @@ l3=add_Preliminary()
 l3.Draw("same")
 
 pad1.RedrawAxis()
+
+S = GGTT.Integral()
+categ  = ROOT.TPaveText(0.45, 0.5+0.013, 0.83, 0.50+0.155, "NDC")
+categ.SetBorderSize(   0 )
+categ.SetFillStyle(    0 )
+categ.SetTextAlign(   12 )
+categ.SetTextSize ( 0.04 )
+categ.SetTextColor(    1 )
+categ.SetTextFont (   42 )
+categ.AddText("S = %.2f" %(S))
+#categ.AddText("S = %.2f, B = %.1f"%(GGTT.Integral()/30, Fake.Integral()))
+categ.Draw("same")
 
 c.cd()
 pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.35);

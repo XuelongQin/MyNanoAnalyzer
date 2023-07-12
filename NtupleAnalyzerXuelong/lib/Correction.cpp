@@ -32,13 +32,13 @@ float Get_Aweight(float gen_aco, int nZGenCand, Vec_t &ZGenCand_pt, float lep1pt
     float my_lep2pt = 0;
     if (nZGenCand==2){//if we have 2 ZGenCand, we use genpt
         my_lep1pt = TMath::Max(ZGenCand_pt[0],ZGenCand_pt[1]);
-        my_lep1pt = TMath::Min(ZGenCand_pt[0],ZGenCand_pt[1]);
+        my_lep2pt = TMath::Min(ZGenCand_pt[0],ZGenCand_pt[1]);
     }
     else{
         my_lep1pt = TMath::Max(lep1pt,lep2pt);
         my_lep2pt = TMath::Min(lep1pt,lep2pt);
     }
-    float Acocut = 0.4;
+    float Acocut = 0.35;
     float A_weight=1.0;
     if (my_lep1pt<30 && my_lep2pt<30){
         A_weight = fit_aco_2030_2030->Eval(TMath::Min(Acocut,gen_aco));
@@ -124,7 +124,10 @@ TFile *f_punt=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW
 TH2F* correction_map=(TH2F*) f_punt->Get("correction_map");
 
 float Get_ntpuweight(int ntpu, float zvtxll){
-    float ntpu_weight=correction_map->GetBinContent(correction_map->GetXaxis()->FindBin(ntpu),correction_map->GetYaxis()->FindBin(zvtxll)); // where zvtxll is the ditau vertex z, and ntpu is the number of BS corrected PU tracks inside the window
+    float zpos = zvtxll;
+    if (zpos<-10) zpos=-9.99;
+    else if (zpos>10) zpos=9.99;
+    float ntpu_weight=correction_map->GetBinContent(correction_map->GetXaxis()->FindBin(TMath::Min(50,ntpu)),correction_map->GetYaxis()->FindBin(zpos)); // where zvtxll is the ditau vertex z, and ntpu is the number of BS corrected PU tracks inside the window
     return ntpu_weight;
 }
 
