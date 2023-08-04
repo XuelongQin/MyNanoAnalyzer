@@ -4,7 +4,7 @@ from ROOT.RDF import TH1DModel, TH2DModel
 import sys
 from math import cos,sin,sqrt,pi
 sys.path.append("..")
-from pyFunc.gethisto import variable
+from pyFunc.gethisto_SR_mutau import variable
 import ROOT
 import time as timer
 time_start=timer.time()
@@ -49,7 +49,7 @@ realcut = " && LepCand_gen[tauindex]!=0"
 if "SingleMuon" in sample:
     realcut = ""
 
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
 
 
 print ("year is ", year , " sample is ", sample, " weight is ", weight)

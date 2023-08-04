@@ -159,13 +159,13 @@ elif (sample=="GGToTauTau"):
     weight=luminosity*xs/ngen*eff
 
 elif (sample=="GGToTauTau_Ctb20"):
-    xs = 1.355
-    eff= 0.027169
+    xs = 1.121
+    eff= 0.0269
     weight=luminosity*xs/ngen*eff
 
 elif (sample=="GGToWW"):
-    xs = 0.40
-    eff = 0.009625
+    xs = 0.00692
+    eff = 0.368
     weight = luminosity*xs/ngen*eff
 
 '''elif (sample=="GGToMuMu"):
@@ -259,9 +259,7 @@ if (not isdata):
         df_sel = df_sel.Define("xsweight","{}*genWeight".format(weight)).Define("SFweight","GetSFweight_mutau(murecosf, muisosf,muidsf, mutrgsf,mutrgsf_crosstrg,puWeight,tauindex,isSingleMuonTrigger,isMuonTauTrigger,LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf, is_isolated)")
     else:
         df_sel = df_sel.Define("xsweight","Getxsweight_W(LHE_Njets,\"{}\")".format(year)).Define("SFweight","GetSFweight_mutau(murecosf, muisosf,muidsf, mutrgsf,mutrgsf_crosstrg, puWeight,tauindex,isSingleMuonTrigger,isMuonTauTrigger,LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf, is_isolated)")
-    if (year != "2018"):
-        print ("Add L1PreFiringWeight")
-        df_sel = df_sel.Redefine("SFweight","SFweight*L1PreFiringWeight_Nom")
+    df_sel = df_sel.Redefine("SFweight","SFweight*L1PreFiringWeight_Nom")
 else:
     df_sel = df_sel.Define("murecosf","1.0").Define("murecosf_stat","1.0").Define("murecosf_syst","1.0")\
         .Define("mutrgsf","1.0").Define("mutrgsf_stat","1.0").Define("mutrgsf_syst","1.0")\
@@ -281,15 +279,15 @@ df_addvtx = df_sel.Define("zvtxll1","recovtxz1(LepCand_dz[muindex],LepCand_dz[ta
 
 ##Acoplanarity weights only for DY samples
 if (isdata):
-    df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0").Define("npvs_weight","1.0").Define("puWeight","1.0").Define("puWeightUp","1.0").Define("puWeightDown","1.0").Define("npvsDown_weight","1.0").Define("npvsUp_weight","1.0")
+    df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0").Define("puWeight","1.0").Define("puWeightUp","1.0").Define("puWeightDown","1.0")
 else: 
     if sample=="DY":
-        df = df_addvtx.Define("genAco","GetGenAco(nGenCand,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(genAco, nGenCand, GenCand_pt,mupt,taupt)")
+        df = df_addvtx.Define("genAco","GetGenAco(nGenCand,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(genAco, nGenCand, GenCand_pt,mupt,taupt,\"{}\")".format(year))
     else:
         df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0")
-    df = df.Define("npvs_weight","Get_npvs_weight(PV_npvs)").Define("npvsDown_weight","Get_npvsDown_weight(PV_npvs)").Define("npvsUp_weight","Get_npvsUp_weight(PV_npvs)")
-    if (year != "2018"):
-        df = df.Redefine("npvs_weight","1.0").Redefine("npvsDown_weight","1.0").Redefine("npvsUp_weight","1.0") ##fixme
+    #df = df.Define("npvs_weight","Get_npvs_weight(PV_npvs)").Define("npvsDown_weight","Get_npvsDown_weight(PV_npvs)").Define("npvsUp_weight","Get_npvsUp_weight(PV_npvs)")
+    #if (year != "2018"):
+    #    df = df.Redefine("npvs_weight","1.0").Redefine("npvsDown_weight","1.0").Redefine("npvsUp_weight","1.0") ##fixme
 ##make new  mutrack and tautrack collection, choose highest pt muon track as mutrack, choose same dz as tautrack 
 
 
@@ -387,9 +385,9 @@ print ("Calculate ditaudz")
 if (isdata):
     df = df.Define("Track_ditaudz","Compute_ditaudz(Track_dz,PV_z,zvtxll1)")
 else: 
-    df = df.Define("Track_ditaudz","Get_BScor_ditaudz(Track_dz,Track_isMatchedToHS,PV_z,zvtxll1)")
+    df = df.Define("Track_ditaudz","Get_BScor_ditaudz(Track_dz,Track_isMatchedToHS,PV_z,zvtxll1,\"{}\")".format(year))
     
-df = df.Define("Trkcut","Track_ditaudz<0.05 && (!Track_mumatch) && (!Track_tau1match) && (!Track_tau2match) && (!Track_tau3match)")\
+df = df.Define("Trkcut","Track_ditaudz<0.05 && (!Track_mumatch) && (!Track_tau1match) && (!Track_tau2match) && (!Track_tau3match) && Track_pt>0.5 && abs(Track_eta)<2.5")\
     .Define("nTrk", "Sum(Trkcut)")\
     .Define("Trk_pt","Track_pt[Trkcut]")\
     .Define("Trk_eta","Track_eta[Trkcut]")\
@@ -406,7 +404,7 @@ if (isdata):
 else: 
     df = df.Define("PUtrkcut","Trk_isMatchedToHS==0")\
     .Define("nPUtrk", "Sum(PUtrkcut)")\
-    .Define("nPUtrkweight","Get_ntpuweight(nPUtrk,zvtxll1)")
+    .Define("nPUtrkweight","Get_ntpuweight(nPUtrk,zvtxll1,\"{}\")".format(year))
 
 
 ###Apply nHStrk correction(only for DY)
@@ -418,7 +416,7 @@ else:
     if (sample=="DY"):
         df = df.Define("HStrkcut","Trk_isMatchedToHS==1")\
             .Define("nHStrk","Sum(HStrkcut)")\
-            .Define("nHStrkweight","Get_ntHSweight(nHStrk,genAco)")
+            .Define("nHStrkweight","Get_ntHSweight(nHStrk,genAco,\"{}\")".format(year))
     else:
         df = df.Define("HStrkcut","Trk_isMatchedToHS==1")\
             .Define("nHStrk","Sum(HStrkcut)")\
@@ -434,6 +432,7 @@ else :
 columns = ROOT.std.vector("string")()
 for c in ("run", "luminosityBlock", "event", \
     "isSingleMuonTrigger","isMuonTauTrigger",\
+    "L1PreFiringWeight_Nom","L1PreFiringWeight_Dn","L1PreFiringWeight_Up",\
     "MET_phi","MET_pt","PV_ndof","PV_x","PV_y","PV_z","PV_chi2","PV_score","PV_npvs","PV_npvsGood",\
     "nLepCand","LepCand_id","LepCand_pt","LepCand_eta","LepCand_phi","LepCand_charge","LepCand_dxy","LepCand_dz","LepCand_gen",\
     "LepCand_vse","LepCand_vsmu","LepCand_vsjet","LepCand_muonMediumId","LepCand_muonIso",\
@@ -451,7 +450,7 @@ for c in ("run", "luminosityBlock", "event", \
     "V_genpt","puWeight","puWeightUp","puWeightDown","tauindex","muindex","my_tau","my_mu","taupt","taueta","tauphi","taudz","mupt","mueta","muphi",\
     "mudz","isOS","is_isolated","xsweight","SFweight","mvis","mtrans","mcol","Acopl","zvtxll1",\
     "murecosf","murecosf_stat","murecosf_syst","muidsf","muidsf_stat","muidsf_syst","muisosf","muisosf_stat","muisosf_syst","mutrgsf","mutrgsf_stat","mutrgsf_syst","mutrgsf_crosstrg",\
-    "nTrk","nPUtrk","nHStrk","Acoweight","npvs_weight","npvsDown_weight","npvsUp_weight","nPUtrkweight","nHStrkweight","genAco","eeSF"):
+    "nTrk","nPUtrk","nHStrk","Acoweight","nPUtrkweight","nHStrkweight","genAco","eeSF"):
     columns.push_back(c)
 
 if (isdata):
@@ -476,16 +475,10 @@ else:
     elif (year == "2017"):
         columns.push_back("HLT_IsoMu27")
         columns.push_back("HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1")
-        columns.push_back("L1PreFiringWeight_Nom")
-        columns.push_back("L1PreFiringWeight_Dn")
-        columns.push_back("L1PreFiringWeight_Up")
     else:
         columns.push_back("HLT_IsoMu24")
         columns.push_back("HLT_IsoTkMu24")
         columns.push_back("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1")
-        columns.push_back("L1PreFiringWeight_Nom")
-        columns.push_back("L1PreFiringWeight_Dn")
-        columns.push_back("L1PreFiringWeight_Up")
 if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
     branchlist = list(df.GetColumnNames())
     for taug2weights in list(filter(lambda x: "TauG2Weights" in str(x), branchlist)):

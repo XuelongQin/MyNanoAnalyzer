@@ -227,14 +227,14 @@ float Getwfraction(float mvis, float mtrans,string year){
 
 
 //Inversion of selection criteria to measure the fake rates
-/*float GetFR_mutau_qcd_sys_invertOS(float qcdFR,float FRratio){
+float GetFR_mutau_qcd_sys_invertOS(float qcdFR,float FRratio){
     return qcdFR*FRratio;
 }
 
 float GetFR_mutau_w_sys_invertmT(float wFR,float FRratio){
     return wFR*FRratio;
 }
-*/
+
 //Extrapolation of the fake rates with tauh pT
 float GetFR_mutau_qcd_sys_taupt(float qcdFR, float taupt, int decaymode, int taudecaymode, bool down){
     float mytaupt = taupt;
@@ -299,25 +299,35 @@ float GetFR_mutau_w_sys_ntrk_dm(float wFR, int decaymode, int taudecaymode, bool
 }
 
 //Systematic uncertainty in the Ntracks extrapolation
-/*float GetFR_mutau_qcd_sys_ntrk(float qcdFR, float FRratio){
+float GetFR_mutau_qcd_sys_ntrk(float qcdFR, float FRratio){
     return qcdFR*FRratio;
 }
 
 float GetFR_mutau_w_sys_ntrk(float wFR, float FRratio){
     return wFR*FRratio;
 }
-*/
+
 
 //Systematic uncertainty of Determination of theWand QCD fractions //fix me
-/*float Getwfraction_sys(float wfraction, bool down){
-    if (down){
-        return 0.5*wfraction/(1-0.5*wfraction);
+float Getwfraction_sys(float wfraction, bool down){
+    if (wfraction>=1.0){
+        return 1.0;
     }
     else{
-        return 2*wfraction/(1+wfraction);
+        if (down){
+            return 0.8*wfraction;
+        }
+        else{
+            if (1.2*wfraction>=1.0){
+                return 1.0;
+            }
+            else{
+                return 1.2*wfraction;
+            }
+        }
     }
 }
-*/
+
 
 
 float GetFR_mutau(float qcdFR, float wFR, float wfraction){

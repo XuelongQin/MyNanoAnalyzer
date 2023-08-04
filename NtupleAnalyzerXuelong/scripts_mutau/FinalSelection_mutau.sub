@@ -6,9 +6,6 @@ request_cpus = 8
 +JobFlavour = "workday"
 requirements = (OpSysAndVer =?= "CentOS7")
 
-
-arguments = 2018 GGToTauTau
-queue 1
 arguments = 2018 GGToTauTau_Ctb20
 queue 1
 arguments = 2018 GGToWW

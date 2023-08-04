@@ -1,4 +1,3 @@
-python3 Gethisto_SR_shape.py 2018 GGToTauTau GGTT
 python3 Gethisto_SR_shape.py 2018 GGToTauTau_Ctb20 GGTT
 python3 Gethisto_SR_shape.py 2018 GGToWW GGWW
 python3 Gethisto_SR_shape.py 2018 DY ZTT

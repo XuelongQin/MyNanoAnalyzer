@@ -85,7 +85,6 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
             if decaymode=='0':
                 fitfunc.SetParameter(0, 1.3)
                 fitfunc.SetParameter(1, -6.0)
-                #fitfunc.SetParLimits(2,-20,20)
                 fitfunc.SetParameter(2, 89.6)
                 fitfunc.SetParLimits(2,80,250)
                 fitfunc.SetParameter(3, 56.2)
@@ -101,10 +100,11 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(2, 120)
                 fitfunc.SetParameter(3, 344)
             if decaymode=='11':
-                fitfunc.SetParameter(0, 0.79)
-                fitfunc.SetParameter(1, -5.9)
-                fitfunc.SetParameter(2, -1844)
-                fitfunc.SetParameter(3, 460)
+                fitfunc.SetParameter(0, 0.084)
+                fitfunc.SetParameter(1, -0.1)
+                fitfunc.SetParameter(2, 47.1)
+                fitfunc.SetParameter(3, 4.74)
+                fitfunc.SetParLimits(3,1,150)
 
     if (year=="2017"):
         if leadingname =="1":
@@ -114,18 +114,16 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(2, 83)
                 fitfunc.SetParameter(3, 75)
             if decaymode=='1':
-                fitfunc.SetParameter(0, 0.67)
-                fitfunc.SetParameter(1, 7)
-                fitfunc.SetParLimits(1,0,10)
-                fitfunc.SetParameter(2, 28)
-                fitfunc.SetParLimits(2,0,30)
-                fitfunc.SetParameter(3, 1.0)
-                #fitfunc.SetParLimits(3,0.9,10.0)
+                fitfunc.SetParameter(0, 0.16)
+                fitfunc.SetParameter(1, 2.65)
+                #fitfunc.SetParLimits(1,0,10)
+                fitfunc.SetParameter(2, 0.22)
+                #fitfunc.SetParLimits(2,0,30)
+                fitfunc.SetParameter(3, 11.2)
             if decaymode=='10':
                 fitfunc.SetParameter(0, 0.25)
                 fitfunc.SetParameter(1, -0.29)
                 fitfunc.SetParameter(2, 41.3)
-                #fitfunc.SetParLimits(2,0,15)
                 fitfunc.SetParameter(3, 4.7)
             if decaymode=='11':
                 fitfunc.SetParameter(0, 0.084)
@@ -146,7 +144,7 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(0,0.44)
                 fitfunc.SetParameter(1, -1.6)
                 fitfunc.SetParameter(2, 142)
-                fitfunc.SetParLimits(2,100,150)
+                #fitfunc.SetParLimits(2,100,150)
                 fitfunc.SetParameter(3, 93)
             if decaymode=='10':
                 fitfunc.SetParameter(0, 0.11)
@@ -168,15 +166,14 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(2, 83)
                 fitfunc.SetParameter(3, 75)
             if decaymode=='1':
-                fitfunc.SetParameter(0, 0.66)
-                fitfunc.SetParameter(1, -2.8)
-                fitfunc.SetParameter(2, 152)
-                fitfunc.SetParameter(3, 103)
+                fitfunc.SetParameter(0, 1.18)
+                fitfunc.SetParameter(1, -5.79)
+                fitfunc.SetParameter(2, 181)
+                fitfunc.SetParameter(3, 157)
             if decaymode=='10':
                 fitfunc.SetParameter(0, 0.103)
                 fitfunc.SetParameter(1, 0.47)
                 fitfunc.SetParameter(2, 76.3)
-                #fitfunc.SetParLimits(2,0,20)
                 fitfunc.SetParameter(3, 29)
             if decaymode=='11':
                 fitfunc.SetParameter(0, 0.073)
@@ -198,7 +195,7 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(0,0.44)
                 fitfunc.SetParameter(1, -1.6)
                 fitfunc.SetParameter(2, 142)
-                fitfunc.SetParLimits(2,100,150)
+                #fitfunc.SetParLimits(2,100,150)
                 fitfunc.SetParameter(3, 93)
             if decaymode=='10':
                 fitfunc.SetParameter(0, 0.11)
@@ -227,7 +224,6 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(0, 0.103)
                 fitfunc.SetParameter(1, 0.47)
                 fitfunc.SetParameter(2, 76.3)
-                #fitfunc.SetParLimits(2,0,20)
                 fitfunc.SetParameter(3, 29)
             if decaymode=='11':
                 fitfunc.SetParameter(0, 0.081)
@@ -248,7 +244,6 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(0,0.27)
                 fitfunc.SetParameter(1, -0.87)
                 fitfunc.SetParameter(2, 110)
-                #fitfunc.SetParLimits(2,100,150)
                 fitfunc.SetParameter(3, 39.9)
             if decaymode=='10':
                 fitfunc.SetParameter(0, 0.11)
@@ -256,10 +251,10 @@ def fit_histo(cut, decaymode, variablename , variabletitle,leadingname,leading_s
                 fitfunc.SetParameter(2, 72.7)
                 fitfunc.SetParameter(3, 13.8)
             if decaymode=='11':
-                fitfunc.SetParameter(0, 0.060)
-                fitfunc.SetParameter(1, -0.068)
-                fitfunc.SetParameter(2, 57.5)
-                fitfunc.SetParameter(3, 0.004)
+                fitfunc.SetParameter(0, 0.056)
+                fitfunc.SetParameter(1, -0.024)
+                fitfunc.SetParameter(2, 42.5)
+                fitfunc.SetParameter(3, 0.006)
                 
     TGraph_FR.Fit(fitfunc, "R0")
 
@@ -369,25 +364,23 @@ def fit_histo_ntrk(cut, decaymode, variablename , variabletitle,leadingname,lead
         if leadingname =='1':
             if decaymode == '1':
                 fitfunc1 = TF1("fitfunc1", fitExp, 0, 25, 4)
-                fitfunc1.SetParameter(0, 0.25)
-                fitfunc1.SetParameter(1, 1.3)
-                fitfunc1.SetParameter(2, 0.16)
-                fitfunc1.SetParameter(3, -0.25)
+                
+                fitfunc1.SetParameter(0, 1.3)
+                #fitfunc1.SetParLimits(0,1.0,1.5)
+                fitfunc1.SetParameter(1, 1.57)
+                fitfunc1.SetParameter(2, 0.48)
+                fitfunc1.SetParameter(3, -0.6)
                 
                 
         if leadingname =='2':
             if decaymode=='11':
-                '''fitfunc1 = fitfunc = TF1("fitfunc", fitPoly2, 0, 25, 3)
-                fitfunc1.SetParameter(0, 2.5)
-                fitfunc1.SetParameter(1, -0.02)
-                fitfunc1.SetParameter(2, 0.002)'''
                 fitfunc1 = TF1("fitfunc1", fitExp, 0, 25, 4)
                 fitfunc2 = TF1("fitfunc2", fitPoly2, 25, 100, 3)
-                fitfunc1.SetParameter(0, 1.11)
-                fitfunc1.SetParLimits(0,1,1.2)
-                fitfunc1.SetParameter(1, 0.09)
-                fitfunc1.SetParameter(2, 0.4)
-                fitfunc1.SetParameter(3, -2.3)
+                fitfunc1.SetParameter(0, 1.1)
+                fitfunc1.SetParLimits(0,1.05,1.2)
+                fitfunc1.SetParameter(1, 0.10)
+                fitfunc1.SetParameter(2, 0.44)
+                fitfunc1.SetParameter(3, -2.5)
 
     if year =="2017":
         fitfunc1.SetParameter(0, 0.56)
@@ -398,7 +391,7 @@ def fit_histo_ntrk(cut, decaymode, variablename , variabletitle,leadingname,lead
             if decaymode == '11':
                 fitfunc1 = TF1("fitfunc1", fitExp, 0, 25, 4)
                 fitfunc1.SetParameter(0, 0.54)
-                fitfunc1.SetParLimits(0,0.4,1.2)
+                #fitfunc1.SetParLimits(0,0.4,1.2)
                 fitfunc1.SetParameter(1, 0.95)
                 fitfunc1.SetParameter(2, 0.02)
                 fitfunc1.SetParameter(3, 0.085)
@@ -410,6 +403,13 @@ def fit_histo_ntrk(cut, decaymode, variablename , variabletitle,leadingname,lead
                 fitfunc1.SetParameter(1, 0.94)
                 fitfunc1.SetParameter(2, 0.05)
                 fitfunc1.SetParameter(3, 0.13)
+            if decaymode == '11':
+                fitfunc1 = TF1("fitfunc1", fitExp, 0, 25, 4)
+                fitfunc1.SetParameter(0, 1.05)
+                fitfunc1.SetParLimits(0,0.5,1.2)
+                fitfunc1.SetParameter(1, 0.76)
+                fitfunc1.SetParameter(2, 0.11)
+                fitfunc1.SetParameter(3, 0.26)
         
     if year =="2016pre":
         fitfunc1.SetParameter(0, 0.56)

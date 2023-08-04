@@ -1,4 +1,3 @@
-python3 Gethisto_SR_shape.py 2018 GGToTauTau GGTT
 python3 Gethisto_SR_shape.py 2018 GGToTauTau_Ctb20 GGTT
 python3 Gethisto_SR_shape.py 2018 GGToWW GGWW
 python3 Gethisto_SR_shape.py 2018 DY ZTT
@@ -24,4 +23,4 @@ python3 Gethisto_SR_shape.py 2018 TauC data_obs
 python3 Gethisto_SR_shape.py 2018 TauD data_obs
 hadd -f Histo/HistoSR_2018/Tau.root Histo/HistoSR_2018/TauA.root Histo/HistoSR_2018/TauB.root Histo/HistoSR_2018/TauC.root Histo/HistoSR_2018/TauD.root
 hadd -f Histo/HistoSR_2018/Taug2_tautau_2018.root Histo/HistoSR_2018/ZTT.root Histo/HistoSR_2018/VV.root Histo/HistoSR_2018/TT.root Histo/HistoSR_2018/ST.root Histo/HistoSR_2018/Fake.root Histo/HistoSR_2018/GGToWW.root Histo/HistoSR_2018/GGToTauTau_Ctb20.root Histo/HistoSR_2018/Tau.root
-python3 Gethisto_SR_BSM.py 2018
+source Gethisto_SR_shape_BSM.sh

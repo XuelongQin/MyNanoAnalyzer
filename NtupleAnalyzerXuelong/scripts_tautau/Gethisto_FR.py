@@ -62,7 +62,7 @@ binnum_nt = bins_nt.size-1
 bins = bins_nt
 binnum = binnum_nt
 
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
 df = df.Define("totalweight",weight)
 fout = TFile("Histo/HistoforFR_{}/{}.root".format(year,sample),"recreate")
 
@@ -76,9 +76,9 @@ for DM in [0,1,10,11]:
             binnum = binnum_nt
             QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated" + realcutleading
             QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated" + realcutsubleading
-            if year=="2017":
-                QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index] " + realcutleading
-                QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutsubleading
+            #if year=="2017":
+            #    QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index] " + realcutleading
+            #    QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutsubleading
                 
             histoleading_M = Gethisto_taupt_nTrk("QCD",QCDcutleading,"M", " && leading_isolated",variable, bins, binnum, DM, df, "1")
             histoleading_VVVL = Gethisto_taupt_nTrk("QCD",QCDcutleading,"VVVL", " && !leading_isolated",variable, bins, binnum, DM, df, "1")
@@ -106,9 +106,9 @@ for DM in [0,1,10,11]:
 
             QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated" + realcutleading
             QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated" + realcutsubleading
-            if year=="2017":
-                QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutleading
-                QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutsubleading
+            #if year=="2017":
+            #    QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutleading
+            #    QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutsubleading
             histoleading_M = Gethisto_taupt_nTrk("QCD",QCDcutleading,"M", " && leading_isolated","tau1pt", bins, binnum, DM, df, "1")
             histoleading_VVVL = Gethisto_taupt_nTrk("QCD",QCDcutleading,"VVVL", " && !leading_isolated","tau1pt", bins, binnum, DM, df, "1")
             histosubleading_M = Gethisto_taupt_nTrk("QCD",QCDcutsubleading,"M", " && subleading_isolated","tau2pt", bins, binnum, DM, df, "2")

@@ -20,8 +20,8 @@ TH1.SetDefaultSumw2(True)
 TH2.SetDefaultSumw2(True)
 
 
-nbins = int(8)
-binning = np.array([40,55,70,85,100,150,200,350,500],dtype=float)
+nbins = int(6)
+binning = np.array([55,70,85,100,150,200,250],dtype=float)
 
 
 year = sys.argv[1]
@@ -32,9 +32,7 @@ realcut = " && LepCand_gen[tauindex]!=0"
 if "SingleMuon" in sample:
     realcut = ""
 
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
-if year!="2018":
-    weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF*L1PreFiringWeight_Nom"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
 
 fake_uncertainty = ["CMS_jetfake_tauptextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm0_yearUp", \
     "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
@@ -86,89 +84,19 @@ fake_func = ["GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,0,LepCand_DecayMode[tauindex
     "GetFR_mutau_w_sys_ntrk_dm(wFR,10,LepCand_DecayMode[tauindex],true,\"{}\")".format(year),\
     "GetFR_mutau_w_sys_ntrk_dm(wFR,10,LepCand_DecayMode[tauindex],false,\"{}\")".format(year),\
     "GetFR_mutau_w_sys_ntrk_dm(wFR,11,LepCand_DecayMode[tauindex],true,\"{}\")".format(year),\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,11,LepCand_DecayMode[tauindex],false,\"{}\")".format(year)\
+    "GetFR_mutau_w_sys_ntrk_dm(wFR,11,LepCand_DecayMode[tauindex],false,\"{}\")".format(year),\
     ]
-
-
-'''fake_uncertainty_qcd = [ "CMS_jetfake_qcd_invertOSDown","CMS_jetfake_qcd_invertOSUp",\
-    "CMS_jetfake_tauptextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm0_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_yearUp",\
-    ]
-
-fake_uncertainty_w = ["CMS_jetfake_w_invertMTDown","CMS_jetfake_w_invertMTUp",\
-    "CMS_jetfake_tauptextrap_w_mt_dm0_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm0_yearUp", \
-    "CMS_jetfake_tauptextrap_w_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm1_yearUp", \
-    "CMS_jetfake_tauptextrap_w_mt_dm10_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm10_yearUp", \
-    "CMS_jetfake_tauptextrap_w_mt_dm11_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm0_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm0_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm1_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm1_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm10_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm10_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm11_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_yearDown", "CMS_jetfake_ntracksextrap_w_mt_yearUp",\
-]
-
-fake_uncertainty_wfraction = ["CMS_jetfake_wfractionDown", "CMS_jetfake_wfractionUp"]
-
-func_qcd = ["GetFR_mutau_qcd_sys_invertOS(qcdFR,0.9)",\
-    "GetFR_mutau_qcd_sys_invertOS(qcdFR,1.1)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,0,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,0,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,1,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,1,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,10,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,10,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,11,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_taupt(qcdFR,taupt,11,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,0,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,0,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,1,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,1,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,10,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,10,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,11,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_qcd_sys_ntrk_dm(qcdFR,11,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_qcd_sys_ntrk(qcdFR,0.9)",\
-    "GetFR_mutau_qcd_sys_ntrk(qcdFR,1.1)",\
-]
-
-func_w = ["GetFR_mutau_w_sys_invertmT(wFR,0.9)",\
-    "GetFR_mutau_w_sys_invertmT(wFR,1.1)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,0,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,0,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,1,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,1,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,10,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,10,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,11,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_taupt(wFR,taupt,11,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,0,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,0,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,1,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,1,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,10,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,10,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,11,LepCand_DecayMode[tauindex],true)",\
-    "GetFR_mutau_w_sys_ntrk_dm(wFR,11,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_mutau_w_sys_ntrk(wFR,0.9)",\
-    "GetFR_mutau_w_sys_ntrk(wFR,1.1)",\
-]
-
-func_wfraction = ["Getwfraction_sys(wfraction, true)",\
-    "Getwfraction_sys(wfraction, false)",
-]
-'''
 
 print ("year is ", year , " sample is ", sample, " name is ", name)
 df= RDataFrame("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_{}_basicsel/{}.root".format(year,sample))
 df = df.Define("totalweight",weight)
 fout=0
+year4 = year
+
+if year=="2016pre": year4="2016preVFP"
+if year=="2016post": year4="2016postVFP"
+
+print(" year is ", year, " year4 is ", year4)
 
 if sample == "DY":
     fout = TFile("Histo/HistoSR_anti_{}/{}.root".format(year,name),"recreate")
@@ -224,8 +152,8 @@ if sample == "DY":
     histoDY_mt0_anti = gethisto_anti(df_mt0_anti,"mt0_anti", nbins, binning)
     histoDY_mt1_anti = gethisto_anti(df_mt1_anti,"mt1_anti", nbins, binning)
 
-    histo_mt0_anti = DY_rescale(histoDYhigh_anti,histoDY_mt0_anti)
-    histo_mt1_anti = DY_rescale(histoDYhigh_anti,histoDY_mt1_anti)
+    histo_mt0_anti = DY_rescale(histoDYhigh_anti,histoDY_mt0_anti,0.0242)
+    histo_mt1_anti = DY_rescale(histoDYhigh_anti,histoDY_mt1_anti,0.0501)
 
     print ("mt_0 basic ", histo_mt0_anti.Integral())
     print ("mt_1 basic ", histo_mt1_anti.Integral())
@@ -238,9 +166,11 @@ if sample == "DY":
     
     ### now systematic part
     for i in range(len(fake_uncertainty)):
-        uncertainty_name = str.replace(fake_uncertainty[i],"year",year)
+        uncertainty_name = str.replace(fake_uncertainty[i],"year",year4)
         if ("qcd" in uncertainty_name):
             sysflag = 0
+        elif ("wfraction" in uncertainty_name):
+            sysflag = 2
         else:
             sysflag = 1
         df_DYhigh_anti_sys = df_withFR_anti_sys(df_DYhigh_anti, sysflag, fake_func[i])
@@ -249,8 +179,8 @@ if sample == "DY":
         histoDYhigh_anti_sys = gethisto_anti(df_DYhigh_anti_sys,"DYhigh_anti_{}".format(uncertainty_name), nbins, binning)
         histoDY_mt0_anti_sys = gethisto_anti(df_mt0_anti_sys,"mt0_anti_{}".format(uncertainty_name), nbins, binning)
         histoDY_mt1_anti_sys = gethisto_anti(df_mt1_anti_sys,"mt1_anti_{}".format(uncertainty_name), nbins, binning)
-        histo_mt0_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt0_anti_sys)
-        histo_mt1_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt1_anti_sys)
+        histo_mt0_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt0_anti_sys,0.0242)
+        histo_mt1_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt1_anti_sys,0.0501)
         print ("mt_0 ", uncertainty_name, " ", histo_mt0_anti_sys.Integral())
         print ("mt_1 ", uncertainty_name, " ", histo_mt1_anti_sys.Integral())
         dir0.cd()
@@ -259,61 +189,6 @@ if sample == "DY":
         dir1.cd()
         histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
         histo_mt1_anti_sys.Write()
-        
-    
-    
-    '''
-    for i in range(len(fake_uncertainty_qcd)):
-        uncertainty_name = str.replace(fake_uncertainty_qcd[i],"year","2018")
-        df_DYhigh_anti_sys = df_withFR_anti_sys(df_DYhigh_anti, 0, func_qcd[i])
-        df_mt0_anti_sys = df_withFR_anti_sys(df_mt0_anti, 0, func_qcd[i])
-        df_mt1_anti_sys = df_withFR_anti_sys(df_mt1_anti, 0, func_qcd[i])
-        histoDYhigh_anti_sys = gethisto_anti(df_DYhigh_anti_sys,"DYhigh_anti_{}".format(uncertainty_name), nbins, binning)
-        histoDY_mt0_anti_sys = gethisto_anti(df_mt0_anti_sys,"mt0_anti_{}".format(uncertainty_name), nbins, binning)
-        histoDY_mt1_anti_sys = gethisto_anti(df_mt1_anti_sys,"mt1_anti_{}".format(uncertainty_name), nbins, binning)
-        histo_mt0_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt0_anti_sys)
-        histo_mt1_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt1_anti_sys)
-        dir0.cd()
-        histo_mt0_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt0_anti_sys.Write()
-        dir1.cd()
-        histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt1_anti_sys.Write()
-
-    for i in range(len(fake_uncertainty_w)):
-        uncertainty_name = str.replace(fake_uncertainty_w[i],"year","2018")
-        df_DYhigh_anti_sys = df_withFR_anti_sys(df_DYhigh_anti, 1, func_w[i])
-        df_mt0_anti_sys = df_withFR_anti_sys(df_mt0_anti, 1, func_w[i])
-        df_mt1_anti_sys = df_withFR_anti_sys(df_mt1_anti, 1, func_w[i])
-        histoDYhigh_anti_sys = gethisto_anti(df_DYhigh_anti_sys,"DYhigh_anti_{}".format(uncertainty_name), nbins, binning)
-        histoDY_mt0_anti_sys = gethisto_anti(df_mt0_anti_sys,"mt0_anti_{}".format(uncertainty_name), nbins, binning)
-        histoDY_mt1_anti_sys = gethisto_anti(df_mt1_anti_sys,"mt1_anti_{}".format(uncertainty_name), nbins, binning)
-        histo_mt0_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt0_anti_sys)
-        histo_mt1_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt1_anti_sys)
-        dir0.cd()
-        histo_mt0_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt0_anti_sys.Write()
-        dir1.cd()
-        histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt1_anti_sys.Write()
-        
-    for i in range(len(fake_uncertainty_wfraction)):
-        uncertainty_name = str.replace(fake_uncertainty_wfraction[i],"year","2018")
-        df_DYhigh_anti_sys = df_withFR_anti_sys(df_DYhigh_anti, 2, func_wfraction[i])
-        df_mt0_anti_sys = df_withFR_anti_sys(df_mt0_anti, 2, func_wfraction[i])
-        df_mt1_anti_sys = df_withFR_anti_sys(df_mt1_anti, 2, func_wfraction[i])
-        histoDYhigh_anti_sys = gethisto_anti(df_DYhigh_anti_sys,"DYhigh_anti_{}".format(uncertainty_name), nbins, binning)
-        histoDY_mt0_anti_sys = gethisto_anti(df_mt0_anti_sys,"mt0_anti_{}".format(uncertainty_name), nbins, binning)
-        histoDY_mt1_anti_sys = gethisto_anti(df_mt1_anti_sys,"mt1_anti_{}".format(uncertainty_name), nbins, binning)
-        histo_mt0_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt0_anti_sys)
-        histo_mt1_anti_sys = DY_rescale(histoDYhigh_anti_sys,histoDY_mt1_anti_sys)
-        dir0.cd()
-        histo_mt0_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt0_anti_sys.Write()
-        dir1.cd()
-        histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt1_anti_sys.Write()
-    '''
 
 else:
     df_mt0_anti = df_withFR_anti(df.Filter(mt_0cut+anticut),year)
@@ -331,7 +206,7 @@ else:
     
     ### now systematic part
     for i in range(len(fake_uncertainty)):
-        uncertainty_name = str.replace(fake_uncertainty[i],"year",year)
+        uncertainty_name = str.replace(fake_uncertainty[i],"year",year4)
         if ("qcd" in uncertainty_name):
             sysflag = 0
         elif ("wfraction" in uncertainty_name):
@@ -350,45 +225,4 @@ else:
         dir1.cd()
         histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
         histo_mt1_anti_sys.Write()
-    
-    
-    '''for i in range(len(fake_uncertainty_qcd)):
-        uncertainty_name = str.replace(fake_uncertainty_qcd[i],"year","2018")
-        df_mt0_anti_sys = df_withFR_anti_sys(df_mt0_anti, 0, func_qcd[i])
-        df_mt1_anti_sys = df_withFR_anti_sys(df_mt1_anti, 0, func_qcd[i])
-        histo_mt0_anti_sys = gethisto_anti(df_mt0_anti_sys,"mt0_anti_{}".format(uncertainty_name), nbins, binning)
-        histo_mt1_anti_sys = gethisto_anti(df_mt1_anti_sys,"mt1_anti_{}".format(uncertainty_name), nbins, binning)
-        dir0.cd()
-        histo_mt0_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt0_anti_sys.Write()
-        dir1.cd()
-        histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt1_anti_sys.Write()
-
-    for i in range(len(fake_uncertainty_w)):
-        uncertainty_name = str.replace(fake_uncertainty_w[i],"year","2018")
-        df_mt0_anti_sys = df_withFR_anti_sys(df_mt0_anti, 0, func_w[i])
-        df_mt1_anti_sys = df_withFR_anti_sys(df_mt1_anti, 0, func_w[i])
-        histo_mt0_anti_sys = gethisto_anti(df_mt0_anti_sys,"mt0_anti_{}".format(uncertainty_name), nbins, binning)
-        histo_mt1_anti_sys = gethisto_anti(df_mt1_anti_sys,"mt1_anti_{}".format(uncertainty_name), nbins, binning)
-        dir0.cd()
-        histo_mt0_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt0_anti_sys.Write()
-        dir1.cd()
-        histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt1_anti_sys.Write()
-
-    for i in range(len(fake_uncertainty_wfraction)):
-        uncertainty_name = str.replace(fake_uncertainty_wfraction[i],"year","2018")
-        df_mt0_anti_sys = df_withFR_anti_sys(df_mt0_anti, 0, func_wfraction[i])
-        df_mt1_anti_sys = df_withFR_anti_sys(df_mt1_anti, 0, func_wfraction[i])
-        histo_mt0_anti_sys = gethisto_anti(df_mt0_anti_sys,"mt0_anti_{}".format(uncertainty_name), nbins, binning)
-        histo_mt1_anti_sys = gethisto_anti(df_mt1_anti_sys,"mt1_anti_{}".format(uncertainty_name), nbins, binning)
-        dir0.cd()
-        histo_mt0_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt0_anti_sys.Write()
-        dir1.cd()
-        histo_mt1_anti_sys.SetName("{}_anti_{}".format(name,uncertainty_name))
-        histo_mt1_anti_sys.Write()
-    '''
 fout.Close()

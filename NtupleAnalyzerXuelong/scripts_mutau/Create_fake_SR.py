@@ -37,13 +37,17 @@ if __name__ == "__main__":
     fout=ROOT.TFile("Histo/HistoSR_"+options.year+"/Fake.root","recreate")
     ncat=2
     cate = ["mt_0", "mt_1"]
+    year4=options.year
+    if options.year=="2016pre": year4="2016preVFP"
+    if options.year=="2016post": year4="2016postVFP"
     for j in range(0,ncat):
         
 
         dir0=fout.mkdir(cate[j])
 
         for k in range(0,nbhist):
-            postfix = str.replace(postfixName[k],"year",options.year)
+            print ("k = ", k)
+            postfix = str.replace(postfixName[k],"year",year4)
             h0=fData.Get("{}/data_obs_anti{}".format(cate[j], postfix))
             h0.Add(fVV.Get("{}/VV_anti{}".format(cate[j], postfix)),-1)
             h0.Add(fZLL.Get("{}/ZLL_anti{}".format(cate[j], postfix)),-1)
@@ -52,7 +56,7 @@ if __name__ == "__main__":
             h0.Add(fST.Get("{}/ST_anti{}".format(cate[j], postfix)),-1)
             for i in range(0,h0.GetSize()-2):
                 if h0.GetBinContent(i)<0:
-                    h0.SetBinError(i,max(0,h0.GetBinError(i)+h0.GetBinError(i)))
+                    #h0.SetBinError(i,max(0,h0.GetBinError(i)+h0.GetBinError(i)))
                     h0.SetBinContent(i,0)
             fout.cd()
             dir0.cd()

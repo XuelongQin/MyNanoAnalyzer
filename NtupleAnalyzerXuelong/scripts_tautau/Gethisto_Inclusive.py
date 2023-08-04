@@ -62,7 +62,7 @@ if ("Tau" in sample):
     realcutsubleading = ""
     realcutdouble = ""
     
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
 
 print ("year is ", year , " sample is ", sample)
 df= RDataFrame("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}_basicsel/{}.root".format(year,sample))
@@ -74,8 +74,8 @@ else:
     fout = TFile("Histo/HistoInclu_{}/{}.root".format(year,sample),"recreate")
 for var in variablelist:
     cut = "nTrk>=0 && tau1pt>40 && tau2pt>40 && mvis>40"
-    if year == "2017":
-        cut = "nTrk>=0 && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
+    #if year == "2017":
+    #    cut = "nTrk>=0 && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
     cutiso = cut+" && isOS && leading_isolated && subleading_isolated" + realcutleading + realcutsubleading
     
     cutleadingfake = cut + " && isOS && !leading_isolated && subleading_isolated " + realcutleading

@@ -27,10 +27,13 @@ if __name__ == "__main__":
     fout=ROOT.TFile("Histo/HistoSR_"+options.year+"/Fake.root","recreate")
     ncat=2
     cate = ["tt_0", "tt_1"]
+    year4=options.year
+    if options.year=="2016pre": year4="2016preVFP"
+    if options.year=="2016post": year4="2016postVFP"
     for j in range(0,ncat):
         dir0=fout.mkdir(cate[j])
         for k in range(0,nbhist):
-            postfix = str.replace(postfixName[k],"year","2018")
+            postfix = str.replace(postfixName[k],"year",year4)
             
             h0=fData.Get("{}/data_obs_antileading{}".format(cate[j], postfix))
             h0.Add(fVV.Get("{}/VV_antileading{}".format(cate[j], postfix)),-1)

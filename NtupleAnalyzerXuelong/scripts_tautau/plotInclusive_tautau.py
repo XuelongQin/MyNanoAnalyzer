@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys
 sys.path.append("..")
-from pyFunc.gethisto import variable
+from pyFunc.gethisto_SR_tautau import variable
 import ROOT
 import re
 import argparse

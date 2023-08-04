@@ -17,6 +17,8 @@ def add_lumi(year):
     if (year=="2018"): lumi.AddText("2018, 60 fb^{-1} (13 TeV)")
     if (year=="2017"): lumi.AddText("2017, 41 fb^{-1} (13 TeV)")
     if (year=="2016"): lumi.AddText("2016, 36 fb^{-1} (13 TeV)")
+    if (year=="2016pre"): lumi.AddText("2016 preVFP, 19 fb^{-1} (13 TeV)")
+    if (year=="2016post"): lumi.AddText("2016 postVFP, 16 fb^{-1} (13 TeV)")
     return lumi
 
 def add_CMS():
@@ -76,7 +78,7 @@ args = parser.parse_args()
 
 c=ROOT.TCanvas("canvas","",0,0,800,800)
 c.cd()
-
+print ("./Histo/HistoSR_{}/Taug2_mutau_{}.root".format(args.year,args.year))
 file=ROOT.TFile("./Histo/HistoSR_{}/Taug2_mutau_{}.root".format(args.year,args.year),"r")
 
 adapt=ROOT.gROOT.GetColor(12)
@@ -96,7 +98,9 @@ ZTT=file.Get(args.channel).Get("ZTT")
 ZLL = file.Get(args.channel).Get("ZLL")
 ST=file.Get(args.channel).Get("ST")
 GGTT=file.Get(args.channel).Get("GGTT")
-GGWW=file.Get(args.channel).Get("GGWW")
+GGWW=0
+if (args.year == "2017" or args.year=="2018"):
+    GGWW=file.Get(args.channel).Get("GGWW")
 VV.Add(ST.Clone())
 #VV.Add(W.Clone())
 Fake=file.Get(args.channel).Get("Fake")
@@ -124,7 +128,8 @@ ZTT.SetFillColor(ROOT.TColor.GetColor("#f6cd61"))
 ZLL.SetFillColor(ROOT.TColor.GetColor("#969df1"))
 VV.SetFillColor(ROOT.TColor.GetColor("#ff8c94"))
 Fake.SetFillColor(ROOT.TColor.GetColor("#3da4ab"))
-GGWW.SetFillColor(ROOT.kGreen+1)
+if (args.year == "2017" or args.year=="2018"):
+    GGWW.SetFillColor(ROOT.kGreen+1)
 
 Data.SetMarkerStyle(20)
 Data.SetMarkerSize(1)
@@ -136,7 +141,8 @@ Fake.SetLineColor(1)
 Data.SetLineColor(1)
 Data.SetLineWidth(2)
 
-GGWW.SetLineColor(1)
+if (args.year == "2017" or args.year=="2018"):
+    GGWW.SetLineColor(1)
 
 
 GGTT.SetLineColor(2)
@@ -149,7 +155,8 @@ stack.Add(Fake)
 stack.Add(VV)
 stack.Add(ZTT)
 stack.Add(ZLL)
-stack.Add(GGWW)
+if (args.year == "2017" or args.year=="2018"):
+    stack.Add(GGWW)
 stack.Add(GGTTfull)
 
 errorBand = ZTT.Clone()
@@ -157,7 +164,8 @@ errorBand.Add(TT)
 errorBand.Add(ZLL)
 errorBand.Add(VV)
 errorBand.Add(Fake)
-errorBand.Add(GGWW)
+if (args.year == "2017" or args.year=="2018"):
+    errorBand.Add(GGWW)
 errorBand.Add(GGTTfull)
 
 errorBand.SetMarkerSize(0)
@@ -200,7 +208,8 @@ legende.AddEntry(ZLL,"Z#rightarrow #mu#mu","f")
 legende.AddEntry(TT,"t#bar{t}","f")
 legende.AddEntry(VV,"VV,single-t","f")
 legende.AddEntry(Fake,"Fake","f")
-legende.AddEntry(GGWW,"#gamma#gamma#rightarrow WW","f")
+if (args.year == "2017" or args.year=="2018"):
+    legende.AddEntry(GGWW,"#gamma#gamma#rightarrow WW","f")
 #legende.AddEntry(GGTT,"Signal x 3","l")
 legende.AddEntry(GGTTfull,"Signal","f")
 legende.AddEntry(errorBand,"Uncertainty","f")
@@ -240,8 +249,8 @@ pad2.SetGridy()
 pad2.Draw()
 pad2.cd()
 h1=Data.Clone()
-h1.SetMaximum(2.0)#FIXME(1.5)
-h1.SetMinimum(0.0)#FIXME(0.5)
+h1.SetMaximum(1.5)#FIXME(1.5)
+h1.SetMinimum(0.5)#FIXME(0.5)
 h1.SetMarkerStyle(20)
 h3=errorBand.Clone()
 hwoE=errorBand.Clone()

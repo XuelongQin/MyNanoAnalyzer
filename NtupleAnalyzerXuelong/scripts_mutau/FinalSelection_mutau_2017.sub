@@ -7,7 +7,7 @@ request_cpus = 8
 requirements = (OpSysAndVer =?= "CentOS7")
 
 
-arguments = 2017 GGToTauTau
+arguments = 2017 GGToTauTau_Ctb20
 queue 1
 arguments = 2017 GGToWW
 queue 1

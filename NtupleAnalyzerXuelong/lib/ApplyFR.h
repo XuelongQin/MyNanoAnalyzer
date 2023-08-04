@@ -60,15 +60,15 @@ class mutauFR
 float GetFR_mutau_qcd(int taudecaymode, float taupt, int nTrk, bool isMuonTauTrigger,string year);
 float GetFR_mutau_w(int taudecaymode, float taupt, int nTrk, bool isMuonTauTrigger, string year);
 float Getwfraction(float mvis, float mtrans,string year);
-//float GetFR_mutau_qcd_sys_invertOS(float qcdFR,float FRratio);
-//float GetFR_mutau_w_sys_invertmT(float wFR,float FRratio);
+float GetFR_mutau_qcd_sys_invertOS(float qcdFR,float FRratio);
+float GetFR_mutau_w_sys_invertmT(float wFR,float FRratio);
 float GetFR_mutau_qcd_sys_taupt(float qcdFR, float taupt, int decaymode, int taudecaymode, bool down);
 float GetFR_mutau_w_sys_taupt(float wFR, float taupt, int decaymode, int taudecaymode, bool down);
 float GetFR_mutau_qcd_sys_ntrk_dm(float qcdFR, int decaymode, int taudecaymode, bool down,string year);
 float GetFR_mutau_w_sys_ntrk_dm(float qcdFR, int decaymode, int taudecaymode, bool down, string year);
-//float GetFR_mutau_qcd_sys_ntrk(float qcdFR, float FRratio);
-//float GetFR_mutau_w_sys_ntrk(float wFR, float FRratio);
-//float Getwfraction_sys(float wfraction, bool down);
+float GetFR_mutau_qcd_sys_ntrk(float qcdFR, float FRratio);
+float GetFR_mutau_w_sys_ntrk(float wFR, float FRratio);
+float Getwfraction_sys(float wfraction, bool down);
 float GetFR_mutau(float qcdFR, float wFR, float wfraction);
 
 

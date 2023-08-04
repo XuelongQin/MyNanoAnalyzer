@@ -65,14 +65,14 @@ def df_withFR_anti_sys(df_withFR, sysflag, func):
 
 def gethisto_anti(df,name,nbins,binning):
     hmodel = TH1DModel("h_{}_{}".format("mvis",name),"",nbins,binning)
-    histo = df.Redefine("mvis","TMath::Min(float(499.),float(mvis))")\
+    histo = df.Redefine("mvis","TMath::Min(float(249.),float(mvis))")\
         .Define("plotweight","totalweight*FR").Histo1D(hmodel,"mvis","plotweight").GetPtr()
     return histo
 
 
-def DY_rescale(histoDY_highntrk,histoDY):
+def DY_rescale(histoDY_highntrk,histoDY,SF):
     histo_rescale = histoDY_highntrk.Clone("DY_rescale")
-    SF = histoDY.Integral()/histoDY_highntrk.Integral()
+    #SF = histoDY.Integral()/histoDY_highntrk.Integral()
     histo_rescale.Scale(SF)
     return histo_rescale
 
@@ -100,12 +100,12 @@ def df_sys(df,cut,sysflag,func):
 
 def gethisto(df,name,nbins,binning):
     hmodel = TH1DModel("h_{}_{}".format("mvis",name),"",nbins,binning)
-    histo = df.Redefine("mvis","TMath::Min(float(499.),float(mvis))")\
+    histo = df.Redefine("mvis","TMath::Min(float(249.),float(mvis))")\
         .Define("plotweight","totalweight").Histo1D(hmodel,"mvis","plotweight").GetPtr()
     return histo
 
 def gethisto_BSM(df,name,TauG2Weights,nbins,binning):
     hmodel = TH1DModel("h_{}_{}_{}".format("mvis",name,TauG2Weights),"",nbins,binning)
-    histo = df.Redefine("mvis","TMath::Min(float(499.),float(mvis))")\
+    histo = df.Redefine("mvis","TMath::Min(float(249.),float(mvis))")\
         .Define("plotweight","totalweight*{}".format(TauG2Weights)).Histo1D(hmodel,"mvis","plotweight").GetPtr()
     return histo

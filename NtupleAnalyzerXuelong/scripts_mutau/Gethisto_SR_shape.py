@@ -21,9 +21,8 @@ TH1.SetDefaultSumw2(True)
 TH2.SetDefaultSumw2(True)
 
 
-nbins = int(8)
-binning = np.array([40,55,70,85,100,150,200,350,500],dtype=float)
-
+nbins = int(6)
+binning = np.array([55,70,85,100,150,200,250],dtype=float)
 
 year = sys.argv[1]
 sample = sys.argv[2]
@@ -33,10 +32,16 @@ realcut = " && LepCand_gen[tauindex]!=0"
 if "SingleMuon" in sample or "GGToTauTau" in sample:
     realcut = ""
 
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
 
-if name == "GGTT":
-    weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33_0p0"
+
+if "GGTT" in name:
+    if name == "GGTT":
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33_0p0"
+    else:
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33"+name[4:]
+    print ("name is ", name, " weight is ", weight)
+
 
 uncertainty = ["_CMS_tauid_stat1_dm0_yearDown","_CMS_tauid_stat1_dm0_yearUp","_CMS_tauid_stat1_dm1_yearDown","_CMS_tauid_stat1_dm1_yearUp","_CMS_tauid_stat1_dm10_yearDown","_CMS_tauid_stat1_dm10_yearUp","_CMS_tauid_stat1_dm11_yearDown","_CMS_tauid_stat1_dm11_yearUp",\
         "_CMS_tauid_stat2_dm0_yearDown","_CMS_tauid_stat2_dm0_yearUp","_CMS_tauid_stat2_dm1_yearDown","_CMS_tauid_stat2_dm1_yearUp","_CMS_tauid_stat2_dm10_yearDown","_CMS_tauid_stat2_dm10_yearUp","_CMS_tauid_stat2_dm11_yearDown","_CMS_tauid_stat2_dm11_yearUp", \
@@ -83,8 +88,8 @@ uncertainty_func = ["Gettauidsysweight_dm(0,LepCand_DecayMode[tauindex],LepCand_
         "Gettauantimusysweight(true,LepCand_gen[tauindex],LepCand_antimusf[tauindex], LepCand_antimusf_up[tauindex],taueta)",\
         "Gettauantimusysweight(false,LepCand_gen[tauindex],LepCand_antimusf[tauindex], LepCand_antimusf_down[tauindex],taueta)",\
         "Gettauantimusysweight(false,LepCand_gen[tauindex],LepCand_antimusf[tauindex], LepCand_antimusf_up[tauindex],taueta)",\
-        "Getpusysweight(puWeight,puWeightDown,npvs_weight,npvsDown_weight)",\
-        "Getpusysweight(puWeight,puWeightUp,npvs_weight,npvsUp_weight)", \
+        "Getpusysweight(puWeight,puWeightDown,1.0,1.0)",\
+        "Getpusysweight(puWeight,puWeightUp,1.0,1.0)", \
         "Getmutautrgweight(isMuonTauTrigger,LepCand_tautriggersf[tauindex],0.98*LepCand_tautriggersf_down[tauindex])",\
         "Getmutautrgweight(isMuonTauTrigger,LepCand_tautriggersf[tauindex],1.02*LepCand_tautriggersf_up[tauindex])",\
         "Getsinglemutrgweight(isSingleMuonTrigger,mutrgsf,mutrgsf-mutrgsf_syst)",\
@@ -107,26 +112,33 @@ uncertainty_func = ["Gettauidsysweight_dm(0,LepCand_DecayMode[tauindex],LepCand_
         "Getmusysweight(muisosf,muisosf+muisosf_stat)",\
         ]
 
-if year!="2018":
-    uncertainty.append("_CMS_L1PrefiringDown")
-    uncertainty.append("_CMS_L1PrefiringUp")
-    uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Dn)")
-    uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Up)")
+uncertainty.append("_CMS_L1PrefiringDown")
+uncertainty.append("_CMS_L1PrefiringUp")
+uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Dn)")
+uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Up)")
 
-if name=="GGTT" or name=="GGWW":
+if "GGTT" in name or name=="GGWW":
     uncertainty.append("_CMS_elasticRescalingDown")
     uncertainty.append("_CMS_elasticRescalingUp")
     uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,true)")
     uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,false)")
 
+year4 = year
+if year=="2016pre": year4="2016preVFP"
+if year=="2016post": year4="2016postVFP"
 
-print ("year is ", year , " sample is ", sample, " name is ", name)
+print ("year is ", year , " year4 is ", year4, " sample is ", sample, " name is ", name)
 df= RDataFrame("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_{}_basicsel/{}.root".format(year,sample))
 df = df.Define("totalweight",weight)
 fout=0
 
 if sample == "DY":
     fout = TFile("Histo/HistoSR_{}/{}.root".format(year,name),"recreate")
+elif "GGToTauTau" in sample:
+    if name == "GGTT":
+        fout = TFile("Histo/HistoSR_{}/{}.root".format(year,sample),"recreate")
+    else: 
+        fout = TFile("Histo/HistoSR_{}/BSM/{}.root".format(year,name),"recreate")
 else:
     fout = TFile("Histo/HistoSR_{}/{}.root".format(year,sample),"recreate")
     
@@ -188,33 +200,21 @@ if sample == "DY":
     
     '''
 
-    histo_mt0 = DY_rescale(histoDYhigh,histoDY_mt0)
-    histo_mt1 = DY_rescale(histoDYhigh,histoDY_mt1)
+    histo_mt0 = DY_rescale(histoDYhigh,histoDY_mt0,0.0242)
+    histo_mt1 = DY_rescale(histoDYhigh,histoDY_mt1,0.0501)
 
     
     print ("mt_0 basic ", histo_mt0.Integral())
     print ("mt_1 basic ", histo_mt1.Integral())
     dir0.cd()
-    '''histoDYhigh.SetName("{}high".format(name))
-    histoDY_mt0.SetName("{}_mt0".format(name))
-    histo_mt0.SetName("{}".format(name))
-    histoDYhigh.Write()
-    histoDY_mt0.Write()'''
     histo_mt0.SetName("{}".format(name))
     histo_mt0.Write()
     dir1.cd()
-    '''histoDYhigh.SetName("{}high".format(name))
-    histoDY_mt1.SetName("{}_mt1".format(name))
-    histo_mt1.SetName("{}".format(name))
-    histoDYhigh.Write()
-    histoDY_mt1.Write()'''
     histo_mt1.SetName("{}".format(name))
     histo_mt1.Write()
-    #fout.Close()
-    #exit(0)
     ### now systematic part
     for i in range(len(uncertainty)):
-        uncertainty_name = str.replace(uncertainty[i],"year",year)
+        uncertainty_name = str.replace(uncertainty[i],"year",year4)
         if ("taues" in uncertainty_name):
             sysflag = 1
         else:
@@ -225,8 +225,8 @@ if sample == "DY":
         histoDYhigh_sys = gethisto(df_DYhigh_sys,"DYhigh_{}".format(uncertainty_name), nbins, binning)
         histoDY_mt0_sys = gethisto(df_mt0_sys,"mt0_{}".format(uncertainty_name), nbins, binning)
         histoDY_mt1_sys = gethisto(df_mt1_sys,"mt1_{}".format(uncertainty_name), nbins, binning)
-        histo_mt0_sys = DY_rescale(histoDYhigh_sys,histoDY_mt0_sys)
-        histo_mt1_sys = DY_rescale(histoDYhigh_sys,histoDY_mt1_sys)
+        histo_mt0_sys = DY_rescale(histoDYhigh_sys,histoDY_mt0_sys,0.0242)
+        histo_mt1_sys = DY_rescale(histoDYhigh_sys,histoDY_mt1_sys,0.0501)
         print ("mt_0 ", uncertainty_name, " ", uncertainty_func[i]," ", histo_mt0_sys.Integral())
         print ("mt_1 ", uncertainty_name, " ", uncertainty_func[i]," ", histo_mt1_sys.Integral())
         dir0.cd()
@@ -254,7 +254,7 @@ else:
     ### now systematic part
     if (name != "data_obs"):
         for i in range(len(uncertainty)):
-            uncertainty_name = str.replace(uncertainty[i],"year",year)
+            uncertainty_name = str.replace(uncertainty[i],"year",year4)
             if ("taues" in uncertainty_name):
                 sysflag = 1
             else:

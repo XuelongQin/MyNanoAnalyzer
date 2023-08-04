@@ -15,14 +15,14 @@ ROOT.gInterpreter.Declare('#include "GetPFtrk.h"')
 ROOT.gInterpreter.Declare('#include "Correction.h"')
 ROOT.gInterpreter.Declare('#include "ApplyFR.h"')
 ROOT.gSystem.Load('/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/lib/RDFfunc.so')
-
+ROOT.EnableImplicitMT()
 
 TH1.SetDefaultSumw2(True)
 TH2.SetDefaultSumw2(True)
 
 
-nbins = int(8)
-binning = np.array([40,55,70,85,100,150,200,350,500],dtype=float)
+nbins = int(5)
+binning = np.array([70,85,100,150,200,250],dtype=float)
 
 
 year = sys.argv[1]
@@ -33,9 +33,13 @@ realcut = " && LepCand_gen[tau1index]!=0 && LepCand_gen[tau2index]!=0 "
 if "Tau" in sample:
     realcut = ""
     
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
-if name == "GGTT":
-    weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33_0p0"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
+if "GGTT" in name:
+    if name == "GGTT":
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33_0p0"
+    else:
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33"+name[4:]
+    print ("name is ", name, " weight is ", weight)
 
 uncertainty = ["_CMS_tauid_stat1_dm0_yearDown","_CMS_tauid_stat1_dm0_yearUp","_CMS_tauid_stat1_dm1_yearDown","_CMS_tauid_stat1_dm1_yearUp","_CMS_tauid_stat1_dm10_yearDown","_CMS_tauid_stat1_dm10_yearUp","_CMS_tauid_stat1_dm11_yearDown","_CMS_tauid_stat1_dm11_yearUp",\
     "_CMS_tauid_stat2_dm0_yearDown","_CMS_tauid_stat2_dm0_yearUp","_CMS_tauid_stat2_dm1_yearDown","_CMS_tauid_stat2_dm1_yearUp","_CMS_tauid_stat2_dm10_yearDown","_CMS_tauid_stat2_dm10_yearUp","_CMS_tauid_stat2_dm11_yearDown","_CMS_tauid_stat2_dm11_yearUp", \
@@ -78,8 +82,8 @@ uncertainty_func = ["Gettauidsysweight_dm(0,LepCand_DecayMode[tauindex],LepCand_
     "Getditautrigweight(1,LepCand_DecayMode[tauindex],LepCand_tautriggersf[tauindex],LepCand_tautriggersf_up[tauindex])",\
     "Getditautrigweight(1011,LepCand_DecayMode[tauindex],LepCand_tautriggersf[tauindex],LepCand_tautriggersf_down[tauindex])",\
     "Getditautrigweight(1011,LepCand_DecayMode[tauindex],LepCand_tautriggersf[tauindex],LepCand_tautriggersf_up[tauindex])",\
-    "Getpusysweight(puWeight,puWeightDown,npvs_weight,npvsDown_weight)",\
-    "Getpusysweight(puWeight,puWeightUp,npvs_weight,npvsUp_weight)",\
+    "Getpusysweight(puWeight,puWeightDown,1.0,1.0)",\
+    "Getpusysweight(puWeight,puWeightUp,1.0,1.0)",\
     "Gettauessys(0,LepCand_DecayMode[tauindex],LepCand_gen[tauindex],LepCand_taues[tauindex],LepCand_taues_down[tauindex],my_tau)",\
     "Gettauessys(0,LepCand_DecayMode[tauindex],LepCand_gen[tauindex],LepCand_taues[tauindex],LepCand_taues_up[tauindex],my_tau)",\
     "Gettauessys(1,LepCand_DecayMode[tauindex],LepCand_gen[tauindex],LepCand_taues[tauindex],LepCand_taues_down[tauindex],my_tau)",\
@@ -88,7 +92,12 @@ uncertainty_func = ["Gettauidsysweight_dm(0,LepCand_DecayMode[tauindex],LepCand_
     "Gettauessys(1011,LepCand_DecayMode[tauindex],LepCand_gen[tauindex],LepCand_taues[tauindex],LepCand_taues_up[tauindex],my_tau)",\
     ]
 
-if name=="GGTT" or name=="GGWW":
+uncertainty.append("_CMS_L1PrefiringDown")
+uncertainty.append("_CMS_L1PrefiringUp")
+uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Dn)")
+uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Up)")
+
+if "GGTT" in name or name=="GGWW":
     uncertainty.append("_CMS_elasticRescalingDown")
     uncertainty.append("_CMS_elasticRescalingUp")
     uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,true)")
@@ -98,9 +107,18 @@ print ("year is ", year , " sample is ", sample, " name is ", name)
 df= RDataFrame("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}_basicsel/{}.root".format(year,sample))
 df = df.Define("totalweight",weight)
 fout=0
+year4 = year
+
+if year=="2016pre": year4="2016preVFP"
+if year=="2016post": year4="2016postVFP"
 
 if sample == "DY":
     fout = TFile("Histo/HistoSR_{}/{}.root".format(year,name),"recreate")
+elif "GGToTauTau" in sample:
+    if name == "GGTT":
+        fout = TFile("Histo/HistoSR_{}/{}.root".format(year,sample),"recreate")
+    else: 
+        fout = TFile("Histo/HistoSR_{}/BSM/{}.root".format(year,name),"recreate")
 else:
     fout = TFile("Histo/HistoSR_{}/{}.root".format(year,sample),"recreate")
     
@@ -108,10 +126,10 @@ tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
 tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
 DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
 
-if year=="2017":
-    tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
-    tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
-    DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
+#if year=="2017":
+#    tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
+#    tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
+#    DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
     
 
 isocut = "&& isOS && leading_isolated && subleading_isolated "
@@ -142,8 +160,8 @@ if sample == "DY":
 
     fout.Close()
     exit(0)'''
-    histo_tt0 = DY_rescale(histoDYhigh,histoDY_tt0)
-    histo_tt1 = DY_rescale(histoDYhigh,histoDY_tt1)
+    histo_tt0 = DY_rescale(histoDYhigh,histoDY_tt0,0.0242)
+    histo_tt1 = DY_rescale(histoDYhigh,histoDY_tt1,0.0501)
     
     print ("tt_0 basic ", histo_tt0.Integral())
     print ("tt_1 basic ", histo_tt1.Integral())
@@ -157,7 +175,7 @@ if sample == "DY":
     
     ### now systematic part
     for i in range(len(uncertainty)):
-        uncertainty_name = str.replace(uncertainty[i],"year",year)
+        uncertainty_name = str.replace(uncertainty[i],"year",year4)
         if ("taues" in uncertainty_name):
             sysflag = 2
         elif ("pileup" in uncertainty_name or "elasticRescaling" in uncertainty_name):
@@ -170,8 +188,8 @@ if sample == "DY":
         histoDYhigh_sys = gethisto(df_DYhigh_sys,"DYhigh_{}".format(uncertainty_name), nbins, binning)
         histoDY_tt0_sys = gethisto(df_tt0_sys,"tt0_{}".format(uncertainty_name), nbins, binning)
         histoDY_tt1_sys = gethisto(df_tt1_sys,"tt1_{}".format(uncertainty_name), nbins, binning)
-        histo_tt0_sys = DY_rescale(histoDYhigh_sys,histoDY_tt0_sys)
-        histo_tt1_sys = DY_rescale(histoDYhigh_sys,histoDY_tt1_sys)
+        histo_tt0_sys = DY_rescale(histoDYhigh_sys,histoDY_tt0_sys,0.0242)
+        histo_tt1_sys = DY_rescale(histoDYhigh_sys,histoDY_tt1_sys,0.0501)
         print ("tt_0 ", uncertainty_name, " ", histo_tt0_sys.Integral())
         print ("tt_1 ", uncertainty_name, " ", histo_tt1_sys.Integral())
         dir0.cd()
@@ -200,7 +218,7 @@ else:
     ### now systematic part
     if (name != "data_obs"):
         for i in range(len(uncertainty)):
-            uncertainty_name = str.replace(uncertainty[i],"year",year)
+            uncertainty_name = str.replace(uncertainty[i],"year",year4)
             if ("taues" in uncertainty_name):
                 sysflag = 2
             elif ("pileup" in uncertainty_name or "elasticRescaling" in uncertainty_name):

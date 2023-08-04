@@ -102,7 +102,7 @@ binnum_nt = bins_nt.size-1
 bins = bins_nt
 binnum = binnum_nt
 
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
 df = df.Define("totalweight",weight).Define("totalweight2","totalweight*totalweight")
 fout = TFile("Histo/HistoforFR_{}/{}.root".format(year,sample),"recreate")
 

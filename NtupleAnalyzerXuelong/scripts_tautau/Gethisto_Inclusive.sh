@@ -1,4 +1,3 @@
-python3 Gethisto_Inclusive.py 2018 GGToTauTau GGTT
 python3 Gethisto_Inclusive.py 2018 DY ZTT
 python3 Gethisto_Inclusive.py 2018 ST_t_top ST
 python3 Gethisto_Inclusive.py 2018 ST_t_antitop ST

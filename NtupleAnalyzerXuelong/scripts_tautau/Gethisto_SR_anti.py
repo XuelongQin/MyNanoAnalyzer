@@ -20,8 +20,8 @@ TH1.SetDefaultSumw2(True)
 TH2.SetDefaultSumw2(True)
 
 
-nbins = int(8)
-binning = np.array([40,55,70,85,100,150,200,350,500],dtype=float)
+nbins = int(5)
+binning = np.array([70,85,100,150,200,250],dtype=float)
 
 year = sys.argv[1]
 sample = sys.argv[2]
@@ -36,7 +36,7 @@ if "Tau" in sample:
     realcutdouble = ""
     
 
-weight = "xsweight*SFweight*Acoweight*npvs_weight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
 
 fake_uncertainty = ["CMS_jetfake_tauptextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm0_yearUp", \
     "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
@@ -70,6 +70,10 @@ print ("year is ", year , " sample is ", sample, " name is ", name)
 df= RDataFrame("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}_basicsel/{}.root".format(year,sample))
 df = df.Define("totalweight",weight)
 fout=0
+year4 = year
+
+if year=="2016pre": year4="2016preVFP"
+if year=="2016post": year4="2016postVFP"
 
 if sample == "DY":
     fout = TFile("Histo/HistoSR_anti_{}/{}.root".format(year,name),"recreate")
@@ -80,10 +84,10 @@ tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
 tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
 DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
 
-if year == "2017":
-    tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
-    tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
-    DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
+#if year == "2017":
+#    tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
+#    tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
+#    DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
     
 
 anticutleading = "&& isOS && !leading_isolated && subleading_isolated "
@@ -127,13 +131,13 @@ if sample == "DY":
     histoDY_tt1_antisubleading = gethisto_anti(df_tt1_antisubleading,"tt1_antisubleading", nbins, binning)
     histoDY_tt1_antidouble = gethisto_anti(df_tt1_antidouble,"tt1_antidouble", nbins, binning)
     
-    histo_tt0_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt0_antileading)
-    histo_tt0_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt0_antisubleading)
-    histo_tt0_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt0_antidouble)
+    histo_tt0_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt0_antileading,0.0242)
+    histo_tt0_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt0_antisubleading,0.0242)
+    histo_tt0_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt0_antidouble,0.0242)
 
-    histo_tt1_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt1_antileading)
-    histo_tt1_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt1_antisubleading)
-    histo_tt1_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt1_antidouble)
+    histo_tt1_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt1_antileading,0.0501)
+    histo_tt1_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt1_antisubleading,0.0501)
+    histo_tt1_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt1_antidouble,0.0501)
     
     print ("tt_0 basic antileading ", histo_tt0_antileading.Integral(), " antisubleading ", histo_tt0_antisubleading.Integral()," antidouble ", histo_tt0_antidouble.Integral() )
     print ("tt_1 basic antileading ", histo_tt1_antileading.Integral(), " antisubleading ", histo_tt1_antisubleading.Integral()," antidouble ", histo_tt1_antidouble.Integral() )
@@ -155,7 +159,7 @@ if sample == "DY":
     
     ### now systematic part
     for i in range(len(fake_uncertainty)):
-        uncertainty_name = str.replace(fake_uncertainty[i],"year",year)
+        uncertainty_name = str.replace(fake_uncertainty[i],"year",year4)
         df_DYhigh_antileading_sys = df_withFR_anti_sys(df_DYhigh_antileading, 1, fake_func[i])
         df_DYhigh_antisubleading_sys = df_withFR_anti_sys(df_DYhigh_antisubleading, 2, fake_func[i])
         df_DYhigh_antidouble_sys = df_withFR_anti_sys(df_DYhigh_antidouble, 0, fake_func[i])
@@ -181,13 +185,13 @@ if sample == "DY":
         histoDY_tt1_antidouble_sys = gethisto_anti(df_tt1_antidouble_sys,"tt1_antidouble_{}".format(uncertainty_name), nbins, binning)
         
         
-        histo_tt0_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt0_antileading_sys)
-        histo_tt0_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt0_antisubleading_sys)
-        histo_tt0_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt0_antidouble_sys)
+        histo_tt0_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt0_antileading_sys,0.0242)
+        histo_tt0_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt0_antisubleading_sys,0.0242)
+        histo_tt0_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt0_antidouble_sys,0.0242)
         
-        histo_tt1_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt1_antileading_sys)
-        histo_tt1_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt1_antisubleading_sys)
-        histo_tt1_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt1_antidouble_sys)
+        histo_tt1_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt1_antileading_sys,0.0501)
+        histo_tt1_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt1_antisubleading_sys,0.0501)
+        histo_tt1_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt1_antidouble_sys,0.0501)
         
         print ("tt_0 ", uncertainty_name, " antileading ", histo_tt0_antileading_sys.Integral()," antisubleading ", histo_tt0_antisubleading_sys.Integral()," antidouble ", histo_tt0_antidouble_sys.Integral())
         print ("tt_1 ", uncertainty_name, " antileading ", histo_tt1_antileading_sys.Integral()," antisubleading ", histo_tt1_antisubleading_sys.Integral()," antidouble ", histo_tt1_antidouble_sys.Integral())
@@ -262,7 +266,7 @@ else:
     ### now systematic part
     for i in range(len(fake_uncertainty)):
         #continue
-        uncertainty_name = str.replace(fake_uncertainty[i],"year",year)
+        uncertainty_name = str.replace(fake_uncertainty[i],"year",year4)
         
         df_tt0_antileading_sys = df_withFR_anti_sys(df_tt0_antileading, 1, fake_func[i])
         df_tt0_antisubleading_sys = df_withFR_anti_sys(df_tt0_antisubleading, 2, fake_func[i])
