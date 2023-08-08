@@ -74,8 +74,8 @@ for DM in [0,1,10,11]:
         if variable == "nTrk":
             bins = bins_nt
             binnum = binnum_nt
-            QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated" + realcutleading
-            QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated" + realcutsubleading
+            QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && !subleading_isolated" + realcutleading
+            QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && !leading_isolated" + realcutsubleading
             #if year=="2017":
             #    QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index] " + realcutleading
             #    QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutsubleading
@@ -104,8 +104,8 @@ for DM in [0,1,10,11]:
                 binnum = binnum_taupt11
                 
 
-            QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated" + realcutleading
-            QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated" + realcutsubleading
+            QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && !subleading_isolated" + realcutleading
+            QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && !leading_isolated" + realcutsubleading
             #if year=="2017":
             #    QCDcutleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && subleading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutleading
             #    QCDcutsubleading = "!isOS && tau1pt>40 && tau2pt>40 && mvis>40 && leading_isolated && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]" + realcutsubleading

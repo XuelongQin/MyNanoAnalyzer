@@ -448,8 +448,13 @@ tautauFR::tautauFR(string year){
     FRQCD_lownTrk_DM11_subleading = (TF1*)fFR_tautau->Get("fitfunc_QCD_DM11_lownTrk_subleading");
     FRQCD_highnTrk_DM11_subleading = (TF1*)fFR_tautau->Get("fitfunc_QCD_DM11_highnTrk_subleading");
 
-    err_nt0_ffQCD_leading = (TH1F*)fFR_tautau->Get("err_nt0_ffQCD_leading");
-    err_nt0_ffQCD_subleading = (TH1F*)fFR_tautau->Get("err_nt0_ffQCD_subleading");
+    //err_nt0_ffQCD_leading = (TH1F*)fFR_tautau->Get("err_nt0_ffQCD_leading");
+    //err_nt0_ffQCD_subleading = (TH1F*)fFR_tautau->Get("err_nt0_ffQCD_subleading");
+    nt0_ffQCD_leading = (TH1F*)fFR_tautau->Get("nt0_ffQCD_leading");
+    nt1_ffQCD_leading = (TH1F*)fFR_tautau->Get("nt1_ffQCD_leading");
+    nt0_ffQCD_subleading = (TH1F*)fFR_tautau->Get("nt0_ffQCD_subleading");
+    nt1_ffQCD_subleading = (TH1F*)fFR_tautau->Get("nt1_ffQCD_subleading");
+
 }
 
 
@@ -479,7 +484,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
     if (fake==1){
         if (taudecaymode==0){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM0_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM0_leading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM0_leading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM0_leading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM0_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM0_leading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM0_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM0_leading->Eval(mynTrk));
@@ -487,7 +500,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
         }
         else if (taudecaymode==1){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM1_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM1_leading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM1_leading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM1_leading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM1_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM1_leading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM1_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM1_leading->Eval(mynTrk));
@@ -495,7 +516,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
         }
         else if (taudecaymode==10){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM10_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM10_leading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM10_leading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM10_leading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM10_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM10_leading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM10_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM10_leading->Eval(mynTrk));
@@ -503,7 +532,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
         }
         else if (taudecaymode==11){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM11_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM11_leading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM11_leading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM11_leading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_leading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM11_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM11_leading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau1pt_DM11_leading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM11_leading->Eval(mynTrk));
@@ -514,7 +551,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
     else if (fake==2){
         if (taudecaymode==0){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM0_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM0_subleading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM0_subleading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM0_subleading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM0_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM0_subleading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM0_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM0_subleading->Eval(mynTrk));
@@ -522,7 +567,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
         }
         else if (taudecaymode==1){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM1_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM1_subleading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM1_subleading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM1_subleading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM1_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM1_subleading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM1_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM1_subleading->Eval(mynTrk));
@@ -530,7 +583,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
         }
         else if (taudecaymode==10){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM10_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM10_subleading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM10_subleading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM10_subleading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM10_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM10_subleading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM10_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM10_subleading->Eval(mynTrk));
@@ -538,7 +599,15 @@ float GetFR_tautau(int taudecaymode,float taupt, int nTrk, int fake, string year
         }
         else if (taudecaymode==11){
             if (mynTrk<ntrkcut){
-                tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM11_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM11_subleading->Eval(mynTrk));
+                if (mynTrk==0){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM11_subleading->Eval(mytaupt)*tautauFRmap[year].nt0_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else if (mynTrk==1){
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM11_subleading->Eval(mytaupt)*tautauFRmap[year].nt1_ffQCD_subleading->GetBinContent(taudecaymode+1));
+                }
+                else{
+                    tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM11_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_lownTrk_DM11_subleading->Eval(mynTrk));
+                }
             }
             else{
                 tfr_QCD = TMath::Min(1.0,tautauFRmap[year].FRQCD_tau2pt_DM11_subleading->Eval(mytaupt)*tautauFRmap[year].FRQCD_highnTrk_DM11_subleading->Eval(mynTrk));
@@ -574,18 +643,34 @@ float GetFR_tautau_qcd_sys_taupt(float qcdFR, float taupt, int decaymode, int ta
 
 
 //Statistical uncertainty in the Ntracks extrapolation
-float GetFR_tautau_qcd_sys_ntrk_dm(float qcdFR, int decaymode, int taudecaymode, bool down, int leading, string year){
+float GetFR_tautau_qcd_sys_ntrk_dm(float qcdFR, int decaymode, int taudecaymode, bool down, int leading,int nTrk, string year){
     //leading 0: leading, 1 :subleading
     float err = 0;
     if (leading==0){
-         err = tautauFRmap[year].err_nt0_ffQCD_leading->GetBinContent(decaymode+1);
+        if (nTrk==0){
+            err = tautauFRmap[year].nt0_ffQCD_leading->GetBinError(decaymode+1);
+        }
+        else{
+            err = tautauFRmap[year].nt1_ffQCD_leading->GetBinError(decaymode+1);
+        }
+         //err = tautauFRmap[year].err_nt0_ffQCD_leading->GetBinContent(decaymode+1);
     }
     else{
-        err = tautauFRmap[year].err_nt0_ffQCD_subleading->GetBinContent(decaymode+1);
+        if (nTrk==0){
+            err = tautauFRmap[year].nt0_ffQCD_subleading->GetBinError(decaymode+1);
+        }
+        else{
+            err = tautauFRmap[year].nt1_ffQCD_subleading->GetBinError(decaymode+1);
+        }
+        //err = tautauFRmap[year].err_nt0_ffQCD_subleading->GetBinContent(decaymode+1);
     }
     if (taudecaymode==decaymode){
         if (down){
-            return qcdFR*(1-err);
+            if (qcdFR*(1-err)<0){
+                return 0;
+            }
+            else
+                return qcdFR*(1-err);
         }
         else {
             return qcdFR*(1+err);

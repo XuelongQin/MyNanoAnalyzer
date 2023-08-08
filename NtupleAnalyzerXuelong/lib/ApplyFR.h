@@ -109,8 +109,12 @@ class tautauFR
     TF1 *FRQCD_lownTrk_DM11_subleading;
     TF1 *FRQCD_highnTrk_DM11_subleading;
 
-    TH1F *err_nt0_ffQCD_leading;
-    TH1F *err_nt0_ffQCD_subleading;
+    //TH1F *err_nt0_ffQCD_leading;
+    //TH1F *err_nt0_ffQCD_subleading;
+    TH1F *nt0_ffQCD_leading;
+    TH1F *nt1_ffQCD_leading;
+    TH1F *nt0_ffQCD_subleading;
+    TH1F *nt1_ffQCD_subleading;
     tautauFR();
     tautauFR(string year);
 };

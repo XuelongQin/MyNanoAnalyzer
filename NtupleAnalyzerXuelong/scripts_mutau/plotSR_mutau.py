@@ -98,9 +98,7 @@ ZTT=file.Get(args.channel).Get("ZTT")
 ZLL = file.Get(args.channel).Get("ZLL")
 ST=file.Get(args.channel).Get("ST")
 GGTT=file.Get(args.channel).Get("GGTT")
-GGWW=0
-if (args.year == "2017" or args.year=="2018"):
-    GGWW=file.Get(args.channel).Get("GGWW")
+GGWW=file.Get(args.channel).Get("GGWW")
 VV.Add(ST.Clone())
 #VV.Add(W.Clone())
 Fake=file.Get(args.channel).Get("Fake")
@@ -128,8 +126,7 @@ ZTT.SetFillColor(ROOT.TColor.GetColor("#f6cd61"))
 ZLL.SetFillColor(ROOT.TColor.GetColor("#969df1"))
 VV.SetFillColor(ROOT.TColor.GetColor("#ff8c94"))
 Fake.SetFillColor(ROOT.TColor.GetColor("#3da4ab"))
-if (args.year == "2017" or args.year=="2018"):
-    GGWW.SetFillColor(ROOT.kGreen+1)
+GGWW.SetFillColor(ROOT.kGreen+1)
 
 Data.SetMarkerStyle(20)
 Data.SetMarkerSize(1)
@@ -141,8 +138,8 @@ Fake.SetLineColor(1)
 Data.SetLineColor(1)
 Data.SetLineWidth(2)
 
-if (args.year == "2017" or args.year=="2018"):
-    GGWW.SetLineColor(1)
+
+GGWW.SetLineColor(1)
 
 
 GGTT.SetLineColor(2)
@@ -155,8 +152,7 @@ stack.Add(Fake)
 stack.Add(VV)
 stack.Add(ZTT)
 stack.Add(ZLL)
-if (args.year == "2017" or args.year=="2018"):
-    stack.Add(GGWW)
+stack.Add(GGWW)
 stack.Add(GGTTfull)
 
 errorBand = ZTT.Clone()
@@ -164,8 +160,7 @@ errorBand.Add(TT)
 errorBand.Add(ZLL)
 errorBand.Add(VV)
 errorBand.Add(Fake)
-if (args.year == "2017" or args.year=="2018"):
-    errorBand.Add(GGWW)
+errorBand.Add(GGWW)
 errorBand.Add(GGTTfull)
 
 errorBand.SetMarkerSize(0)
@@ -208,8 +203,7 @@ legende.AddEntry(ZLL,"Z#rightarrow #mu#mu","f")
 legende.AddEntry(TT,"t#bar{t}","f")
 legende.AddEntry(VV,"VV,single-t","f")
 legende.AddEntry(Fake,"Fake","f")
-if (args.year == "2017" or args.year=="2018"):
-    legende.AddEntry(GGWW,"#gamma#gamma#rightarrow WW","f")
+legende.AddEntry(GGWW,"#gamma#gamma#rightarrow WW","f")
 #legende.AddEntry(GGTT,"Signal x 3","l")
 legende.AddEntry(GGTTfull,"Signal","f")
 legende.AddEntry(errorBand,"Uncertainty","f")

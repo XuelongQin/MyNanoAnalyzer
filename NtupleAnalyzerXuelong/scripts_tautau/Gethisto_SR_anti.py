@@ -56,14 +56,14 @@ fake_func = ["GetFR_tautau_qcd_sys_taupt(qcdFR,taukpt,0,LepCand_DecayMode[tauind
     "GetFR_tautau_qcd_sys_taupt(qcdFR,taukpt,10,LepCand_DecayMode[tauindex],false)",\
     "GetFR_tautau_qcd_sys_taupt(qcdFR,taukpt,11,LepCand_DecayMode[tauindex],true)",\
     "GetFR_tautau_qcd_sys_taupt(qcdFR,taukpt,11,LepCand_DecayMode[tauindex],false)",\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,0,LepCand_DecayMode[tauindex],true,leading,\"{}\")".format(year),\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,0,LepCand_DecayMode[tauindex],false,leading,\"{}\")".format(year),\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,1,LepCand_DecayMode[tauindex],true,leading,\"{}\")".format(year),\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,1,LepCand_DecayMode[tauindex],false,leading,\"{}\")".format(year),\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,10,LepCand_DecayMode[tauindex],true,leading,\"{}\")".format(year),\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,10,LepCand_DecayMode[tauindex],false,leading,\"{}\")".format(year),\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,11,LepCand_DecayMode[tauindex],true,leading,\"{}\")".format(year),\
-    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,11,LepCand_DecayMode[tauindex],false,leading,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,0,LepCand_DecayMode[tauindex],true,leading,nTrk,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,0,LepCand_DecayMode[tauindex],false,leading,nTrk,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,1,LepCand_DecayMode[tauindex],true,leading,nTrk,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,1,LepCand_DecayMode[tauindex],false,leading,nTrk,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,10,LepCand_DecayMode[tauindex],true,leading,nTrk,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,10,LepCand_DecayMode[tauindex],false,leading,nTrk,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,11,LepCand_DecayMode[tauindex],true,leading,nTrk,\"{}\")".format(year),\
+    "GetFR_tautau_qcd_sys_ntrk_dm(qcdFR,11,LepCand_DecayMode[tauindex],false,leading,nTrk,\"{}\")".format(year),\
 ]
 
 print ("year is ", year , " sample is ", sample, " name is ", name)

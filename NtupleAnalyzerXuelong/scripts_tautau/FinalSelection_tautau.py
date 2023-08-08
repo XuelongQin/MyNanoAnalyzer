@@ -208,6 +208,11 @@ if (year == "2017"):
 
 df_sel = df_sel.Filter(doubletautrigger)
 
+if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
+    df_sel = df_sel.Filter("nGenCand==2").Define("my_gen0","GetLepVector(0,GenCand_pt,GenCand_eta,GenCand_phi)").Define("my_gen1","GetLepVector(1,GenCand_pt,GenCand_eta,GenCand_phi)")\
+        .Define("DRmatch1","my_tau1.DeltaR(my_gen0)+my_tau2.DeltaR(my_gen1)").Define("DRmatch2","my_tau1.DeltaR(my_gen1)+my_tau2.DeltaR(my_gen0)")\
+        .Filter("DRmatch1<0.2 || DRmatch2<0.2")
+
 ###Add xsweight and SFweight
 if (not isdata):
     df_sel = df_sel.Define("xsweight","{}*genWeight".format(weight)).Define("SFweight","GetSFweight_tautau(puWeight,tau1index, tau2index, LepCand_gen,LepCand_tauidMsf,LepCand_antielesf,LepCand_antimusf,LepCand_tautriggersf,leading_isolated,subleading_isolated)")
@@ -386,6 +391,12 @@ elif ("2016" in year):
 
 if (not isdata):
     columns.push_back("GenVtx_z")
+    
+if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
+    columns.push_back("my_gen0")
+    columns.push_back("my_gen1")
+    columns.push_back("DRmatch1")
+    columns.push_back("DRmatch2")
 
 if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
     branchlist = list(df.GetColumnNames())

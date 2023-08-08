@@ -248,6 +248,12 @@ else:
 
 df_sel = df_sel.Filter("isSingleMuonTrigger || isMuonTauTrigger")
 
+if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
+    df_sel = df_sel.Filter("nGenCand==2").Define("my_gen0","GetLepVector(0,GenCand_pt,GenCand_eta,GenCand_phi)").Define("my_gen1","GetLepVector(1,GenCand_pt,GenCand_eta,GenCand_phi)")\
+        .Define("DRmatch1","my_mu.DeltaR(my_gen0)+my_tau.DeltaR(my_gen1)").Define("DRmatch2","my_mu.DeltaR(my_gen1)+my_tau.DeltaR(my_gen0)")\
+        .Filter("DRmatch1<0.2 || DRmatch2<0.2")
+        #.Filter("((my_mu.DeltaR(my_gen0)+my_tau.DeltaR(my_gen1)<0.2) || (my_mu.DeltaR(my_gen1)+my_tau.DeltaR(my_gen0)<0.2))")
+
 ###Add xsweight and SFweight
 if (not isdata):
     df_sel = df_sel.Define("murecosf","GetMuonrecoSF(my_mu,\"{}\")".format(year)).Define("murecosf_stat","GetMuonrecoSF_stat(my_mu,\"{}\")".format(year)).Define("murecosf_syst","GetMuonrecoSF_syst(my_mu,\"{}\")".format(year))\
@@ -479,10 +485,17 @@ else:
         columns.push_back("HLT_IsoMu24")
         columns.push_back("HLT_IsoTkMu24")
         columns.push_back("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1")
+if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
+    columns.push_back("my_gen0")
+    columns.push_back("my_gen1")
+    columns.push_back("DRmatch1")
+    columns.push_back("DRmatch2")
+    
 if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
     branchlist = list(df.GetColumnNames())
     for taug2weights in list(filter(lambda x: "TauG2Weights" in str(x), branchlist)):
         columns.push_back(taug2weights)
+
 
 
 df.Snapshot("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_mutau_{}_basicsel/{}.root".format(year,sample),columns)

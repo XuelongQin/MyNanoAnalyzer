@@ -1,4 +1,5 @@
 python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT
+python3 Gethisto_SR_shape.py 2016post GGToWW GGWW
 python3 Gethisto_SR_shape.py 2016post DY ZTT
 python3 Gethisto_SR_shape.py 2016post DY ZLL
 python3 Gethisto_SR_shape.py 2016post ST_t_top ST
@@ -21,5 +22,5 @@ python3 Gethisto_SR_shape.py 2016post SingleMuonF data_obs
 python3 Gethisto_SR_shape.py 2016post SingleMuonG data_obs
 python3 Gethisto_SR_shape.py 2016post SingleMuonH data_obs
 hadd -f Histo/HistoSR_2016post/SingleMuon.root Histo/HistoSR_2016post/SingleMuonF.root Histo/HistoSR_2016post/SingleMuonG.root Histo/HistoSR_2016post/SingleMuonH.root
-hadd -f Histo/HistoSR_2016post/Taug2_mutau_2016post.root Histo/HistoSR_2016post/ZTT.root Histo/HistoSR_2016post/ZLL.root Histo/HistoSR_2016post/VV.root Histo/HistoSR_2016post/TT.root Histo/HistoSR_2016post/ST.root Histo/HistoSR_2016post/Fake.root Histo/HistoSR_2016post/GGToTauTau_Ctb20.root Histo/HistoSR_2016post/SingleMuon.root
+hadd -f Histo/HistoSR_2016post/Taug2_mutau_2016post.root Histo/HistoSR_2016post/ZTT.root Histo/HistoSR_2016post/ZLL.root Histo/HistoSR_2016post/VV.root Histo/HistoSR_2016post/TT.root Histo/HistoSR_2016post/ST.root Histo/HistoSR_2016post/Fake.root Histo/HistoSR_2016post/GGToWW.root Histo/HistoSR_2016post/GGToTauTau_Ctb20.root Histo/HistoSR_2016post/SingleMuon.root
 python3 Gethisto_SR_BSM.py 2016post
