@@ -248,10 +248,10 @@ else:
 
 df_sel = df_sel.Filter("isSingleMuonTrigger || isMuonTauTrigger")
 
-if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
-    df_sel = df_sel.Filter("nGenCand==2").Define("my_gen0","GetLepVector(0,GenCand_pt,GenCand_eta,GenCand_phi)").Define("my_gen1","GetLepVector(1,GenCand_pt,GenCand_eta,GenCand_phi)")\
-        .Define("DRmatch1","my_mu.DeltaR(my_gen0)+my_tau.DeltaR(my_gen1)").Define("DRmatch2","my_mu.DeltaR(my_gen1)+my_tau.DeltaR(my_gen0)")\
-        .Filter("DRmatch1<0.2 || DRmatch2<0.2")
+#if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
+#    df_sel = df_sel.Filter("nGenCand==2").Define("my_gen0","GetLepVector(0,GenCand_pt,GenCand_eta,GenCand_phi)").Define("my_gen1","GetLepVector(1,GenCand_pt,GenCand_eta,GenCand_phi)")\
+#        .Define("DRmatch1","my_mu.DeltaR(my_gen0)+my_tau.DeltaR(my_gen1)").Define("DRmatch2","my_mu.DeltaR(my_gen1)+my_tau.DeltaR(my_gen0)")\
+        #.Filter("DRmatch1<0.2 || DRmatch2<0.2")
         #.Filter("((my_mu.DeltaR(my_gen0)+my_tau.DeltaR(my_gen1)<0.2) || (my_mu.DeltaR(my_gen1)+my_tau.DeltaR(my_gen0)<0.2))")
 
 ###Add xsweight and SFweight
@@ -288,8 +288,10 @@ if (isdata):
     df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0").Define("puWeight","1.0").Define("puWeightUp","1.0").Define("puWeightDown","1.0")
 else: 
     if sample=="DY":
-        df = df_addvtx.Define("genAco","GetGenAco(nGenCand,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(genAco, nGenCand, GenCand_pt,mupt,taupt,\"{}\")".format(year))
+        df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,my_mu,my_tau,Acopl)").Define("Acoweight","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,my_mu,my_tau,Acopl,\"{}\")".format(year))
+        #df = df_addvtx.Define("genAco","GetGenAco(nGenCand,GenCand_pt,GenCand_eta,GenCand_phi,Acopl,my_mu,my_tau)").Define("Acoweight","Get_Aweight(genAco, nGenCand, GenCand_pt,mupt,taupt,\"{}\")".format(year))
     else:
+        #df = df_addvtx.Define("Acoweight","1.0")
         df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0")
     #df = df.Define("npvs_weight","Get_npvs_weight(PV_npvs)").Define("npvsDown_weight","Get_npvsDown_weight(PV_npvs)").Define("npvsUp_weight","Get_npvsUp_weight(PV_npvs)")
     #if (year != "2018"):
@@ -485,11 +487,11 @@ else:
         columns.push_back("HLT_IsoMu24")
         columns.push_back("HLT_IsoTkMu24")
         columns.push_back("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1")
-if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
+'''if (sample=="DY" or sample=="GGToTauTau_Ctb20" or sample=="GGToTauTau"):
     columns.push_back("my_gen0")
     columns.push_back("my_gen1")
     columns.push_back("DRmatch1")
-    columns.push_back("DRmatch2")
+    columns.push_back("DRmatch2")'''
     
 if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
     branchlist = list(df.GetColumnNames())

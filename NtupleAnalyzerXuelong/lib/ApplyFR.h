@@ -122,7 +122,7 @@ class tautauFR
 
 float GetFR_tautau(int taudecaymode,float taupt, int nTrk,int fake, string year);
 float GetFR_tautau_qcd_sys_taupt(float qcdFR, float taupt, int decaymode, int taudecaymode, bool down);
-float GetFR_tautau_qcd_sys_ntrk_dm(float qcdFR, int decaymode, int taudecaymode, bool down, int leading, string year);
+float GetFR_tautau_qcd_sys_ntrk_dm(float qcdFR, int decaymode, int taudecaymode, bool down, int leading,int nTrk, string year);
 
 
 

@@ -42,8 +42,8 @@ public:
     spe_cor(string year);
 };
 
-float GetGenAco(int nZGenCand, Vec_t &ZGenCand_phi, float Acopl);
-float Get_Aweight(float gen_aco, int nZGenCand, Vec_t &ZGenCand_pt, float lep1pt, float lep2pt,string year );
+float GetGenAco(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,TLorentzVector my_lep1, TLorentzVector my_lep2, float Acopl);
+float Get_Aweight(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,TLorentzVector my_lep1, TLorentzVector my_lep2 ,float Acopl, string year);
 //float Get_npvs_weight(int PV_npvs);
 //float Get_npvsDown_weight(int PV_npvs);
 //float Get_npvsUp_weight(int PV_npvs);

@@ -61,21 +61,20 @@ def fit_histo(cut, decaymode, variablename , variabletitle):
                 fitfunc.SetParameter(2, 110)
                 fitfunc.SetParameter(3, 100)
             if decaymode=='1':
-                fitfunc.SetParameter(0, 1.8)
-                fitfunc.SetParameter(1, -9)
-                fitfunc.SetParameter(2, 130)
-                fitfunc.SetParameter(3, 240)
+                fitfunc.SetParameter(0, 0.15)
+                fitfunc.SetParameter(1, -0.25)
+                fitfunc.SetParameter(2, 52)
+                fitfunc.SetParameter(3, 8.6)
             if decaymode=='10':
                 fitfunc.SetParameter(0, 0.061)
                 fitfunc.SetParameter(1, 0.056)
                 fitfunc.SetParameter(2, 68.3)
                 fitfunc.SetParameter(3, 17.4)
             if decaymode=='11':
-                fitfunc.SetParameter(0, 0.022)
-                fitfunc.SetParameter(1, 2.3)
-                #fitfunc.SetParLimits(1,0.50,13.9)
-                fitfunc.SetParameter(2, 1861)
-                fitfunc.SetParameter(3, 681)
+                fitfunc.SetParameter(0, 0.020)
+                fitfunc.SetParameter(1, 4.36)
+                fitfunc.SetParameter(2, 1891)
+                fitfunc.SetParameter(3, 599)
         else:
             fitfunc.SetParameter(0, 1.8)
             fitfunc.SetParameter(1, -9)
@@ -97,10 +96,11 @@ def fit_histo(cut, decaymode, variablename , variabletitle):
                 fitfunc.SetParameter(2, 74)
                 fitfunc.SetParameter(3, 144)
             if decaymode=='11':
-                fitfunc.SetParameter(0, 0.042)
-                fitfunc.SetParameter(1, 16)
-                fitfunc.SetParameter(2, 1632)
-                fitfunc.SetParameter(3, 500)
+                fitfunc.SetParameter(0, 0.046)
+                fitfunc.SetParameter(1, 2.35)
+                fitfunc.SetParameter(2, 894)
+                fitfunc.SetParLimits(2,300,3000)
+                fitfunc.SetParameter(3, 221)
                 
     if (year=="2017"):
         if cut =="QCD":
@@ -111,10 +111,10 @@ def fit_histo(cut, decaymode, variablename , variabletitle):
                 fitfunc.SetParLimits(2,56,80)
                 fitfunc.SetParameter(3, 10.8)
             if decaymode=='1':
-                fitfunc.SetParameter(0, 0.15)
-                fitfunc.SetParameter(1, -0.25)
-                fitfunc.SetParameter(2, 148)
-                fitfunc.SetParameter(3, 48.6)
+                fitfunc.SetParameter(0, 0.09)
+                fitfunc.SetParameter(1, -0.31)
+                fitfunc.SetParameter(2, 32.4)
+                fitfunc.SetParameter(3, 0.6)
             if decaymode=='10':
                 fitfunc.SetParameter(0, 0.061)
                 fitfunc.SetParameter(1, 0.056)
