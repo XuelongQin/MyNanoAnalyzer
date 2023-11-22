@@ -3,3 +3,6 @@ source plotinclusive_tautau.sh 2016post
 source Gethisto_SR_anti_2016post.sh
 source Gethisto_SR_shape_2016post.sh
 source plotSR_tautau.sh 2016post
+source Gethisto_CR_anti_2016post.sh
+source Gethisto_CR_shape_2016post.sh
+source plotCR_tautau.sh 2016post

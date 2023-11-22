@@ -189,6 +189,41 @@ map<string, Getxsw_W> xsw_Wmap = {
     {"2016pre", xs_W2016pre}, {"2016post", xs_W2016post},{"2017", xs_W2017},{"2018", xs_W2018}
 };
 
+tauid_multicor::tauid_multicor(string year){
+    yearconf = year;
+    if (year=="2016pre"){
+        tauid_cor=1.036;
+        tauantimu_cor=1.08;
+        tauantie_cor=1.42;
+    }
+    if (year=="2016post"){
+        tauid_cor=1.063;
+        tauantimu_cor=0.75;
+        tauantie_cor=1.10;
+    }
+    if (year=="2017"){
+        tauid_cor=1.055;
+        tauantimu_cor=1.22;
+        tauantie_cor=1.49;
+    }
+    if (year=="2018"){
+        tauid_cor=1.043;
+        tauantimu_cor=0.78;
+        tauantie_cor=0.74;
+    }
+}
+tauid_multicor::tauid_multicor(){
+
+}
+tauid_multicor tauid_multicor_2016pre("2016pre");
+tauid_multicor tauid_multicor_2016post("2016post");
+tauid_multicor tauid_multicor_2017("2017");
+tauid_multicor tauid_multicor_2018("2018");
+
+map<string, tauid_multicor> tauid_multicormap = {
+    {"2016pre", tauid_multicor_2016pre}, {"2016post", tauid_multicor_2016post},{"2017", tauid_multicor_2017},{"2018", tauid_multicor_2018}
+};
+
 //For mutau final states, get mutau index
 ROOT::RVec<int> Getmutauindex(int nLepCand, ROOT::VecOps::RVec<int> &LepCand_id ,ROOT::VecOps::RVec<float> &LepCand_dz){
     int mu_index = 0;
@@ -467,8 +502,29 @@ float GetSFweight_tautau(float puweight, int tau1index, int tau2index, ROOT::Vec
     return aweight;
 }
 
+float Get_tausfcor_mutau(int nTrk, ROOT::VecOps::RVec<Float_t> &LepCand_gen, int tauindex, bool is_isolated, string year ){
+    float tausfcor=1.0;
+    if (nTrk<10){
+        if (LepCand_gen[tauindex]==5 and is_isolated) tausfcor=tausfcor*(tauid_multicormap[year].tauid_cor);
+        if (LepCand_gen[tauindex]==1 or LepCand_gen[tauindex]==3) tausfcor=tausfcor*(tauid_multicormap[year].tauantie_cor);
+        if (LepCand_gen[tauindex]==2 or LepCand_gen[tauindex]==4) tausfcor=tausfcor*(tauid_multicormap[year].tauantimu_cor);
+    }
+    return tausfcor;
+}
 
+float Get_tausfcor_tautau(int nTrk, ROOT::VecOps::RVec<Float_t> &LepCand_gen, int tau1index, int tau2index,bool leading_isolated,bool subleading_isolated, string year ){
+    float tausfcor=1.0;
+    if (nTrk<10){
+        if (LepCand_gen[tau1index]==5 and leading_isolated) tausfcor=tausfcor*(tauid_multicormap[year].tauid_cor);
+        if (LepCand_gen[tau1index]==1 or LepCand_gen[tau1index]==3) tausfcor=tausfcor*(tauid_multicormap[year].tauantie_cor);
+        if (LepCand_gen[tau1index]==2 or LepCand_gen[tau1index]==4) tausfcor=tausfcor*(tauid_multicormap[year].tauantimu_cor);
 
+        if (LepCand_gen[tau2index]==5 and subleading_isolated) tausfcor=tausfcor*(tauid_multicormap[year].tauid_cor);
+        if (LepCand_gen[tau2index]==1 or LepCand_gen[tau2index]==3) tausfcor=tausfcor*(tauid_multicormap[year].tauantie_cor);
+        if (LepCand_gen[tau2index]==2 or LepCand_gen[tau2index]==4) tausfcor=tausfcor*(tauid_multicormap[year].tauantimu_cor);
+    }
+    return tausfcor;
+}
 
 
 bool GetisOS(ROOT::VecOps::RVec<Int_t> &LepCand_charge, int lep1index,int lep2index){
@@ -542,10 +598,10 @@ float GeteeSF(ROOT::VecOps::RVec<Float_t> &GenCand_pt, ROOT::VecOps::RVec<Float_
         gen_lep2.SetPtEtaPhiM(GenCand_pt[1],GenCand_eta[1],GenCand_phi[1],0);
         float ditaumass = (gen_lep1+gen_lep2).M();
         if (nTrk==0){
-            eeSF = 2.02+0.00578 * ditaumass;
+            eeSF = 2.433+0.00152 * ditaumass;
         }
         else{
-            eeSF = 2.11+0.00361 * ditaumass;
+            eeSF = 2.518+0.00107 * ditaumass;
         }
     }
     else {

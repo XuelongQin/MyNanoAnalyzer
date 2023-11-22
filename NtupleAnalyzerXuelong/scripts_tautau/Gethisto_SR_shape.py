@@ -33,12 +33,12 @@ realcut = " && LepCand_gen[tau1index]!=0 && LepCand_gen[tau2index]!=0 "
 if "Tau" in sample:
     realcut = ""
     
-weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
 if "GGTT" in name:
     if name == "GGTT":
-        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33_0p0"
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe33_0p0"
     else:
-        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*TauG2Weights_ceBRe33"+name[4:]
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe33"+name[4:]
     print ("name is ", name, " weight is ", weight)
 
 uncertainty = ["_CMS_tauid_stat1_dm0_yearDown","_CMS_tauid_stat1_dm0_yearUp","_CMS_tauid_stat1_dm1_yearDown","_CMS_tauid_stat1_dm1_yearUp","_CMS_tauid_stat1_dm10_yearDown","_CMS_tauid_stat1_dm10_yearUp","_CMS_tauid_stat1_dm11_yearDown","_CMS_tauid_stat1_dm11_yearUp",\
@@ -122,9 +122,9 @@ elif "GGToTauTau" in sample:
 else:
     fout = TFile("Histo/HistoSR_{}/{}.root".format(year,sample),"recreate")
     
-tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
-tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
-DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
+tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && mvis<500"
+tt_1cut = "(nTrk==1) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && mvis<500"
+DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && mvis<500"
 
 #if year=="2017":
 #    tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"

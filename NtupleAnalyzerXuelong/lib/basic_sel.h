@@ -53,6 +53,16 @@ public:
     Getxsw_W(string year);
 };
 
+class tauid_multicor{
+public:
+    string yearconf;
+    float tauid_cor;
+    float tauantimu_cor;
+    float tauantie_cor;
+    tauid_multicor();
+    tauid_multicor(string year);
+};
+
 
 ROOT::RVec<int> Getmutauindex(int nLepCand, ROOT::VecOps::RVec<int> &LepCand_id ,ROOT::VecOps::RVec<float> &LepCand_dz);
 ROOT::RVec<int> Gettautauindex(int nLepCand, ROOT::VecOps::RVec<float> &LepCand_dz);
@@ -75,6 +85,8 @@ float GetMuonTriggerSF_crosstrg(TLorentzVector my_mu, string year);
 float GetSFweight_mutau(float murecosf, float muisosf,float muidsf, float mutrgsf,float mutrgsf_crosstrg, float puweight, int tauindex, bool isSingleMuonTrigger, bool isMuonTauTrigger,  ROOT::VecOps::RVec<Float_t> &LepCand_gen, ROOT::VecOps::RVec<Float_t> &LepCand_tauidMsf, ROOT::VecOps::RVec<Float_t> &LepCand_antielesf,ROOT::VecOps::RVec<Float_t> &LepCand_antimusf,ROOT::VecOps::RVec<Float_t> &LepCand_tautriggersf, bool is_isolated);
 //float GetSFweight_mutau(TLorentzVector my_mu,float puweight, int tauindex, ROOT::VecOps::RVec<Float_t> &LepCand_gen, ROOT::VecOps::RVec<Float_t> &LepCand_tauidMsf, ROOT::VecOps::RVec<Float_t> &LepCand_antielesf,ROOT::VecOps::RVec<Float_t> &LepCand_antimusf);
 float GetSFweight_tautau(float puweight, int tau1index, int tau2index, ROOT::VecOps::RVec<Float_t> &LepCand_gen, ROOT::VecOps::RVec<Float_t> &LepCand_tauidMsf, ROOT::VecOps::RVec<Float_t> &LepCand_antielesf,ROOT::VecOps::RVec<Float_t> &LepCand_antimusf,ROOT::VecOps::RVec<Float_t> &LepCand_tautriggersf, bool leading_isolated, bool subleading_isolated);
+float Get_tausfcor_mutau(int nTrk, ROOT::VecOps::RVec<Float_t> &LepCand_gen, int tauindex, bool is_isolated, string year );
+float Get_tausfcor_tautau(int nTrk, ROOT::VecOps::RVec<Float_t> &LepCand_gen, int tau1index, int tau2index,bool leading_isolated,bool subleading_isolated, string year );
 bool GetisOS(ROOT::VecOps::RVec<Int_t> &LepCand_charge, int lep1index,int lep2index);
 bool Getis_isolated(ROOT::VecOps::RVec<Int_t> &LepCand_vsjet,int tauindex);
 float GetTransmass(TLorentzVector my_mu, float MET_pt, float MET_phi);

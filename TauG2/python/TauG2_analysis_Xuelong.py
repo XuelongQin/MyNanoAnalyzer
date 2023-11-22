@@ -410,7 +410,16 @@ class Analysis(Module):
                     event.genCand.append(genp)
                 if (abs(genp.pdgId)==24 and abs(event.selectedGenParticles[genp.genPartIdxMother].pdgId)==22): # for GGWWW
                     event.genCand.append(genp)
-
+        if len(event.genCand)==0: # get back the taus that dont have a Z mother
+           if self.isMC:
+              for genp in event.selectedGenParticles:
+                 if abs(genp.pdgId)==15 and genp.genPartIdxMother==0:
+                     event.genCand.append(genp)
+                 if abs(genp.pdgId)==13 and genp.genPartIdxMother==0:
+                     event.genCand.append(genp)
+                 if abs(genp.pdgId)==11 and genp.genPartIdxMother==0:
+                     event.genCand.append(genp)
+            
         if self.isMC:
             for genp in event.selectedGenParticles:
               if (abs(genp.pdgId)==23 or abs(genp.pdgId)==24) and event.V_genpt<0:

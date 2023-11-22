@@ -71,10 +71,10 @@ def fit_histo(cut, decaymode, variablename , variabletitle):
                 fitfunc.SetParameter(2, 68.3)
                 fitfunc.SetParameter(3, 17.4)
             if decaymode=='11':
-                fitfunc.SetParameter(0, 0.020)
-                fitfunc.SetParameter(1, 4.36)
-                fitfunc.SetParameter(2, 1891)
-                fitfunc.SetParameter(3, 599)
+                fitfunc.SetParameter(0, 0.023)
+                fitfunc.SetParameter(1, 1.89)
+                fitfunc.SetParameter(2, 1677)
+                fitfunc.SetParameter(3, 617)
         else:
             fitfunc.SetParameter(0, 1.8)
             fitfunc.SetParameter(1, -9)
@@ -183,8 +183,8 @@ def fit_histo(cut, decaymode, variablename , variabletitle):
             if decaymode=='0':
                 fitfunc.SetParameter(0, 0.11)
                 fitfunc.SetParameter(1, 116)
-                fitfunc.SetParameter(2, -26)
-                fitfunc.SetParLimits(2,-35,-20)
+                fitfunc.SetParameter(2, -31)
+                fitfunc.SetParLimits(2,-35,-30)
                 fitfunc.SetParameter(3, 1.45)
             if decaymode=='1':
                 fitfunc.SetParameter(0, 0.19)
@@ -422,13 +422,13 @@ def fit_histo_ntrk(cut, decaymode, variablename , variabletitle):
         fitfunc1.SetParameter(3, -0.16)
         if cut == 'QCD':
             if decaymode=='10':
-                fitfunc1 = TF1("fitfunc1", fitExp, 0, 25, 4)
-                fitfunc2 = TF1("fitfunc2", fitPoly2, 25, 100, 3)
-                fitfunc1.SetParameter(0, 0.69)
-                fitfunc1.SetParLimits(0,0.5,0.9)
-                fitfunc1.SetParameter(1, 0.67)
-                fitfunc1.SetParameter(2, 0.045)
-                fitfunc1.SetParameter(3, -0.5)
+                fitfunc1 = TF1("fitfunc1", fitExp, 0, 30, 4)
+                fitfunc2 = TF1("fitfunc2", fitPoly2, 30, 100, 3)
+                fitfunc1.SetParameter(0, 0.41)
+                fitfunc1.SetParLimits(0,0.3,0.6)
+                fitfunc1.SetParameter(1, 0.74)
+                fitfunc1.SetParameter(2, 0.030)
+                fitfunc1.SetParameter(3, -0.6)
                 
         if cut == 'W':
             if decaymode=='0':

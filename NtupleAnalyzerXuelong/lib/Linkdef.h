@@ -13,11 +13,12 @@
 // All classes
 #pragma link C++ class musf+;
 #pragma link C++ class Getxsw_W+;
+#pragma link C++ class tauid_multicor+;
 #pragma link C++ class spe_cor;
 #pragma link C++ class mutauFR+;
 #pragma link C++ class tautauFR+;
 // all functions
-#pragma link C++ function Getmutauindex Gettautauindex GetLepVector GetSFweight_mutau Getxsweight_W GetSFweight_tautau GetisOS Getis_isolated GetTransmass GetCollMass GetAcopl GeteeSF;
+#pragma link C++ function Getmutauindex Gettautauindex GetLepVector GetSFweight_mutau Getxsweight_W GetSFweight_tautau GetisOS Getis_isolated GetTransmass GetCollMass GetAcopl GeteeSF Get_tausfcor_mutau Get_tausfcor_tautau;
 #pragma link C++ function GetMuonrecoSF GetMuonrecoSF_stat GetMuonrecoSF_syst GetMuonIsoSF GetMuonIsoSF_stat GetMuonIsoSF_syst GetMuonIDSF GetMuonIDSF_stat GetMuonIDSF_syst GetMuonTriggerSF GetMuonTriggerSF_stat GetMuonTriggerSF_syst GetMuonSF_HLTMu20Tau27;
 #pragma link C++ function recovtxz1 recovtxz2 recovtxz3;
 #pragma link C++ function Computedz_lep Computediffpt_lep ComputedeltaR_lep Compute_ditaudz Gettrkmatch Getntrkcut_mutau Getntrkcut_tautau;

@@ -137,6 +137,51 @@ namespace ROOT {
 } // end of namespace ROOT
 
 namespace ROOT {
+   static TClass *tauid_multicor_Dictionary();
+   static void tauid_multicor_TClassManip(TClass*);
+   static void *new_tauid_multicor(void *p = nullptr);
+   static void *newArray_tauid_multicor(Long_t size, void *p);
+   static void delete_tauid_multicor(void *p);
+   static void deleteArray_tauid_multicor(void *p);
+   static void destruct_tauid_multicor(void *p);
+
+   // Function generating the singleton type initializer
+   static TGenericClassInfo *GenerateInitInstanceLocal(const ::tauid_multicor*)
+   {
+      ::tauid_multicor *ptr = nullptr;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::tauid_multicor));
+      static ::ROOT::TGenericClassInfo 
+         instance("tauid_multicor", "basic_sel.h", 56,
+                  typeid(::tauid_multicor), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  &tauid_multicor_Dictionary, isa_proxy, 4,
+                  sizeof(::tauid_multicor) );
+      instance.SetNew(&new_tauid_multicor);
+      instance.SetNewArray(&newArray_tauid_multicor);
+      instance.SetDelete(&delete_tauid_multicor);
+      instance.SetDeleteArray(&deleteArray_tauid_multicor);
+      instance.SetDestructor(&destruct_tauid_multicor);
+      return &instance;
+   }
+   TGenericClassInfo *GenerateInitInstance(const ::tauid_multicor*)
+   {
+      return GenerateInitInstanceLocal((::tauid_multicor*)nullptr);
+   }
+   // Static variable to force the class initialization
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::tauid_multicor*)nullptr); R__UseDummy(_R__UNIQUE_DICT_(Init));
+
+   // Dictionary for non-ClassDef classes
+   static TClass *tauid_multicor_Dictionary() {
+      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const ::tauid_multicor*)nullptr)->GetClass();
+      tauid_multicor_TClassManip(theClass);
+   return theClass;
+   }
+
+   static void tauid_multicor_TClassManip(TClass* ){
+   }
+
+} // end of namespace ROOT
+
+namespace ROOT {
    static TClass *spe_cor_Dictionary();
    static void spe_cor_TClassManip(TClass*);
    static void *new_spe_cor(void *p = nullptr);
@@ -315,6 +360,27 @@ namespace ROOT {
 
 namespace ROOT {
    // Wrappers around operator new
+   static void *new_tauid_multicor(void *p) {
+      return  p ? new(p) ::tauid_multicor : new ::tauid_multicor;
+   }
+   static void *newArray_tauid_multicor(Long_t nElements, void *p) {
+      return p ? new(p) ::tauid_multicor[nElements] : new ::tauid_multicor[nElements];
+   }
+   // Wrapper around operator delete
+   static void delete_tauid_multicor(void *p) {
+      delete ((::tauid_multicor*)p);
+   }
+   static void deleteArray_tauid_multicor(void *p) {
+      delete [] ((::tauid_multicor*)p);
+   }
+   static void destruct_tauid_multicor(void *p) {
+      typedef ::tauid_multicor current_t;
+      ((current_t*)p)->~current_t();
+   }
+} // end of namespace ROOT for class ::tauid_multicor
+
+namespace ROOT {
+   // Wrappers around operator new
    static void *new_spe_cor(void *p) {
       return  p ? new(p) ::spe_cor : new ::spe_cor;
    }
@@ -399,6 +465,7 @@ nullptr
 extern int __Cling_AutoLoading_Map;
 class __attribute__((annotate("$clingAutoload$basic_sel.h")))  musf;
 class __attribute__((annotate("$clingAutoload$basic_sel.h")))  Getxsw_W;
+class __attribute__((annotate("$clingAutoload$basic_sel.h")))  tauid_multicor;
 class __attribute__((annotate("$clingAutoload$Correction.h")))  spe_cor;
 class __attribute__((annotate("$clingAutoload$ApplyFR.h")))  mutauFR;
 class __attribute__((annotate("$clingAutoload$ApplyFR.h")))  tautauFR;
@@ -422,6 +489,7 @@ class __attribute__((annotate("$clingAutoload$ApplyFR.h")))  tautauFR;
 "musf", payloadCode, "@",
 "mutauFR", payloadCode, "@",
 "spe_cor", payloadCode, "@",
+"tauid_multicor", payloadCode, "@",
 "tautauFR", payloadCode, "@",
 nullptr
 };

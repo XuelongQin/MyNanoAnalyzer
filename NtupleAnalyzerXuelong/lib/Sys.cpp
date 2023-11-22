@@ -121,9 +121,9 @@ float Getmusysweight(float muSF, float muSFchange){
 
 float GeteeSFsysweight(float eeSF, int nTrk, bool down){
     float eeSFsysweight = 1.0;
-    float flatSF = 2.64;
+    float flatSF = 2.591;
     if (nTrk==1){
-        flatSF = 2.52;
+        flatSF = 2.634;
     }
     if (down){
         eeSFsysweight = flatSF/eeSF;

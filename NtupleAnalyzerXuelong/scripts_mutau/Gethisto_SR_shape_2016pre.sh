@@ -25,4 +25,4 @@ python3 Gethisto_SR_shape.py 2016pre SingleMuonE data_obs
 python3 Gethisto_SR_shape.py 2016pre SingleMuonF data_obs
 hadd -f Histo/HistoSR_2016pre/SingleMuon.root Histo/HistoSR_2016pre/SingleMuonB.root Histo/HistoSR_2016pre/SingleMuonC.root Histo/HistoSR_2016pre/SingleMuonD.root Histo/HistoSR_2016pre/SingleMuonE.root Histo/HistoSR_2016pre/SingleMuonF.root
 hadd -f Histo/HistoSR_2016pre/Taug2_mutau_2016pre.root Histo/HistoSR_2016pre/ZTT.root Histo/HistoSR_2016pre/ZLL.root Histo/HistoSR_2016pre/VV.root Histo/HistoSR_2016pre/TT.root Histo/HistoSR_2016pre/ST.root Histo/HistoSR_2016pre/Fake.root Histo/HistoSR_2016pre/GGToWW.root Histo/HistoSR_2016pre/GGToTauTau_Ctb20.root Histo/HistoSR_2016pre/SingleMuon.root
-python3 Gethisto_SR_BSM.py 2016pre
+source Gethisto_SR_shape_BSM_2016pre.sh

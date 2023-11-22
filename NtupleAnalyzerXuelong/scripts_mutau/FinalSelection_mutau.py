@@ -168,10 +168,11 @@ elif (sample=="GGToWW"):
     eff = 0.368
     weight = luminosity*xs/ngen*eff
 
-'''elif (sample=="GGToMuMu"):
-    xs = 0.40
-    eff = 0.009625
+elif (sample=="GGToMuMu"):
+    xs = 0.324
+    eff = 0.328
     weight = luminosity*xs/ngen*eff
+'''
 elif (sample=="WJets"): 
     xs=61526.7
     eff=1.0
@@ -288,7 +289,7 @@ if (isdata):
     df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0").Define("puWeight","1.0").Define("puWeightUp","1.0").Define("puWeightDown","1.0")
 else: 
     if sample=="DY":
-        df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,my_mu,my_tau,Acopl)").Define("Acoweight","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,my_mu,my_tau,Acopl,\"{}\")".format(year))
+        df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\")".format(year))
         #df = df_addvtx.Define("genAco","GetGenAco(nGenCand,GenCand_pt,GenCand_eta,GenCand_phi,Acopl,my_mu,my_tau)").Define("Acoweight","Get_Aweight(genAco, nGenCand, GenCand_pt,mupt,taupt,\"{}\")".format(year))
     else:
         #df = df_addvtx.Define("Acoweight","1.0")
@@ -430,8 +431,16 @@ else:
             .Define("nHStrk","Sum(HStrkcut)")\
             .Define("nHStrkweight","1.0") 
 
+print ("Apply Multiplicative factors of tauid SFs ")
+
+if (isdata):
+    df = df.Define("tausfcor","1.0")
+else:
+    df = df.Define("tausfcor","Get_tausfcor_mutau(nTrk,LepCand_gen,tauindex,is_isolated,\"{}\")".format(year))
+
+
 ###elastic-elastic scale factor
-if (sample=="GGToTauTau" or sample=="GGToWW" or sample=="GGToTauTau_Ctb20"):
+if (sample=="GGToTauTau" or sample=="GGToWW" or sample=="GGToTauTau_Ctb20" or sample=="GGToMuMu"):
     df = df.Define("eeSF", "GeteeSF(GenCand_pt, GenCand_eta, GenCand_phi, nTrk)")
 else :
     df = df.Define("eeSF", "1.0")
@@ -458,7 +467,7 @@ for c in ("run", "luminosityBlock", "event", \
     "V_genpt","puWeight","puWeightUp","puWeightDown","tauindex","muindex","my_tau","my_mu","taupt","taueta","tauphi","taudz","mupt","mueta","muphi",\
     "mudz","isOS","is_isolated","xsweight","SFweight","mvis","mtrans","mcol","Acopl","zvtxll1",\
     "murecosf","murecosf_stat","murecosf_syst","muidsf","muidsf_stat","muidsf_syst","muisosf","muisosf_stat","muisosf_syst","mutrgsf","mutrgsf_stat","mutrgsf_syst","mutrgsf_crosstrg",\
-    "nTrk","nPUtrk","nHStrk","Acoweight","nPUtrkweight","nHStrkweight","genAco","eeSF"):
+    "nTrk","nPUtrk","nHStrk","Acoweight","nPUtrkweight","nHStrkweight","genAco","eeSF","tausfcor"):
     columns.push_back(c)
 
 if (isdata):

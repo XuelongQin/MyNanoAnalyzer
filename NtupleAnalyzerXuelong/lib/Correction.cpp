@@ -133,59 +133,41 @@ TF1* fit_aco_4050_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_4050");
 TF1* fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_4050");
 TF1* fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_gt50");
 */
-float GetGenAco(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,TLorentzVector my_lep1, TLorentzVector my_lep2 ,float Acopl){
-    float gen_aco = 1.;
+float GetGenAco(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi ,float Acopl){
+    float gen_aco = Acopl;
     if (nZGenCand==2){//if we have 2 ZGenCand, we use genaco
         TLorentzVector my_gen1;
         TLorentzVector my_gen2;
         my_gen1.SetPtEtaPhiM(ZGenCand_pt[0],ZGenCand_eta[0],ZGenCand_phi[0],0);
         my_gen2.SetPtEtaPhiM(ZGenCand_pt[1],ZGenCand_eta[1],ZGenCand_phi[1],0);
-        float DRmatch1 = my_lep1.DeltaR(my_gen1)+my_lep2.DeltaR(my_gen2);
-        float DRmatch2 = my_lep1.DeltaR(my_gen2)+my_lep2.DeltaR(my_gen1);
-        if (DRmatch1<0.2 || DRmatch2<0.2){
-            float dphi = my_gen1.DeltaPhi(my_gen2);
-            gen_aco = 1-fabs(dphi)/TMath::Pi();
-        }
-        else{
-            gen_aco = Acopl;
-        }
+        //float DRmatch1 = my_lep1.DeltaR(my_gen1)+my_lep2.DeltaR(my_gen2);
+        //float DRmatch2 = my_lep1.DeltaR(my_gen2)+my_lep2.DeltaR(my_gen1);
+        //if (DRmatch1<0.2 || DRmatch2<0.2){
+        float dphi = my_gen1.DeltaPhi(my_gen2);
+        gen_aco = 1-fabs(dphi)/TMath::Pi();
+        //}
+        //else{
+        //    gen_aco = Acopl;
+        //}
         
     }
-    else{//else use recoaco
-        gen_aco = Acopl;
-    }
+    //else{//else use recoaco
+    //    gen_aco = Acopl;
+    //}
     return gen_aco;
 }
 
 
-float Get_Aweight(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,TLorentzVector my_lep1, TLorentzVector my_lep2 ,float Acopl, string year){
+float Get_Aweight(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,float gen_aco, string year){
     float my_lep1pt = 0;
     float my_lep2pt = 0;
-    float gen_aco = 0;
     if (nZGenCand==2){
         TLorentzVector my_gen1;
         TLorentzVector my_gen2;
         my_gen1.SetPtEtaPhiM(ZGenCand_pt[0],ZGenCand_eta[0],ZGenCand_phi[0],0);
         my_gen2.SetPtEtaPhiM(ZGenCand_pt[1],ZGenCand_eta[1],ZGenCand_phi[1],0);
-        float DRmatch1 = my_lep1.DeltaR(my_gen1)+my_lep2.DeltaR(my_gen2);
-        float DRmatch2 = my_lep1.DeltaR(my_gen2)+my_lep2.DeltaR(my_gen1);
-        if (DRmatch1<0.2 || DRmatch2<0.2){
-            float dphi = my_gen1.DeltaPhi(my_gen2);
-            my_lep1pt = TMath::Max(ZGenCand_pt[0],ZGenCand_pt[1]);
-            my_lep2pt = TMath::Min(ZGenCand_pt[0],ZGenCand_pt[1]);
-            gen_aco = 1-fabs(dphi)/TMath::Pi();
-        }
-        else{
-            my_lep1pt = TMath::Max(my_lep1.Pt(),my_lep2.Pt());
-            my_lep2pt = TMath::Min(my_lep1.Pt(),my_lep2.Pt());
-            gen_aco = Acopl;
-        }
-
-    }
-    else{
-        my_lep1pt = TMath::Max(my_lep1.Pt(),my_lep2.Pt());
-        my_lep2pt = TMath::Min(my_lep1.Pt(),my_lep2.Pt());
-        gen_aco = Acopl;
+        my_lep1pt = TMath::Max(ZGenCand_pt[0],ZGenCand_pt[1]);
+        my_lep2pt = TMath::Min(ZGenCand_pt[0],ZGenCand_pt[1]);
     }
 /*    else{
 

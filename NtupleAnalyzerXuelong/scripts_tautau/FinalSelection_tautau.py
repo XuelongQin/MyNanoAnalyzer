@@ -235,7 +235,7 @@ if (isdata):
     df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0").Define("puWeight","1.0").Define("puWeightUp","1.0").Define("puWeightDown","1.0")
 else: 
     if sample=="DY":
-        df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,my_tau1,my_tau2,Acopl)").Define("Acoweight","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,my_tau1,my_tau2,Acopl,\"{}\")".format(year))
+        df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\")".format(year))
         #df = df_addvtx.Define("genAco","GetGenAco(nGenCand,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(genAco, nGenCand, GenCand_pt,tau1pt,tau2pt,\"{}\")".format(year))
     else:
         #df = df_addvtx.Define("Acoweight","1.0")
@@ -348,6 +348,11 @@ else:
         df = df.Define("HStrkcut","Trk_isMatchedToHS==1")\
             .Define("nHStrk","Sum(HStrkcut)")\
             .Define("nHStrkweight","1.0") 
+            
+if (isdata):
+    df = df.Define("tausfcor","1.0")
+else:
+    df = df.Define("tausfcor","Get_tausfcor_tautau(nTrk,LepCand_gen,tau1index,tau2index,leading_isolated,subleading_isolated,\"{}\")".format(year))
 
 ###elastic-elastic scale factor
 if (sample=="GGToTauTau" or sample=="GGToWW" or sample=="GGToTauTau_Ctb20"):
@@ -374,7 +379,7 @@ for c in ("run", "luminosityBlock", "event",\
     "nGenCand","GenCand_id","GenCand_pt","GenCand_eta","GenCand_phi",\
     "V_genpt","puWeight","puWeightUp","puWeightDown","tau1index","tau2index","my_tau1","my_tau2","tau1pt","tau1eta","tau1phi","tau1dz","tau2pt","tau2eta","tau2phi",\
     "tau2dz","isOS","leading_isolated","subleading_isolated","xsweight","SFweight","mvis","mcol","Acopl","zvtxll1",\
-    "nTrk","nPUtrk","nHStrk","Acoweight","nPUtrkweight","nHStrkweight","genAco","eeSF"):
+    "nTrk","nPUtrk","nHStrk","Acoweight","nPUtrkweight","nHStrkweight","genAco","eeSF","tausfcor"):
     columns.push_back(c)
 
 if (year == "2018"):
