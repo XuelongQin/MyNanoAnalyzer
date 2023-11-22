@@ -1,3 +1,7 @@
+   Float_t         LHEPdfWeight[103];
+   Float_t         LHEScaleWeight[9];
+   Float_t         PSWeight[4];
+
    Float_t         TauG2Weights_ceBRe33_m40p0;
    Float_t         TauG2Weights_ceBRe33_m39p2;
    Float_t         TauG2Weights_ceBRe33_m38p4;
@@ -285,6 +289,7 @@
    UInt_t          nChargedPFCandidates;
    Float_t         ChargedPFCandidates_dz[1960];   //[nChargedPFCandidates]
    Float_t         ChargedPFCandidates_pt[1960];   //[nChargedPFCandidates]
+   Float_t         ChargedPFCandidates_eta[1960];
    Bool_t          ChargedPFCandidates_isMatchedToGenHS[1960];   //[nChargedPFCandidates]
 
    Float_t         beamspot_dxdz;

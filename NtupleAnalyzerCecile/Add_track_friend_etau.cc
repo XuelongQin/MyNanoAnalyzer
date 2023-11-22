@@ -31,9 +31,10 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    std::string input = *(argv + 1);
-    std::string output = *(argv + 2);
-    std::string sample = *(argv + 3);
+    std::string year = *(argv + 1);
+    std::string input = *(argv + 2);
+    std::string output = *(argv + 3);
+    std::string sample = *(argv + 4);
 
     TFile *f_Double = new TFile(input.c_str());
     cout<<"XXXXXXXXXXXXX "<<input.c_str()<<" XXXXXXXXXXXX"<<endl;
@@ -141,13 +142,48 @@ int main(int argc, char** argv) {
    auto b7_5=arbre->GetBranch("Track_pt");
    auto b7_6=arbre->GetBranch("Track_isMatchedToHS");
 
-   TFile* f_bs=new TFile("beamspot_TF1_2018.root","read");
-   TF1* h_bs_width = (TF1*) f_bs->Get("f1");
+   float bs_z_mc=0.0;
+   float bs_zsigma_mc=3.5;
 
-   TF1* f_beamspotz=new TF1("f_beamspotz","gaus",-1.1,1.1);
-   f_beamspotz->SetParameter(0,1);
-   f_beamspotz->SetParameter(1,-0.138);
-   f_beamspotz->SetParameter(2,0.254);
+   TFile* f_bs=new TFile("beamspot_UL2018_Data.root","read");
+   TH1F* h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
+   TH1F* h_bs_z = (TH1F*) f_bs->Get("bs_z");
+   TFile* f_bs_mc=new TFile("beamspot_UL2018_MC.root","read");
+   TH1F* h_bs_sigma_mc = (TH1F*) f_bs_mc->Get("bs_sigma");
+   TH1F* h_bs_z_mc = (TH1F*) f_bs_mc->Get("bs_z");
+   bs_z_mc=h_bs_z_mc->GetMean();
+   bs_zsigma_mc=h_bs_sigma_mc->GetMean();
+
+   if (year=="2017"){
+      TFile* f_bs=new TFile("beamspot_UL2017_Data.root","read");
+      h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
+      h_bs_z = (TH1F*) f_bs->Get("bs_z");
+      TFile* f_bs_mc=new TFile("beamspot_UL2017_MC.root","read");
+      h_bs_sigma_mc = (TH1F*) f_bs_mc->Get("bs_sigma");
+      h_bs_z_mc = (TH1F*) f_bs_mc->Get("bs_z");
+      bs_z_mc=h_bs_z_mc->GetMean();
+      bs_zsigma_mc=h_bs_sigma_mc->GetMean();
+   }
+   else if (year=="2016post"){
+      TFile* f_bs=new TFile("beamspot_UL2016_postVFP_Data.root","read");
+      h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
+      h_bs_z = (TH1F*) f_bs->Get("bs_z");
+      TFile* f_bs_mc=new TFile("beamspot_UL2016_postVFP_MC.root","read");
+      h_bs_sigma_mc = (TH1F*) f_bs_mc->Get("bs_sigma");
+      h_bs_z_mc = (TH1F*) f_bs_mc->Get("bs_z");
+      bs_z_mc=h_bs_z_mc->GetMean();
+      bs_zsigma_mc=h_bs_sigma_mc->GetMean();
+   }
+   else if (year=="2016pre"){
+      TFile* f_bs=new TFile("beamspot_UL2016_preVFP_Data.root","read");
+      h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
+      h_bs_z = (TH1F*) f_bs->Get("bs_z");
+      TFile* f_bs_mc=new TFile("beamspot_UL2016_preVFP_MC.root","read");
+      h_bs_sigma_mc = (TH1F*) f_bs_mc->Get("bs_sigma");
+      h_bs_z_mc = (TH1F*) f_bs_mc->Get("bs_z");
+      bs_z_mc=h_bs_z_mc->GetMean();
+      bs_zsigma_mc=h_bs_sigma_mc->GetMean();
+   }
 
 int nb_all=0;
 int nb_HS0=0;
@@ -160,13 +196,6 @@ int nb_PU0=0;
         if (i % 10000 == 0) fprintf(stdout, "\r  Processed events: %8d of %8d ", i, nentries_wtn);
         fflush(stdout);
 
-      if (input=="/eoaaaaas/cms/store/group/cmst3/group/taug2/AnalysisCecile/ntuples_etau_2018/EGammaA.root" and i>=464459 and i<475000){
-        ntracks_friend=9999;
-        ntracksPU_friend=9999;
-        ntracksHS_friend=9999;
-        ntracksAll_friend=9999;
-      }
-      else{
         b1_6->GetEntry(i); b1_1->GetEntry(i); b1_3->GetEntry(i); b1_4->GetEntry(i); b1_2->GetEntry(i); b1_9->GetEntry(i); b1_10->GetEntry(i); b1_11->GetEntry(i);
 	b1_12->GetEntry(i);b1_13->GetEntry(i);b1_14->GetEntry(i);b1_15->GetEntry(i);b1_16->GetEntry(i);b1_17->GetEntry(i);b1_18->GetEntry(i);b1_19->GetEntry(i);b1_20->GetEntry(i);b1_21->GetEntry(i);b1_22->GetEntry(i);
         if (sample!="data_obs") {b1_5->GetEntry(i); b1_7->GetEntry(i); b1_8->GetEntry(i);}
@@ -205,8 +234,10 @@ int nb_PU0=0;
 	int ntracksPU=0;
 	int ntracksHS=0;
 	int ntracksAll=0;
-        float rnd_beamspot=h_bs_width->GetRandom();
-        float rnd_beamspotz=f_beamspotz->GetRandom();
+        float bs_zsigma_obs=h_bs_sigma->GetRandom();
+        float bs_z_obs=h_bs_z->GetRandom();
+        float corr_zsig= (bs_zsigma_obs / bs_zsigma_mc);
+        float corr_z= bs_z_obs - corr_zsig * bs_z_mc;
         //cout<<"ele pt, eta, phi, dz: "<<LepCand_pt[ele_index]<<", "<<LepCand_eta[ele_index]<<", "<<LepCand_phi[ele_index]<<", "<<LepCand_dz[ele_index]<<endl;
         //cout<<"tau pt, eta, phi, dz: "<<LepCand_pt[tau_index]<<", "<<LepCand_eta[tau_index]<<", "<<LepCand_phi[tau_index]<<", "<<LepCand_dz[tau_index]<<endl;
         //cout<<"tau track1 pt, eta, phi, dz: "<<LepCand_tk1Pt[tau_index]<<", "<<LepCand_tk1Eta[tau_index]<<", "<<LepCand_tk1Phi[tau_index]<<", "<<LepCand_dz[tau_index]<<endl;
@@ -225,9 +256,13 @@ int nb_PU0=0;
                  if (LepCand_tk3Pt[tau_index]>0 and fabs(Track_pt[nt]-LepCand_tk3Pt[tau_index])/LepCand_tk3Pt[tau_index]<0.1 and my_tauTk3.DeltaR(my_track)<0.002) is_matchedToETau=true;
                  if (Track_pt[nt]>0.5 and raw_dz<0.05 and fabs(Track_eta[nt])<2.5 and !is_matchedToETau){ ntracksAll++;}
                  if (sample!="data_obs"){
-                    float BScorrected_dz=fabs(((PV_z+Track_dz[nt])*rnd_beamspot/3.5 + (rnd_beamspotz-0.02488))-PV_z-0.5*LepCand_dz[tau_index]-0.5*LepCand_dz[ele_index]);
+                    //float BScorrected_dz=fabs(((PV_z+Track_dz[nt])*rnd_beamspot/3.5 + (rnd_beamspotz-0.02488))-PV_z-0.5*LepCand_dz[tau_index]-0.5*LepCand_dz[ele_index]);
+                    //float BScorrected_dz=raw_dz;//FIXME removed BS corrections
 		    //cout<<raw_dz<<" "<<BScorrected_dz<<" "<<rnd_beamspot<<" "<<rnd_beamspotz<<endl;
                     //float BScorrected_dz=raw_dz;//FIXME
+                    float z_corr = corr_z + corr_zsig * (PV_z+Track_dz[nt]);
+                    float BScorrected_dz = fabs(z_corr - PV_z-0.5*LepCand_dz[tau_index]-0.5*LepCand_dz[ele_index]);
+
                     if (Track_isMatchedToHS[nt] and Track_pt[nt]>0.5 and raw_dz<0.05 and fabs(Track_eta[nt])<2.5  and !is_matchedToETau) ntracksHS++;
                     if (!Track_isMatchedToHS[nt] and Track_pt[nt]>0.5 and BScorrected_dz<0.05 and fabs(Track_eta[nt])<2.5 and !is_matchedToETau) ntracksPU++;
                  }
@@ -321,7 +356,7 @@ cout<<endl;
         ntracksPU_friend=ntracksPU;
         ntracksHS_friend=ntracksHS;
         ntracksAll_friend=ntracksAll;
-      }
+
       tree_friend->Fill();
     } // end of loop over events
 cout<<"All, HS0, HS0PU0, PU0: "<<nb_all<<" "<<nb_HS0<<" "<<nb_HS0_PU0<<" "<<nb_PU0<<endl;
