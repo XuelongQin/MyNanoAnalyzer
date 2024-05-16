@@ -36,9 +36,11 @@ if "Tau" in sample:
 weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
 if "GGTT" in name:
     if name == "GGTT":
-        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe33_0p0"
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe_0p0"
+    elif "Im" in name:
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBIm"+name[7:]
     else:
-        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe33"+name[4:]
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe"+name[4:]
     print ("name is ", name, " weight is ", weight)
 
 uncertainty = ["_CMS_tauid_stat1_dm0_yearDown","_CMS_tauid_stat1_dm0_yearUp","_CMS_tauid_stat1_dm1_yearDown","_CMS_tauid_stat1_dm1_yearUp","_CMS_tauid_stat1_dm10_yearDown","_CMS_tauid_stat1_dm10_yearUp","_CMS_tauid_stat1_dm11_yearDown","_CMS_tauid_stat1_dm11_yearUp",\
@@ -97,12 +99,36 @@ uncertainty.append("_CMS_L1PrefiringUp")
 uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Dn)")
 uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Up)")
 
-'''if "GGTT" in name or name=="GGWW":
+if "GGTT" in name or name=="GGWW" or name=="GGMM" or name=="GGEE":
     uncertainty.append("_CMS_elasticRescalingDown")
     uncertainty.append("_CMS_elasticRescalingUp")
     uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,true)")
-    uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,false)")'''
-
+    uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,false)")
+if name=="ZTT" or name=="ZLL":
+    uncertainty.append("_CMS_ISRDown")
+    uncertainty.append("_CMS_ISRUp")
+    uncertainty.append("_CMS_FSRDown")
+    uncertainty.append("_CMS_FSRUp")
+    uncertainty.append("_CMS_PDFDown")
+    uncertainty.append("_CMS_PDFUp")
+    uncertainty.append("_CMS_muR0p5_muF0p5")
+    uncertainty.append("_CMS_muRDown")
+    uncertainty.append("_CMS_muFDown")
+    uncertainty.append("_CMS_muFUp")
+    uncertainty.append("_CMS_muRUp")
+    uncertainty.append("_CMS_muR2p0_muF2p0")
+    uncertainty_func.append("GetPSsysweight(PSWeight[2],Acoweight_ps3,Acoweight)")
+    uncertainty_func.append("GetPSsysweight(PSWeight[0],Acoweight_ps1,Acoweight)")
+    uncertainty_func.append("GetPSsysweight(PSWeight[3],Acoweight_ps4,Acoweight)")
+    uncertainty_func.append("GetPSsysweight(PSWeight[1],Acoweight_ps2,Acoweight)")
+    uncertainty_func.append("GetPDFsysweight(LHEPdfWeight,true)")
+    uncertainty_func.append("GetPDFsysweight(LHEPdfWeight,false)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[0],0.983,Acoweight_scale1,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[1],1.015,Acoweight_scale2,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[3],0.960,Acoweight_scale3,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[5],1.025,Acoweight_scale4,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[7],0.986,Acoweight_scale5,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[8],1.018,Acoweight_scale6,Acoweight)")
 print ("year is ", year , " sample is ", sample, " name is ", name)
 df= RDataFrame("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}_basicsel/{}.root".format(year,sample))
 df = df.Define("totalweight",weight)
@@ -122,8 +148,8 @@ elif "GGToTauTau" in sample:
 else:
     fout = TFile("Histo/HistoCR_{}/{}.root".format(year,sample),"recreate")
     
-tt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
-DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
+tt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && mvis<500 "
+DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && mvis<500 "
 
 #if year=="2017":
 #    tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"
@@ -168,7 +194,7 @@ if sample == "DY":
         uncertainty_name = str.replace(uncertainty[i],"year",year4)
         if ("taues" in uncertainty_name):
             sysflag = 2
-        elif ("pileup" in uncertainty_name or "elasticRescaling" in uncertainty_name):
+        elif ("pileup" in uncertainty_name or "elasticRescaling" in uncertainty_name or "FSR" in uncertainty_name or "ISR" in uncertainty_name or "PDF" in uncertainty_name or "muF" in uncertainty_name or "muR" in uncertainty_name):
             sysflag = 1
         else:
             sysflag = 0
@@ -197,7 +223,7 @@ else:
             uncertainty_name = str.replace(uncertainty[i],"year",year4)
             if ("taues" in uncertainty_name):
                 sysflag = 2
-            elif ("pileup" in uncertainty_name or "elasticRescaling" in uncertainty_name):
+            elif ("pileup" in uncertainty_name or "elasticRescaling" in uncertainty_name or "FSR" in uncertainty_name or "ISR" in uncertainty_name or "PDF" in uncertainty_name or "muF" in uncertainty_name or "muR" in uncertainty_name):
                 sysflag = 1
             else:
                 sysflag = 0

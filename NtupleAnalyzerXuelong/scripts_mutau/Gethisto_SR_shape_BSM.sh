@@ -100,6 +100,10 @@ python3 Gethisto_SR_shape.py 2018 GGToTauTau_Ctb20 GGTT_m37p6
 python3 Gethisto_SR_shape.py 2018 GGToTauTau_Ctb20 GGTT_m38p4
 python3 Gethisto_SR_shape.py 2018 GGToTauTau_Ctb20 GGTT_m39p2
 python3 Gethisto_SR_shape.py 2018 GGToTauTau_Ctb20 GGTT_m40p0
-hadd -f Histo/HistoSR_2018/Taug2_mutau_2018_BSM.root Histo/HistoSR_2018/BSM/GGTT_*p*.root
+hadd -f Histo/HistoSR_2018/Taug2_mutau_2018_BSM_Re.root Histo/HistoSR_2018/BSM_Re/GGTT_*p*.root
+
+
+
+
 
 

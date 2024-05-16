@@ -27,7 +27,7 @@ def buildCondorFile(opt,FarmDirectory):
         condor.write('log        = {0}/output{1}.log\n'.format(FarmDirectory,rand))
         condor.write('max_retries = 5\n')
         #condor.write('retry_until = 0')
-        condor.write('+JobFlavour = "tomorrow"\n')
+        condor.write('+JobFlavour = "workday"\n')
         condor.write('+AccountingGroup = "group_u_CMST3.all"\n')
         OpSysAndVer = str(os.system('cat /etc/redhat-release'))
         if 'SLC' in OpSysAndVer:
@@ -81,6 +81,8 @@ def buildCondorFile(opt,FarmDirectory):
             sufix='mc'
           else:
             sufix='data'
+          if 'GGToTauTau_Ctb20' in dataset:
+            sufix='sig'
           channels=['tautau'] #EDIT THIS (could be ee,emu,etau,mumu,mutau,tautau)
           print ('sufix = ', sufix)
 
@@ -90,9 +92,9 @@ def buildCondorFile(opt,FarmDirectory):
           #   yearmodified="2016pre"
           #if "preVFP" not in dataset and year=="2016" and sufix=="mc":
           #   yearmodified="2016post"
-          if "2016pre" in opt.input and sufix=="mc":
+          if "2016pre" in opt.input and (sufix=="mc" or sufix=="sig"):
             yearmodified="2016pre"
-          if "2016post" in opt.input and sufix=="mc":
+          if "2016post" in opt.input and (sufix=="mc" or sufix=="sig"):
             yearmodified="2016post"
           
             
@@ -104,7 +106,7 @@ def buildCondorFile(opt,FarmDirectory):
             # apply filter to data: trigger and GRL
             #filter=ANALYSISCUT[year][channel]
             filter = ""
-            if sufix=='mc':
+            if sufix=='mc' or sufix=='sig':
               filter = ANALYSISMCCUT[year][channel]
             else:
               filter = ANALYSISDATACUT[year][channel]
@@ -184,10 +186,11 @@ def main():
     #configuration
     usage = 'usage: %prog [options]'
     parser = optparse.OptionParser(usage)
-    #parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='reNanoAODTau2016post.txt', type='string')
-    parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='reNanoAODMC2016post_DY.txt', type='string')
+    parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='Signal_2018.txt', type='string')
+    #parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='reNanoAODSingleMuon2016post.txt', type='string')
+    #parser.add_option('-i', '--in',     dest='input',  help='list of input datasets',    default='reNanoAODMC2016pre_mutau.txt', type='string')
     #parser.add_option('-o', '--out',      dest='output',   help='output directory',  default='/eos/cms/store/user/ccaillol/TauG2/ntuples_mumu_2018', type='string') #EDIT THIS
-    parser.add_option('-o', '--out',      dest='output',   help='output directory',  default='/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_2016post', type='string') #EDIT THIS
+    parser.add_option('-o', '--out',      dest='output',   help='output directory',  default='/eos/cms/store/group/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_2018', type='string') #EDIT THIS
     parser.add_option('-f', '--force',      dest='force',   help='force resubmission',  action='store_true')
     parser.add_option('-s', '--submit',   dest='submit',   help='submit jobs',       action='store_true')
     (opt, args) = parser.parse_args()

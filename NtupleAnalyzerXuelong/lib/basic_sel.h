@@ -89,6 +89,8 @@ float Get_tausfcor_mutau(int nTrk, ROOT::VecOps::RVec<Float_t> &LepCand_gen, int
 float Get_tausfcor_tautau(int nTrk, ROOT::VecOps::RVec<Float_t> &LepCand_gen, int tau1index, int tau2index,bool leading_isolated,bool subleading_isolated, string year );
 bool GetisOS(ROOT::VecOps::RVec<Int_t> &LepCand_charge, int lep1index,int lep2index);
 bool Getis_isolated(ROOT::VecOps::RVec<Int_t> &LepCand_vsjet,int tauindex);
+float TMass_F(float pt3lep, float px3lep, float py3lep, float met, float metPhi);
+bool Getisfid(int is_emu, int is_etau, int is_mutau, int is_tautau, float fidpt_1, float fideta_1, float fidphi_1, float fidm_1, float fidpt_2, float fideta_2, float fidphi_2, float fidm_2, float fidgen_mtt, float fidntracks, float GenMET_pt, float GenMET_phi);
 float GetTransmass(TLorentzVector my_mu, float MET_pt, float MET_phi);
 float GetCollMass(TLorentzVector my_lep1, TLorentzVector my_lep2, float MET_pt, float MET_phi);
 float GetAcopl(TLorentzVector my_lep1, TLorentzVector my_lep2);

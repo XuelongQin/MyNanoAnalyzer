@@ -11,6 +11,30 @@ class GenParticleSelector(ObjectSelector):
         return True
         
 
+
+class GenDressedLeptonSelector(ObjectSelector):
+    def __init__(self, _year = "None" ):
+        self.year = _year
+
+    def evalGenDressedLepton(self, genp):
+        return True
+
+
+class GenVisTauSelector(ObjectSelector):
+    def __init__(self, _year = "None" ):
+        self.year = _year
+
+    def evalGenVisTau(self, genp):
+        return True
+
+
+class ChargedGenSelector(ObjectSelector):
+    def __init__(self, _year = "None" ):
+        self.year = _year
+
+    def evalChargedGen(self, genp):
+        return True
+
 class ElectronSelector(ObjectSelector):
     def __init__(self, _minPt = 10):
         self.minPt = _minPt

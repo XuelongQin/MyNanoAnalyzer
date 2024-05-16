@@ -49,7 +49,7 @@ realcut = " && LepCand_gen[tauindex]!=0"
 if "SingleMuon" in sample:
     realcut = ""
 
-weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
 
 
 print ("year is ", year , " sample is ", sample, " weight is ", weight)
@@ -61,11 +61,16 @@ if sample == "DY":
 else:
     fout = TFile("Histo/HistoInclu_{}/{}.root".format(year,sample),"recreate")
 for var in variablelist:
-    cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40"
+    '''cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40"
     if year=="2016pre" or year=="2016post":
         cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40"
     if year=="2017":
-        cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && mvis>40"
+        cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && mvis>40"'''
+    cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger)) && mvis>40"
+    if year=="2016pre" or year=="2016post":
+        cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger)) && mvis>40"
+    if year=="2017":
+        cut = "nTrk>=0 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger)) && mvis>40"
     print ("cut is ", cut)
     if var.name!="mtrans":
         cut = cut + " && mtrans<75"

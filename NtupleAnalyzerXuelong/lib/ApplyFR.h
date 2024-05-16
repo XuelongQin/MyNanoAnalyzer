@@ -55,7 +55,6 @@ class mutauFR
 };
 
 
-
 //float GetFR_mutau(int taudecaymode, float mvis, float mtrans, float taupt, int nTrk, bool isMuonTauTrigger);
 float GetFR_mutau_qcd(int taudecaymode, float taupt, int nTrk, bool isMuonTauTrigger,string year);
 float GetFR_mutau_w(int taudecaymode, float taupt, int nTrk, bool isMuonTauTrigger, string year);

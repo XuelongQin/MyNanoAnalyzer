@@ -39,11 +39,11 @@ public:
     TH2F* correction_map;
     TH2F* correction_mapHS;
     spe_cor();
-    spe_cor(string year);
+    spe_cor(string year, string sys);
 };
 
 float GetGenAco(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi ,float Acopl);
-float Get_Aweight(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,float gen_aco, string year);
+float Get_Aweight(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,float gen_aco, string year, string sys);
 //float Get_npvs_weight(int PV_npvs);
 //float Get_npvsDown_weight(int PV_npvs);
 //float Get_npvsUp_weight(int PV_npvs);

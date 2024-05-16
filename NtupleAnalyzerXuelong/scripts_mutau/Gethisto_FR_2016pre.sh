@@ -1,3 +1,6 @@
+python3 Gethisto_FR.py 2016pre GGToTauTau_Ctb20
+python3 Gethisto_FR.py 2016pre GGToMuMu
+python3 Gethisto_FR.py 2016pre GGToWW
 python3 Gethisto_FR.py 2016pre DY
 python3 Gethisto_FR.py 2016pre ST_t_top
 python3 Gethisto_FR.py 2016pre ST_t_antitop
@@ -10,18 +13,17 @@ python3 Gethisto_FR.py 2016pre W2
 python3 Gethisto_FR.py 2016pre W3
 python3 Gethisto_FR.py 2016pre W4
 hadd -f Histo/HistoforFR_2016pre/Wall.root Histo/HistoforFR_2016pre/W.root Histo/HistoforFR_2016pre/W1.root Histo/HistoforFR_2016pre/W2.root Histo/HistoforFR_2016pre/W3.root Histo/HistoforFR_2016pre/W4.root 
-python3 Gethisto_FR.py 2016pre WW2L2Nu
 python3 Gethisto_FR.py 2016pre WZ2Q2L
 python3 Gethisto_FR.py 2016pre WZ3LNu
-python3 Gethisto_FR.py 2016pre ZZ2L2Nu
+python3 Gethisto_FR.py 2016pre VV2L2Nu
 python3 Gethisto_FR.py 2016pre ZZ2Q2L
 python3 Gethisto_FR.py 2016pre ZZ4L
-hadd -f Histo/HistoforFR_2016pre/VV.root Histo/HistoforFR_2016pre/WW2L2Nu.root Histo/HistoforFR_2016pre/WZ2Q2L.root Histo/HistoforFR_2016pre/WZ3LNu.root Histo/HistoforFR_2016pre/ZZ2L2Nu.root Histo/HistoforFR_2016pre/ZZ2Q2L.root Histo/HistoforFR_2016pre/ZZ4L.root
+hadd -f Histo/HistoforFR_2016pre/VV.root Histo/HistoforFR_2016pre/WZ2Q2L.root Histo/HistoforFR_2016pre/WZ3LNu.root Histo/HistoforFR_2016pre/VV2L2Nu.root Histo/HistoforFR_2016pre/ZZ2Q2L.root Histo/HistoforFR_2016pre/ZZ4L.root
 python3 Gethisto_FR.py 2016pre TTTo2L2Nu
 python3 Gethisto_FR.py 2016pre TTToHadronic
 python3 Gethisto_FR.py 2016pre TTToSemiLeptonic
 hadd -f Histo/HistoforFR_2016pre/TT.root Histo/HistoforFR_2016pre/TTToHadronic.root Histo/HistoforFR_2016pre/TTToSemiLeptonic.root Histo/HistoforFR_2016pre/TTTo2L2Nu.root
-hadd -f Histo/HistoforFR_2016pre/MC.root Histo/HistoforFR_2016pre/DY.root Histo/HistoforFR_2016pre/ST.root Histo/HistoforFR_2016pre/VV.root Histo/HistoforFR_2016pre/TT.root
+hadd -f Histo/HistoforFR_2016pre/MC.root Histo/HistoforFR_2016pre/DY.root Histo/HistoforFR_2016pre/ST.root Histo/HistoforFR_2016pre/VV.root Histo/HistoforFR_2016pre/TT.root Histo/HistoforFR_2016pre/GGToMuMu.root Histo/HistoforFR_2016pre/GGToWW.root 
 python3 Gethisto_FR.py 2016pre SingleMuonB
 python3 Gethisto_FR.py 2016pre SingleMuonC
 python3 Gethisto_FR.py 2016pre SingleMuonD

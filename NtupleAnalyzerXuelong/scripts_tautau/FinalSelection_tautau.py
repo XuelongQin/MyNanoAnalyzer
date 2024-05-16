@@ -77,12 +77,12 @@ elif (sample=="TTToHadronic"):
     weight=luminosity*xs/ngen*eff
     
 elif (sample=="ZZ2L2Nu"): 
-    xs=3.0
+    xs=0.9738
     eff=0.3018125
     weight=luminosity*xs/ngen*eff
     
 elif (sample=="ZZ4L"): 
-    xs=1.212 
+    xs=1.325 
     eff=0.304
     weight=luminosity*xs/ngen*eff
     
@@ -97,25 +97,30 @@ elif (sample=="ZZ2Q2L"):
     weight=luminosity*xs/ngen*eff
     
 elif (sample=="WZ2L2Q"): 
-    xs=5.595 
+    xs=6.419
     eff=0.340629667
     weight=luminosity*xs/ngen*eff
 
 elif (sample=="WZ2Q2L"): 
-    xs=5.595 
+    xs=6.419
     eff=0.340629667
     weight=luminosity*xs/ngen*eff
     
 elif (sample=="WW2L2Nu"): 
-    xs=8.95
+    xs=11.09
     eff=0.396603175
     weight=luminosity*xs/ngen*eff
     
 elif (sample=="WZ3LNu"): 
-    xs=4.42965
-    eff=0.340808684
+    xs=5.213
+    eff=0.341
     weight=luminosity*xs/ngen*eff
-    
+
+elif (sample=="VV2L2Nu"):
+    xs=11.09+0.9738
+    eff=0.392
+    weight=luminosity*xs/ngen*eff
+
 elif (sample=="ST_tW_top"): 
     xs=35.6 
     eff=0.272813333
@@ -136,21 +141,30 @@ elif (sample=="ST_t_antitop"):
     eff=0.122142268
     weight=luminosity*xs/ngen*eff
     
-elif (sample=="GGToTauTau"):
-    xs = 1.161
-    eff=0.00871
-    weight=luminosity*xs/ngen*eff
+#elif (sample=="GGToTauTau"):
+#    xs = 1.161
+#    eff=0.00871
+#    weight=luminosity*xs/ngen*eff
 
 elif (sample=="GGToTauTau_Ctb20"):
-    xs = 1.121
-    eff= 0.0269
+    xs = 1.048
+    eff= 0.0403
     weight=luminosity*xs/ngen*eff
 
 elif (sample=="GGToWW"):
-    xs = 0.00692
-    eff = 0.368
+    xs = 0.006561
+    eff = 1.0
     weight = luminosity*xs/ngen*eff
 
+elif (sample=="GGToMuMu"):
+    xs = 0.303
+    eff = 1.0
+    weight = luminosity*xs/ngen*eff
+    
+elif (sample=="GGToElEl"):
+    xs = 0.303
+    eff = 1.0
+    weight = luminosity*xs/ngen*eff
 '''elif (sample=="GGToMuMu"):
     xs = 0.40
     eff = 0.009625
@@ -181,7 +195,10 @@ else:
 df_var = df_var.Define("tau1pt","my_tau1.Pt()").Define("tau1eta","my_tau1.Eta()").Define("tau1phi","my_tau1.Phi()").Define("tau1dz","LepCand_dz[tau1index]")\
                 .Define("tau2pt","my_tau2.Pt()").Define("tau2eta","my_tau2.Eta()").Define("tau2phi","my_tau2.Phi()").Define("tau2dz","LepCand_dz[tau2index]")\
                 .Define("isOS","GetisOS(LepCand_charge,tau1index,tau2index)").Define("leading_isolated","Getis_isolated(LepCand_vsjet,tau1index)").Define("subleading_isolated","Getis_isolated(LepCand_vsjet,tau2index)")
-                
+
+if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
+    df_var = df_var.Define("isfid","Getisfid(is_emu, is_etau, is_mutau, is_tautau, fidpt_1, fideta_1, fidphi_1, fidm_1, fidpt_2, fideta_2, fidphi_2, fidm_2, fidgen_mtt, fidntracks, GenMET_pt, GenMET_phi)")
+
 ###Add some basic selection: tau eta, leading tauvsjet, trigger, deltaR,taupt(should be >40 later)
 df_sel = df_var.Filter("abs(tau1eta)<2.1 && abs(tau2eta)<2.1").Filter("my_tau1.DeltaR(my_tau2)>0.5")\
     .Filter("tau1pt>38").Filter("tau2pt>38")
@@ -232,14 +249,51 @@ df_addvtx = df_sel.Define("zvtxll1","recovtxz1(LepCand_dz[tau1index],LepCand_dz[
 
 ##Acoplanarity weights only for DY samples
 if (isdata):
-    df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0").Define("puWeight","1.0").Define("puWeightUp","1.0").Define("puWeightDown","1.0")
+    df = df_addvtx.Define("genAco","-99.0")\
+        .Define("Acoweight","1.0")\
+        .Define("Acoweight_scale1","1.0")\
+        .Define("Acoweight_scale2","1.0")\
+        .Define("Acoweight_scale3","1.0")\
+        .Define("Acoweight_scale4","1.0")\
+        .Define("Acoweight_scale5","1.0")\
+        .Define("Acoweight_scale6","1.0")\
+        .Define("Acoweight_ps1","1.0")\
+        .Define("Acoweight_ps2","1.0")\
+        .Define("Acoweight_ps3","1.0")\
+        .Define("Acoweight_ps4","1.0")\
+        .Define("puWeight","1.0").Define("puWeightUp","1.0").Define("puWeightDown","1.0")
 else: 
     if sample=="DY":
-        df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\")".format(year))
+        df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,Acopl)")\
+            .Define("Acoweight","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"\")".format(year))\
+            .Define("Acoweight_scale1","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_scale1\")".format(year))\
+            .Define("Acoweight_scale2","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_scale2\")".format(year))\
+            .Define("Acoweight_scale3","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_scale3\")".format(year))\
+            .Define("Acoweight_scale4","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_scale4\")".format(year))\
+            .Define("Acoweight_scale5","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_scale5\")".format(year))\
+            .Define("Acoweight_scale6","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_scale6\")".format(year))\
+            .Define("Acoweight_ps1","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_ps1\")".format(year))\
+            .Define("Acoweight_ps2","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_ps2\")".format(year))\
+            .Define("Acoweight_ps3","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_ps3\")".format(year))\
+            .Define("Acoweight_ps4","Get_Aweight(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,genAco,\"{}\",\"_ps4\")".format(year))
         #df = df_addvtx.Define("genAco","GetGenAco(nGenCand,GenCand_phi,Acopl)").Define("Acoweight","Get_Aweight(genAco, nGenCand, GenCand_pt,tau1pt,tau2pt,\"{}\")".format(year))
     else:
+        if sample=="VV2L2Nu":
+            df = df_addvtx.Define("genAco","GetGenAco(nGenCand, GenCand_pt,GenCand_eta,GenCand_phi,Acopl)")
         #df = df_addvtx.Define("Acoweight","1.0")
-        df = df_addvtx.Define("genAco","-99.0").Define("Acoweight","1.0")
+        else:
+            df = df_addvtx.Define("genAco","-99.0")
+        df = df.Define("Acoweight","1.0")\
+            .Define("Acoweight_scale1","1.0")\
+            .Define("Acoweight_scale2","1.0")\
+            .Define("Acoweight_scale3","1.0")\
+            .Define("Acoweight_scale4","1.0")\
+            .Define("Acoweight_scale5","1.0")\
+            .Define("Acoweight_scale6","1.0")\
+            .Define("Acoweight_ps1","1.0")\
+            .Define("Acoweight_ps2","1.0")\
+            .Define("Acoweight_ps3","1.0")\
+            .Define("Acoweight_ps4","1.0")
     #df = df.Define("npvs_weight","Get_npvs_weight(PV_npvs)").Define("npvsDown_weight","Get_npvsDown_weight(PV_npvs)").Define("npvsUp_weight","Get_npvsUp_weight(PV_npvs)")
     #if (year != "2018"):
     #    df = df.Redefine("npvs_weight","1.0").Redefine("npvsDown_weight","1.0").Redefine("npvsUp_weight","1.0") ##fixme
@@ -340,7 +394,7 @@ if (isdata):
     df = df.Define("nHStrk","0")\
         .Define("nHStrkweight","1.0")
 else:
-    if (sample=="DY"):
+    if (sample=="DY" or sample=="VV2L2Nu"):
         df = df.Define("HStrkcut","Trk_isMatchedToHS==1")\
             .Define("nHStrk","Sum(HStrkcut)")\
             .Define("nHStrkweight","Get_ntHSweight(nHStrk,genAco,\"{}\")".format(year))
@@ -355,7 +409,7 @@ else:
     df = df.Define("tausfcor","Get_tausfcor_tautau(nTrk,LepCand_gen,tau1index,tau2index,leading_isolated,subleading_isolated,\"{}\")".format(year))
 
 ###elastic-elastic scale factor
-if (sample=="GGToTauTau" or sample=="GGToWW" or sample=="GGToTauTau_Ctb20"):
+if (sample=="GGToTauTau" or sample=="GGToWW" or sample=="GGToTauTau_Ctb20" or sample=="GGToMuMu" or sample=="GGToElEl"):
     df = df.Define("eeSF", "GeteeSF(GenCand_pt, GenCand_eta, GenCand_phi, nTrk)")
 else :
     df = df.Define("eeSF", "1.0")
@@ -379,9 +433,17 @@ for c in ("run", "luminosityBlock", "event",\
     "nGenCand","GenCand_id","GenCand_pt","GenCand_eta","GenCand_phi",\
     "V_genpt","puWeight","puWeightUp","puWeightDown","tau1index","tau2index","my_tau1","my_tau2","tau1pt","tau1eta","tau1phi","tau1dz","tau2pt","tau2eta","tau2phi",\
     "tau2dz","isOS","leading_isolated","subleading_isolated","xsweight","SFweight","mvis","mcol","Acopl","zvtxll1",\
-    "nTrk","nPUtrk","nHStrk","Acoweight","nPUtrkweight","nHStrkweight","genAco","eeSF","tausfcor"):
+    "nTrk","nPUtrk","nHStrk","Acoweight","Acoweight_scale1","Acoweight_scale2","Acoweight_scale3","Acoweight_scale4","Acoweight_scale5","Acoweight_scale6",\
+    "Acoweight_ps1","Acoweight_ps2","Acoweight_ps3","Acoweight_ps4","nPUtrkweight","nHStrkweight","genAco","eeSF","tausfcor"):
     columns.push_back(c)
 
+if (sample=="DY"):
+    columns.push_back("nLHEPdfWeight")
+    columns.push_back("LHEPdfWeight")
+    columns.push_back("nLHEScaleWeight")
+    columns.push_back("LHEScaleWeight")
+    columns.push_back("nPSWeight")
+    columns.push_back("PSWeight")
 if (year == "2018"):
     columns.push_back("HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg")
     if (sample == "TauA" or sample =="TauB"):
@@ -406,6 +468,7 @@ if (not isdata):
     columns.push_back("DRmatch2")'''
 
 if sample=="GGToTauTau" or sample=="GGToTauTau_Ctb20":
+    columns.push_back("isfid")
     branchlist = list(df.GetColumnNames())
     for taug2weights in list(filter(lambda x: "TauG2Weights" in str(x), branchlist)):
         columns.push_back(taug2weights)

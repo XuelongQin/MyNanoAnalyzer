@@ -26,5 +26,8 @@ float Getsinglemutrgweight(bool isSingleMuonTrigger, float mutrgSF, float mutrgS
 float GetL1PrefiringWeight(float  L1PreFiringWeight_Nom, float  L1PreFiringWeight_Change);
 float Getmusysweight(float muSF, float muSFchange);
 float GeteeSFsysweight(float eeSF, int nTrk, bool down);
+float GetPSsysweight(float PSweight, float Acoweight_ps, float Acoweight);
+float GetPDFsysweight(Vec_t LHEPdfWeight, bool down);
+float GetScalesysweight(float LHEScaleWeight, float sf_normal, float Acoweight_scale, float Acoweight);
 
 #endif

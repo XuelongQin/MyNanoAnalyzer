@@ -1,0 +1,27 @@
+#!/bin/bash
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m22p4
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m23p2
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m24p0
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m24p8
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m25p6
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m26p4
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m27p2
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m28p0
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m28p8
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m29p6
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m30p4
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m31p2
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m32p0
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m32p8
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m33p6
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m34p4
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m35p2
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m36p0
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m36p8
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m37p6
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m38p4
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m39p2
+python3 Gethisto_SR_shape.py 2016post GGToTauTau_Ctb20 GGTT_Im_m40p0
+hadd -f Histo/HistoSR_2016post/Taug2_mutau_2016post_BSM_Im.root Histo/HistoSR_2016post/BSM_Im/GGTT_Im_*p*.root
+
+

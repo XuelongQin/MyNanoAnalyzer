@@ -9,14 +9,14 @@ if __name__ == "__main__":
 
     options = parser.parse_args()
     postfixName=[ "",\
-    "_CMS_jetfake_tauptextrap_qcd_mt_dm0_yearDown", "_CMS_jetfake_tauptextrap_qcd_mt_dm0_yearUp", \
-    "_CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "_CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
-    "_CMS_jetfake_tauptextrap_qcd_mt_dm10_yearDown", "_CMS_jetfake_tauptextrap_qcd_mt_dm10_yearUp", \
-    "_CMS_jetfake_tauptextrap_qcd_mt_dm11_yearDown", "_CMS_jetfake_tauptextrap_qcd_mt_dm11_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearUp"]
+    "_CMS_jetfake_tauptextrap_qcd_tt_dm0_yearDown", "_CMS_jetfake_tauptextrap_qcd_tt_dm0_yearUp", \
+    "_CMS_jetfake_tauptextrap_qcd_tt_dm1_yearDown", "_CMS_jetfake_tauptextrap_qcd_tt_dm1_yearUp", \
+    "_CMS_jetfake_tauptextrap_qcd_tt_dm10_yearDown", "_CMS_jetfake_tauptextrap_qcd_tt_dm10_yearUp", \
+    "_CMS_jetfake_tauptextrap_qcd_tt_dm11_yearDown", "_CMS_jetfake_tauptextrap_qcd_tt_dm11_yearUp", \
+    "_CMS_jetfake_ntracksextrap_qcd_tt_dm0Down", "_CMS_jetfake_ntracksextrap_qcd_tt_dm0Up", \
+    "_CMS_jetfake_ntracksextrap_qcd_tt_dm1Down", "_CMS_jetfake_ntracksextrap_qcd_tt_dm1Up", \
+    "_CMS_jetfake_ntracksextrap_qcd_tt_dm10Down", "_CMS_jetfake_ntracksextrap_qcd_tt_dm10Up", \
+    "_CMS_jetfake_ntracksextrap_qcd_tt_dm11Down", "_CMS_jetfake_ntracksextrap_qcd_tt_dm11Up"]
     nbhist=17
 
     fVV=ROOT.TFile("Histo/HistoCR_anti_"+options.year+"/VV.root","r")

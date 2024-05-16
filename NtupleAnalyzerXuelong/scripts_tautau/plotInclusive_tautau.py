@@ -7,6 +7,7 @@ import re
 import argparse
 from array import array
 import numpy as np
+ROOT.gROOT.SetBatch(True)
 
 def add_lumi(year):
     lowX=0.55

@@ -36,10 +36,12 @@ weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
 
 
 if "GGTT" in name:
-    if name == "GGTT":
-        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe33_0p0"
+    if (name == "GGTT") or ("fid" in name) :
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe_0p0"
+    elif "Im" in name:
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBIm"+name[7:]
     else:
-        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe33"+name[4:]
+        weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe"+name[4:]
     print ("name is ", name, " weight is ", weight)
 
 
@@ -117,11 +119,38 @@ uncertainty.append("_CMS_L1PrefiringUp")
 uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Dn)")
 uncertainty_func.append("GetL1PrefiringWeight(L1PreFiringWeight_Nom, L1PreFiringWeight_Up)")
 
-if "GGTT" in name or name=="GGWW":
+if "GGTT" in name or name=="GGWW" or name=="GGMM" or name=="GGEE":
     uncertainty.append("_CMS_elasticRescalingDown")
     uncertainty.append("_CMS_elasticRescalingUp")
     uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,true)")
     uncertainty_func.append("GeteeSFsysweight(eeSF,nTrk,false)")
+
+if name=="ZTT" or name=="ZLL":
+    uncertainty.append("_CMS_ISRDown")
+    uncertainty.append("_CMS_ISRUp")
+    uncertainty.append("_CMS_FSRDown")
+    uncertainty.append("_CMS_FSRUp")
+    uncertainty.append("_CMS_PDFDown")
+    uncertainty.append("_CMS_PDFUp")
+    uncertainty.append("_CMS_muR0p5_muF0p5")
+    uncertainty.append("_CMS_muRDown")
+    uncertainty.append("_CMS_muFDown")
+    uncertainty.append("_CMS_muFUp")
+    uncertainty.append("_CMS_muRUp")
+    uncertainty.append("_CMS_muR2p0_muF2p0")
+    uncertainty_func.append("GetPSsysweight(PSWeight[2],Acoweight_ps3,Acoweight)")
+    uncertainty_func.append("GetPSsysweight(PSWeight[0],Acoweight_ps1,Acoweight)")
+    uncertainty_func.append("GetPSsysweight(PSWeight[3],Acoweight_ps4,Acoweight)")
+    uncertainty_func.append("GetPSsysweight(PSWeight[1],Acoweight_ps2,Acoweight)")
+    uncertainty_func.append("GetPDFsysweight(LHEPdfWeight,true)")
+    uncertainty_func.append("GetPDFsysweight(LHEPdfWeight,false)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[0],0.983,Acoweight_scale1,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[1],1.015,Acoweight_scale2,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[3],0.960,Acoweight_scale3,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[5],1.025,Acoweight_scale4,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[7],0.986,Acoweight_scale5,Acoweight)")
+    uncertainty_func.append("GetScalesysweight(LHEScaleWeight[8],1.018,Acoweight_scale6,Acoweight)")
+
 
 year4 = year
 if year=="2016pre": year4="2016preVFP"
@@ -137,24 +166,26 @@ if sample == "DY":
 elif "GGToTauTau" in sample:
     if name == "GGTT":
         fout = TFile("Histo/HistoSR_{}/{}.root".format(year,sample),"recreate")
-    else: 
-        fout = TFile("Histo/HistoSR_{}/BSM/{}.root".format(year,name),"recreate")
+    elif "Im" in name:
+        fout = TFile("Histo/HistoSR_{}/BSM_Im/{}.root".format(year,name),"recreate")
+    else:
+        fout = TFile("Histo/HistoSR_{}/BSM_Re/{}.root".format(year,name),"recreate")
 else:
     fout = TFile("Histo/HistoSR_{}/{}.root".format(year,sample),"recreate")
     
-mt_0cut = "(nTrk==0) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] )) && mvis>40 && mvis<500 && mtrans<75 "
-mt_1cut = "(nTrk==1) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] )) && mvis>40 && mvis<500 && mtrans<75"
-DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] )) && mvis>40 && mvis<500 && mtrans<75"
+mt_0cut = "(nTrk==0) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger )) && mvis>40 && mvis<500 && mtrans<75 "
+mt_1cut = "(nTrk==1) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger )) && mvis>40 && mvis<500 && mtrans<75"
+DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger )) && mvis>40 && mvis<500 && mtrans<75"
 
 if year=="2016pre" or year=="2016post":
-    mt_0cut = "(nTrk==0) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40 && mvis<500 && mtrans<75 "
-    mt_1cut = "(nTrk==1) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40 && mvis<500 && mtrans<75"
-    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40 && mvis<500 && mtrans<75"
+    mt_0cut = "(nTrk==0) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger)) && mvis>40 && mvis<500 && mtrans<75 "
+    mt_1cut = "(nTrk==1) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger)) && mvis>40 && mvis<500 && mtrans<75"
+    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger)) && mvis>40 && mvis<500 && mtrans<75"
 
 if year=="2017":
-    mt_0cut = "(nTrk==0) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && mvis>40 && mvis<500 && mtrans<75 "
-    mt_1cut = "(nTrk==1) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && mvis>40 && mvis<500 && mtrans<75"
-    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && mvis>40 && mvis<500 && mtrans<75"
+    mt_0cut = "(nTrk==0) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger )) && mvis>40 && mvis<500 && mtrans<75 "
+    mt_1cut = "(nTrk==1) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger)) && mvis>40 && mvis<500 && mtrans<75"
+    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger)) && mvis>40 && mvis<500 && mtrans<75"
 
 
 isocut = "&& isOS && is_isolated"
@@ -164,6 +195,14 @@ cutZTT = " && LepCand_gen[tauindex]==5"
 cutZLL = " && LepCand_gen[tauindex]!=5"
 dir0 = fout.mkdir("mt_0")
 dir1 = fout.mkdir("mt_1")
+
+if (name == "GGTT_fid"):
+    mt_0cut = mt_0cut + "&& isfid"
+    mt_1cut = mt_1cut + "&& isfid"
+
+if (name == "GGTT_nonfid"):
+    mt_0cut = mt_0cut + "&& !isfid"
+    mt_1cut = mt_1cut + "&& !isfid"
 
 mt_0cut = mt_0cut + realcut
 mt_1cut = mt_1cut + realcut
@@ -200,8 +239,8 @@ if sample == "DY":
     
     '''
 
-    histo_mt0 = DY_rescale(histoDYhigh,histoDY_mt0,0.0242)
-    histo_mt1 = DY_rescale(histoDYhigh,histoDY_mt1,0.0501)
+    histo_mt0 = DY_rescale(histoDYhigh,histoDY_mt0,0.0248)
+    histo_mt1 = DY_rescale(histoDYhigh,histoDY_mt1,0.0512)
 
     
     print ("mt_0 basic ", histo_mt0.Integral())
@@ -225,8 +264,8 @@ if sample == "DY":
         histoDYhigh_sys = gethisto(df_DYhigh_sys,"DYhigh_{}".format(uncertainty_name), nbins, binning)
         histoDY_mt0_sys = gethisto(df_mt0_sys,"mt0_{}".format(uncertainty_name), nbins, binning)
         histoDY_mt1_sys = gethisto(df_mt1_sys,"mt1_{}".format(uncertainty_name), nbins, binning)
-        histo_mt0_sys = DY_rescale(histoDYhigh_sys,histoDY_mt0_sys,0.0242)
-        histo_mt1_sys = DY_rescale(histoDYhigh_sys,histoDY_mt1_sys,0.0501)
+        histo_mt0_sys = DY_rescale(histoDYhigh_sys,histoDY_mt0_sys,0.0248)
+        histo_mt1_sys = DY_rescale(histoDYhigh_sys,histoDY_mt1_sys,0.0512)
         print ("mt_0 ", uncertainty_name, " ", uncertainty_func[i]," ", histo_mt0_sys.Integral())
         print ("mt_1 ", uncertainty_name, " ", uncertainty_func[i]," ", histo_mt1_sys.Integral())
         dir0.cd()

@@ -36,16 +36,22 @@ def Gethisto_taupt_nTrk(cutname, cut, isoname, iso, variable, binning,nbins, dec
 
 def Gethisto_xtrg(cutname, cut, isoname, iso, df):
     histo=TH1F("h_tauFR_{}_xtrg_{}".format(cutname,isoname),"h_tauFR_{}_xtrg_{}".format(cutname,isoname),3,0,3)
-    alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex]))"
-    mutautrgcut = cut + iso + "&& (taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])"
+    #alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex]))"
+    alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger ))"
+    #mutautrgcut = cut + iso + "&& (taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])"
+    mutautrgcut = cut + iso + "&& (taupt>32 && isMuonTauTrigger )"
     singlemutrgcut = cut + iso + "&& (taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])"
     if year=="2016pre" or year=="2016post":
-        alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex]))"
-        mutautrgcut = cut + iso + "&& (taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])"
+        #alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex]))"
+        #mutautrgcut = cut + iso + "&& (taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])"
+        alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger))"
+        mutautrgcut = cut + iso + "&& (taupt>30 && isMuonTauTrigger )"
     if year=="2017":
-        alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex]))"
-        mutautrgcut = cut + iso + "&& (taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])"
-        
+        #alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex]))"
+        #mutautrgcut = cut + iso + "&& (taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])"
+        alltrgcut = cut + iso + " && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger))"
+        mutautrgcut = cut + iso + "&& (taupt>32 && isMuonTauTrigger )"
+
     alltrgnum = df.Filter(alltrgcut).Sum("totalweight").GetValue()
     alltrgerr = sqrt(df.Filter(alltrgcut).Sum("totalweight2").GetValue())
 
@@ -101,8 +107,10 @@ binnum_nt = bins_nt.size-1
 
 bins = bins_nt
 binnum = binnum_nt
-
-weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
+print ("xixi")
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
+if (sample=="GGToTauTau_Ctb20"):
+    weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe_0p0"
 df = df.Define("totalweight",weight).Define("totalweight2","totalweight*totalweight")
 fout = TFile("Histo/HistoforFR_{}/{}.root".format(year,sample),"recreate")
 
@@ -154,11 +162,16 @@ histoxtrgWVVVL.Write()
 
 print ("###############Finally 2D histo to generate W fraction################")
 
-cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && is_isolated"
+'''cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && is_isolated"
 if year=="2016pre" or year=="2016post":
     cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && is_isolated"
 if year=="2017":
-    cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && is_isolated"
+    cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && is_isolated"'''
+cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger)) && is_isolated"
+if year=="2016pre" or year=="2016post":
+    cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger )) && is_isolated"
+if year=="2017":
+    cutWfraction = "taupt>30 && mvis>40 && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger )) && is_isolated"
 histoWfractionOS = Get2Dhisto("cutWfractionOS",cutWfraction,"OS", " & isOS ", df)
 histoWfractionSS = Get2Dhisto("cutWfractionSS",cutWfraction,"SS", " & !isOS ", df)
 fout.cd()

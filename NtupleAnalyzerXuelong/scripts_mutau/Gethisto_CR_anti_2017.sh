@@ -5,13 +5,12 @@ python3 Gethisto_CR_anti.py 2017 ST_t_antitop ST
 python3 Gethisto_CR_anti.py 2017 ST_tW_top ST
 python3 Gethisto_CR_anti.py 2017 ST_tW_antitop ST
 hadd -f Histo/HistoCR_anti_2017/ST.root Histo/HistoCR_anti_2017/ST_t_top.root Histo/HistoCR_anti_2017/ST_t_antitop.root Histo/HistoCR_anti_2017/ST_tW_top.root Histo/HistoCR_anti_2017/ST_tW_antitop.root 
-python3 Gethisto_CR_anti.py 2017 WW2L2Nu VV
 python3 Gethisto_CR_anti.py 2017 WZ2Q2L VV
 python3 Gethisto_CR_anti.py 2017 WZ3LNu VV
-python3 Gethisto_CR_anti.py 2017 ZZ2L2Nu VV
+python3 Gethisto_CR_anti.py 2017 VV2L2Nu VV
 python3 Gethisto_CR_anti.py 2017 ZZ2Q2L VV
 python3 Gethisto_CR_anti.py 2017 ZZ4L VV
-hadd -f Histo/HistoCR_anti_2017/VV.root Histo/HistoCR_anti_2017/WW2L2Nu.root Histo/HistoCR_anti_2017/WZ2Q2L.root Histo/HistoCR_anti_2017/WZ3LNu.root Histo/HistoCR_anti_2017/ZZ2L2Nu.root Histo/HistoCR_anti_2017/ZZ2Q2L.root Histo/HistoCR_anti_2017/ZZ4L.root
+hadd -f Histo/HistoCR_anti_2017/VV.root Histo/HistoCR_anti_2017/WZ2Q2L.root Histo/HistoCR_anti_2017/WZ3LNu.root Histo/HistoCR_anti_2017/VV2L2Nu.root Histo/HistoCR_anti_2017/ZZ2Q2L.root Histo/HistoCR_anti_2017/ZZ4L.root
 python3 Gethisto_CR_anti.py 2017 TTTo2L2Nu TT
 python3 Gethisto_CR_anti.py 2017 TTToHadronic TT
 python3 Gethisto_CR_anti.py 2017 TTToSemiLeptonic TT

@@ -2,7 +2,8 @@ source Gethisto_Inclusive_2016pre.sh
 source plotinclusive_tautau.sh 2016pre
 source Gethisto_SR_anti_2016pre.sh
 source Gethisto_SR_shape_2016pre.sh
-source plotSR_tautau.sh 2016pre
+source plotSR_tautau_3years.sh 2016pre
 source Gethisto_CR_anti_2016pre.sh
 source Gethisto_CR_shape_2016pre.sh
-source plotCR_tautau.sh 2016pre
+source plotCR_tautau_3years.sh 2016pre
+source Do_all_2016pre_CR.sh

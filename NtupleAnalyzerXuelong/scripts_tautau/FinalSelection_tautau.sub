@@ -11,7 +11,11 @@ arguments = 2018 GGToTauTau_Ctb20
 queue 1
 arguments = 2018 GGToWW
 queue 1
+arguments = 2018 GGToElEl
+queue 1
 arguments = 2018 DY
+queue 1
+arguments = 2018 VV2L2Nu
 queue 1
 arguments = 2018 WW2L2Nu
 queue 1

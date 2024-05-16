@@ -286,7 +286,7 @@ namespace ROOT {
       ::tautauFR *ptr = nullptr;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::tautauFR));
       static ::ROOT::TGenericClassInfo 
-         instance("tautauFR", "ApplyFR.h", 75,
+         instance("tautauFR", "ApplyFR.h", 74,
                   typeid(::tautauFR), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &tautauFR_Dictionary, isa_proxy, 4,
                   sizeof(::tautauFR) );

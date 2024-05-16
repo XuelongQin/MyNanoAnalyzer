@@ -13,18 +13,18 @@ if __name__ == "__main__":
     "_CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "_CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
     "_CMS_jetfake_tauptextrap_qcd_mt_dm10_yearDown", "_CMS_jetfake_tauptextrap_qcd_mt_dm10_yearUp", \
     "_CMS_jetfake_tauptextrap_qcd_mt_dm11_yearDown", "_CMS_jetfake_tauptextrap_qcd_mt_dm11_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearUp", \
-    "_CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearDown", "_CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearUp", \
+    "_CMS_jetfake_ntracksextrap_qcd_mt_dm0Down", "_CMS_jetfake_ntracksextrap_qcd_mt_dm0Up", \
+    "_CMS_jetfake_ntracksextrap_qcd_mt_dm1Down", "_CMS_jetfake_ntracksextrap_qcd_mt_dm1Up", \
+    "_CMS_jetfake_ntracksextrap_qcd_mt_dm10Down", "_CMS_jetfake_ntracksextrap_qcd_mt_dm10Up", \
+    "_CMS_jetfake_ntracksextrap_qcd_mt_dm11Down", "_CMS_jetfake_ntracksextrap_qcd_mt_dm11Up", \
     "_CMS_jetfake_tauptextrap_w_mt_dm0_yearDown", "_CMS_jetfake_tauptextrap_w_mt_dm0_yearUp", \
     "_CMS_jetfake_tauptextrap_w_mt_dm1_yearDown", "_CMS_jetfake_tauptextrap_w_mt_dm1_yearUp", \
     "_CMS_jetfake_tauptextrap_w_mt_dm10_yearDown", "_CMS_jetfake_tauptextrap_w_mt_dm10_yearUp", \
     "_CMS_jetfake_tauptextrap_w_mt_dm11_yearDown", "_CMS_jetfake_tauptextrap_w_mt_dm11_yearUp", \
-    "_CMS_jetfake_ntracksextrap_w_mt_dm0_yearDown", "_CMS_jetfake_ntracksextrap_w_mt_dm0_yearUp", \
-    "_CMS_jetfake_ntracksextrap_w_mt_dm1_yearDown", "_CMS_jetfake_ntracksextrap_w_mt_dm1_yearUp", \
-    "_CMS_jetfake_ntracksextrap_w_mt_dm10_yearDown", "_CMS_jetfake_ntracksextrap_w_mt_dm10_yearUp", \
-    "_CMS_jetfake_ntracksextrap_w_mt_dm11_yearDown", "_CMS_jetfake_ntracksextrap_w_mt_dm11_yearUp"]
+    "_CMS_jetfake_ntracksextrap_w_mt_dm0Down", "_CMS_jetfake_ntracksextrap_w_mt_dm0Up", \
+    "_CMS_jetfake_ntracksextrap_w_mt_dm1Down", "_CMS_jetfake_ntracksextrap_w_mt_dm1Up", \
+    "_CMS_jetfake_ntracksextrap_w_mt_dm10Down", "_CMS_jetfake_ntracksextrap_w_mt_dm10Up", \
+    "_CMS_jetfake_ntracksextrap_w_mt_dm11Down", "_CMS_jetfake_ntracksextrap_w_mt_dm11Up"]
 
     nbhist=33
 

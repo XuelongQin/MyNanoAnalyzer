@@ -1,19 +1,19 @@
 #include "Correction.h"
 
-spe_cor::spe_cor(string year){
+spe_cor::spe_cor(string year, string sys){
     yearconf = year;
     if (year == "2016pre"){
-        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_correction_acoplanarity_fine_2016pre.root","read");
-        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_2030_2030");
-        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_2030");
-        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_2030");
-        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_2030");
-        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_3040");
-        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_3040");
-        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_3040");
-        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_4050");
-        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_4050");
-        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_gt50");
+        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_new_correction_acoplanarity_fine_2016pre.root","read");
+        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_2030_2030%s",sys.c_str()));
+        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_2030%s",sys.c_str()));
+        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_2030%s",sys.c_str()));
+        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_2030%s",sys.c_str()));
+        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_3040%s",sys.c_str()));
+        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_3040%s",sys.c_str()));
+        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_3040%s",sys.c_str()));
+        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_4050%s",sys.c_str()));
+        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_4050%s",sys.c_str()));
+        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_gt50%s",sys.c_str()));
         TFile* f_bs=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/beamspot_UL2016_preVFP_Data.root","read");
         h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
         h_bs_z = (TH1F*) f_bs->Get("bs_z");
@@ -28,17 +28,17 @@ spe_cor::spe_cor(string year){
         correction_mapHS=(TH2F*) f_hsnt->Get("correction_map");
     }
     else if (year == "2016post"){
-        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_correction_acoplanarity_fine_2016post.root","read");
-        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_2030_2030");
-        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_2030");
-        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_2030");
-        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_2030");
-        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_3040");
-        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_3040");
-        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_3040");
-        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_4050");
-        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_4050");
-        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_gt50");
+        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_new_correction_acoplanarity_fine_2016post.root","read");
+        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_2030_2030%s",sys.c_str()));
+        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_2030%s",sys.c_str()));
+        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_2030%s",sys.c_str()));
+        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_2030%s",sys.c_str()));
+        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_3040%s",sys.c_str()));
+        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_3040%s",sys.c_str()));
+        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_3040%s",sys.c_str()));
+        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_4050%s",sys.c_str()));
+        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_4050%s",sys.c_str()));
+        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_gt50%s",sys.c_str()));
         TFile* f_bs=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/beamspot_UL2016_postVFP_Data.root","read");
         h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
         h_bs_z = (TH1F*) f_bs->Get("bs_z");
@@ -53,17 +53,17 @@ spe_cor::spe_cor(string year){
         correction_mapHS=(TH2F*) f_hsnt->Get("correction_map");
     }
     else if (year == "2017"){
-        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_correction_acoplanarity_fine_2017.root","read");
-        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_2030_2030");
-        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_2030");
-        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_2030");
-        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_2030");
-        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_3040");
-        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_3040");
-        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_3040");
-        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_4050");
-        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_4050");
-        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_gt50");
+        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_new_correction_acoplanarity_fine_2017.root","read");
+        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_2030_2030%s",sys.c_str()));
+        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_2030%s",sys.c_str()));
+        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_2030%s",sys.c_str()));
+        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_2030%s",sys.c_str()));
+        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_3040%s",sys.c_str()));
+        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_3040%s",sys.c_str()));
+        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_3040%s",sys.c_str()));
+        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_4050%s",sys.c_str()));
+        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_4050%s",sys.c_str()));
+        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_gt50%s",sys.c_str()));
         TFile* f_bs=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/beamspot_UL2017_Data.root","read");
         h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
         h_bs_z = (TH1F*) f_bs->Get("bs_z");
@@ -78,17 +78,17 @@ spe_cor::spe_cor(string year){
         correction_mapHS=(TH2F*) f_hsnt->Get("correction_map");
     }
     else if (year == "2018"){
-        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_correction_acoplanarity_fine_2018.root","read");
-        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_2030_2030");
-        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_2030");
-        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_2030");
-        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_2030");
-        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_3040_3040");
-        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_3040");
-        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_3040");
-        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_4050_4050");
-        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_4050");
-        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get("fit_acoplanarity_gt50_gt50");
+        TFile* f_aco_fine=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/new_new_correction_acoplanarity_fine_2018.root","read");
+        fit_aco_2030_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_2030_2030%s",sys.c_str()));
+        fit_aco_3040_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_2030%s",sys.c_str()));
+        fit_aco_4050_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_2030%s",sys.c_str()));
+        fit_aco_gt50_2030 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_2030%s",sys.c_str()));
+        fit_aco_3040_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_3040_3040%s",sys.c_str()));
+        fit_aco_4050_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_3040%s",sys.c_str()));
+        fit_aco_gt50_3040 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_3040%s",sys.c_str()));
+        fit_aco_4050_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_4050_4050%s",sys.c_str()));
+        fit_aco_gt50_4050 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_4050%s",sys.c_str()));
+        fit_aco_gt50_gt50 = (TF1*) f_aco_fine->Get(Form("fit_acoplanarity_gt50_gt50%s",sys.c_str()));
         TFile* f_bs=new TFile("/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/corrections/beamspot_UL2018_Data.root","read");
         h_bs_sigma = (TH1F*) f_bs->Get("bs_sigma");
         h_bs_z = (TH1F*) f_bs->Get("bs_z");
@@ -110,14 +110,86 @@ spe_cor::spe_cor(string year){
 spe_cor::spe_cor(){
     
 }
-spe_cor spe_cor2016pre("2016pre");
-spe_cor spe_cor2016post("2016post");
-spe_cor spe_cor2017("2017");
-spe_cor spe_cor2018("2018");
+spe_cor spe_cor2016pre("2016pre","");
+spe_cor spe_cor2016post("2016post","");
+spe_cor spe_cor2017("2017","");
+spe_cor spe_cor2018("2018","");
+
+
+spe_cor spe_cor2016pre_scale1("2016pre","_scale1");
+spe_cor spe_cor2016post_scale1("2016post","_scale1");
+spe_cor spe_cor2017_scale1("2017","_scale1");
+spe_cor spe_cor2018_scale1("2018","_scale1");
+
+
+spe_cor spe_cor2016pre_scale2("2016pre","_scale2");
+spe_cor spe_cor2016post_scale2("2016post","_scale2");
+spe_cor spe_cor2017_scale2("2017","_scale2");
+spe_cor spe_cor2018_scale2("2018","_scale2");
+
+
+spe_cor spe_cor2016pre_scale3("2016pre","_scale3");
+spe_cor spe_cor2016post_scale3("2016post","_scale3");
+spe_cor spe_cor2017_scale3("2017","_scale3");
+spe_cor spe_cor2018_scale3("2018","_scale3");
+
+
+spe_cor spe_cor2016pre_scale4("2016pre","_scale4");
+spe_cor spe_cor2016post_scale4("2016post","_scale4");
+spe_cor spe_cor2017_scale4("2017","_scale4");
+spe_cor spe_cor2018_scale4("2018","_scale4");
+
+
+spe_cor spe_cor2016pre_scale5("2016pre","_scale5");
+spe_cor spe_cor2016post_scale5("2016post","_scale5");
+spe_cor spe_cor2017_scale5("2017","_scale5");
+spe_cor spe_cor2018_scale5("2018","_scale5");
+
+
+spe_cor spe_cor2016pre_scale6("2016pre","_scale6");
+spe_cor spe_cor2016post_scale6("2016post","_scale6");
+spe_cor spe_cor2017_scale6("2017","_scale6");
+spe_cor spe_cor2018_scale6("2018","_scale6");
+
+
+spe_cor spe_cor2016pre_ps1("2016pre","_ps1");
+spe_cor spe_cor2016post_ps1("2016post","_ps1");
+spe_cor spe_cor2017_ps1("2017","_ps1");
+spe_cor spe_cor2018_ps1("2018","_ps1");
+
+
+spe_cor spe_cor2016pre_ps2("2016pre","_ps2");
+spe_cor spe_cor2016post_ps2("2016post","_ps2");
+spe_cor spe_cor2017_ps2("2017","_ps2");
+spe_cor spe_cor2018_ps2("2018","_ps2");
+
+
+spe_cor spe_cor2016pre_ps3("2016pre","_ps3");
+spe_cor spe_cor2016post_ps3("2016post","_ps3");
+spe_cor spe_cor2017_ps3("2017","_ps3");
+spe_cor spe_cor2018_ps3("2018","_ps3");
+
+
+spe_cor spe_cor2016pre_ps4("2016pre","_ps4");
+spe_cor spe_cor2016post_ps4("2016post","_ps4");
+spe_cor spe_cor2017_ps4("2017","_ps4");
+spe_cor spe_cor2018_ps4("2018","_ps4");
+
 
 map<string, spe_cor> spe_cormap = {
-    {"2016pre", spe_cor2016pre}, {"2016post", spe_cor2016post},{"2017", spe_cor2017},{"2018", spe_cor2018}
+    {"2016pre", spe_cor2016pre}, {"2016post", spe_cor2016post},{"2017", spe_cor2017},{"2018", spe_cor2018},
+    {"2016pre_scale1", spe_cor2016pre_scale1}, {"2016post_scale1", spe_cor2016post_scale1},{"2017_scale1", spe_cor2017_scale1},{"2018_scale1", spe_cor2018_scale1},
+    {"2016pre_scale2", spe_cor2016pre_scale2}, {"2016post_scale2", spe_cor2016post_scale2},{"2017_scale2", spe_cor2017_scale2},{"2018_scale2", spe_cor2018_scale2},
+    {"2016pre_scale3", spe_cor2016pre_scale3}, {"2016post_scale3", spe_cor2016post_scale3},{"2017_scale3", spe_cor2017_scale3},{"2018_scale3", spe_cor2018_scale3},
+    {"2016pre_scale4", spe_cor2016pre_scale4}, {"2016post_scale4", spe_cor2016post_scale4},{"2017_scale4", spe_cor2017_scale4},{"2018_scale4", spe_cor2018_scale4},
+    {"2016pre_scale5", spe_cor2016pre_scale5}, {"2016post_scale5", spe_cor2016post_scale5},{"2017_scale5", spe_cor2017_scale5},{"2018_scale5", spe_cor2018_scale5},
+    {"2016pre_scale6", spe_cor2016pre_scale6}, {"2016post_scale6", spe_cor2016post_scale6},{"2017_scale6", spe_cor2017_scale6},{"2018_scale6", spe_cor2018_scale6},
+    {"2016pre_ps1", spe_cor2016pre_ps1}, {"2016post_ps1", spe_cor2016post_ps1},{"2017_ps1", spe_cor2017_ps1},{"2018_ps1", spe_cor2018_ps1},
+    {"2016pre_ps2", spe_cor2016pre_ps2}, {"2016post_ps2", spe_cor2016post_ps2},{"2017_ps2", spe_cor2017_ps2},{"2018_ps2", spe_cor2018_ps2},
+    {"2016pre_ps3", spe_cor2016pre_ps3}, {"2016post_ps3", spe_cor2016post_ps3},{"2017_ps3", spe_cor2017_ps3},{"2018_ps3", spe_cor2018_ps3},
+    {"2016pre_ps4", spe_cor2016pre_ps4}, {"2016post_ps4", spe_cor2016post_ps4},{"2017_ps4", spe_cor2017_ps4},{"2018_ps4", spe_cor2018_ps4}
 };
+
 
 
 //Get Correction on Acopolanarity only for DY
@@ -158,9 +230,10 @@ float GetGenAco(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZG
 }
 
 
-float Get_Aweight(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,float gen_aco, string year){
+float Get_Aweight(int nZGenCand, Vec_t &ZGenCand_pt, Vec_t &ZGenCand_eta,Vec_t &ZGenCand_phi,float gen_aco, string year, string sys){
     float my_lep1pt = 0;
     float my_lep2pt = 0;
+    year = year + sys;
     if (nZGenCand==2){
         TLorentzVector my_gen1;
         TLorentzVector my_gen2;

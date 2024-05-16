@@ -121,18 +121,50 @@ float Getmusysweight(float muSF, float muSFchange){
 
 float GeteeSFsysweight(float eeSF, int nTrk, bool down){
     float eeSFsysweight = 1.0;
-    float flatSF = 2.591;
-    if (nTrk==1){
-        flatSF = 2.634;
-    }
-    if (down){
-        eeSFsysweight = flatSF/eeSF;
-    }
-    else{
-        eeSFsysweight = 1.0 + 1.0 - flatSF/eeSF;
+    if (nTrk<=1){
+        float flatSF = 2.703;
+        if (nTrk==1){
+            flatSF = 2.711;
+        }
+        if (down){
+            eeSFsysweight = flatSF/eeSF;
+        }
+        else{
+            eeSFsysweight = 1.0 + 1.0 - flatSF/eeSF;
+        }
     }
     return eeSFsysweight;
 }
+
+float GetPSsysweight(float PSweight, float Acoweight_ps, float Acoweight){
+    float PSsysweight = 1.0;
+    PSsysweight = PSweight*Acoweight_ps/Acoweight;
+    return PSsysweight;
+}
+
+float GetPDFsysweight(Vec_t LHEPdfWeight, bool down){
+    float PDFsysweight=1.0;
+    float average_sigma=0.0;
+    for (int jj=1; jj<101; ++jj) average_sigma+=0.01*LHEPdfWeight[jj];
+    float deltasigma=0.0;
+    for (int jj=1; jj<101; ++jj) deltasigma+=(1.0/(100-1))*pow((LHEPdfWeight[jj]-average_sigma),2);
+    deltasigma=pow(deltasigma,0.5);
+    if (down){
+        PDFsysweight = 1.0-deltasigma;
+    }
+    else{
+        PDFsysweight = 1.0+deltasigma;
+    }
+    return PDFsysweight;
+}
+
+float GetScalesysweight(float LHEScaleWeight, float sf_normal, float Acoweight_scale, float Acoweight){
+    float Scalesysweight=1.0;
+    Scalesysweight = LHEScaleWeight/sf_normal*Acoweight_scale/Acoweight;
+    return Scalesysweight;
+}
+
+
 
 
 

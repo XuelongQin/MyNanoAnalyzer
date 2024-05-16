@@ -93,7 +93,7 @@ def df_sys(df,cut,sysflag,func):
         func2 = str.replace(func,"tauindex","tau2index")
         func1 = str.replace(func1,"my_tau","my_tau1")
         func2 = str.replace(func2,"my_tau","my_tau2")
-        print ("sysflag is 0 ", " func1 ", func1, " func2 ", func2)
+        print ("sysflag is 2 ", " func1 ", func1, " func2 ", func2)
         df_new = df.Redefine("my_tau1",func1).Redefine("tau1pt","my_tau1.Pt()").Redefine("my_tau2",func2).Redefine("tau2pt","my_tau2.Pt()").\
             Redefine("mvis","(my_tau1 + my_tau2).M()").Filter(cut)
     return df_new

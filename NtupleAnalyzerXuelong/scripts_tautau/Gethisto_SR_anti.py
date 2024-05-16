@@ -38,14 +38,14 @@ if "Tau" in sample:
 
 weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
 
-fake_uncertainty = ["CMS_jetfake_tauptextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm0_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearUp", \
+fake_uncertainty = ["CMS_jetfake_tauptextrap_qcd_tt_dm0_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm0_yearUp", \
+    "CMS_jetfake_tauptextrap_qcd_tt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm1_yearUp", \
+    "CMS_jetfake_tauptextrap_qcd_tt_dm10_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm10_yearUp", \
+    "CMS_jetfake_tauptextrap_qcd_tt_dm11_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm11_yearUp", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm0Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm0Up", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm1Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm1Up", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm10Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm10Up", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm11Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm11Up", \
     ]
 
 fake_func = ["GetFR_tautau_qcd_sys_taupt(qcdFR,taukpt,0,LepCand_DecayMode[tauindex],true)",\
@@ -133,13 +133,13 @@ if sample == "DY":
     histoDY_tt1_antisubleading = gethisto_anti(df_tt1_antisubleading,"tt1_antisubleading", nbins, binning)
     histoDY_tt1_antidouble = gethisto_anti(df_tt1_antidouble,"tt1_antidouble", nbins, binning)
     
-    histo_tt0_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt0_antileading,0.0242)
-    histo_tt0_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt0_antisubleading,0.0242)
-    histo_tt0_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt0_antidouble,0.0242)
+    histo_tt0_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt0_antileading,0.0248)
+    histo_tt0_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt0_antisubleading,0.0248)
+    histo_tt0_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt0_antidouble,0.0248)
 
-    histo_tt1_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt1_antileading,0.0501)
-    histo_tt1_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt1_antisubleading,0.0501)
-    histo_tt1_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt1_antidouble,0.0501)
+    histo_tt1_antileading = DY_rescale(histoDYhigh_antileading,histoDY_tt1_antileading,0.0512)
+    histo_tt1_antisubleading = DY_rescale(histoDYhigh_antisubleading,histoDY_tt1_antisubleading,0.0512)
+    histo_tt1_antidouble= DY_rescale(histoDYhigh_antidouble,histoDY_tt1_antidouble,0.0512)
     
     print ("tt_0 basic antileading ", histo_tt0_antileading.Integral(), " antisubleading ", histo_tt0_antisubleading.Integral()," antidouble ", histo_tt0_antidouble.Integral() )
     print ("tt_1 basic antileading ", histo_tt1_antileading.Integral(), " antisubleading ", histo_tt1_antisubleading.Integral()," antidouble ", histo_tt1_antidouble.Integral() )
@@ -187,13 +187,13 @@ if sample == "DY":
         histoDY_tt1_antidouble_sys = gethisto_anti(df_tt1_antidouble_sys,"tt1_antidouble_{}".format(uncertainty_name), nbins, binning)
         
         
-        histo_tt0_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt0_antileading_sys,0.0242)
-        histo_tt0_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt0_antisubleading_sys,0.0242)
-        histo_tt0_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt0_antidouble_sys,0.0242)
+        histo_tt0_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt0_antileading_sys,0.0248)
+        histo_tt0_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt0_antisubleading_sys,0.0248)
+        histo_tt0_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt0_antidouble_sys,0.0248)
         
-        histo_tt1_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt1_antileading_sys,0.0501)
-        histo_tt1_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt1_antisubleading_sys,0.0501)
-        histo_tt1_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt1_antidouble_sys,0.0501)
+        histo_tt1_antileading_sys = DY_rescale(histoDYhigh_antileading_sys,histoDY_tt1_antileading_sys,0.0512)
+        histo_tt1_antisubleading_sys = DY_rescale(histoDYhigh_antisubleading_sys,histoDY_tt1_antisubleading_sys,0.0512)
+        histo_tt1_antidouble_sys = DY_rescale(histoDYhigh_antidouble_sys,histoDY_tt1_antidouble_sys,0.0512)
         
         print ("tt_0 ", uncertainty_name, " antileading ", histo_tt0_antileading_sys.Integral()," antisubleading ", histo_tt0_antisubleading_sys.Integral()," antidouble ", histo_tt0_antidouble_sys.Integral())
         print ("tt_1 ", uncertainty_name, " antileading ", histo_tt1_antileading_sys.Integral()," antisubleading ", histo_tt1_antisubleading_sys.Integral()," antidouble ", histo_tt1_antidouble_sys.Integral())

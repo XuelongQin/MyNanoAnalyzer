@@ -8,12 +8,12 @@ import time as timer
 sys.path.append("..")
 from pyFunc.gethisto_SR_mutau import df_withFR_anti, gethisto, df_withFR_anti_sys, gethisto_anti,DY_rescale
 time_start=timer.time()
-ROOT.gInterpreter.AddIncludePath('/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/CRc/MyNanoAnalyzer/NtupleAnalyzerXuelong/lib')
+ROOT.gInterpreter.AddIncludePath('/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/lib')
 ROOT.gInterpreter.Declare('#include "basic_sel.h"')
 ROOT.gInterpreter.Declare('#include "GetPFtrk.h"')
 ROOT.gInterpreter.Declare('#include "Correction.h"')
 ROOT.gInterpreter.Declare('#include "ApplyFR.h"')
-ROOT.gSystem.Load('/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/CRc/MyNanoAnalyzer/NtupleAnalyzerXuelong/lib/RDFfunc.so')
+ROOT.gSystem.Load('/afs/cern.ch/user/x/xuqin/work/taug-2/taug-2wkdir/CMSSW_10_6_27/src/MyNanoAnalyzer/NtupleAnalyzerXuelong/lib/RDFfunc.so')
 
 
 TH1.SetDefaultSumw2(True)
@@ -38,18 +38,18 @@ fake_uncertainty = ["CMS_jetfake_tauptextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_
     "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
     "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearUp", \
     "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearUp", \
+    "CMS_jetfake_ntracksextrap_qcd_mt_dm0Down", "CMS_jetfake_ntracksextrap_qcd_mt_dm0Up", \
+    "CMS_jetfake_ntracksextrap_qcd_mt_dm1Down", "CMS_jetfake_ntracksextrap_qcd_mt_dm1Up", \
+    "CMS_jetfake_ntracksextrap_qcd_mt_dm10Down", "CMS_jetfake_ntracksextrap_qcd_mt_dm10Up", \
+    "CMS_jetfake_ntracksextrap_qcd_mt_dm11Down", "CMS_jetfake_ntracksextrap_qcd_mt_dm11Up", \
     "CMS_jetfake_tauptextrap_w_mt_dm0_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm0_yearUp", \
     "CMS_jetfake_tauptextrap_w_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm1_yearUp", \
     "CMS_jetfake_tauptextrap_w_mt_dm10_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm10_yearUp", \
     "CMS_jetfake_tauptextrap_w_mt_dm11_yearDown", "CMS_jetfake_tauptextrap_w_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm0_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm0_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm1_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm1_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm10_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm10_yearUp", \
-    "CMS_jetfake_ntracksextrap_w_mt_dm11_yearDown", "CMS_jetfake_ntracksextrap_w_mt_dm11_yearUp", \
+    "CMS_jetfake_ntracksextrap_w_mt_dm0Down", "CMS_jetfake_ntracksextrap_w_mt_dm0Up", \
+    "CMS_jetfake_ntracksextrap_w_mt_dm1Down", "CMS_jetfake_ntracksextrap_w_mt_dm1Up", \
+    "CMS_jetfake_ntracksextrap_w_mt_dm10Down", "CMS_jetfake_ntracksextrap_w_mt_dm10Up", \
+    "CMS_jetfake_ntracksextrap_w_mt_dm11Down", "CMS_jetfake_ntracksextrap_w_mt_dm11Up", \
     ]
 
 
@@ -103,17 +103,17 @@ if sample == "DY":
 else:
     fout = TFile("Histo/HistoCR_anti_{}/{}.root".format(year,sample),"recreate")
     
-mt_2cut = "((nTrk==3)||(nTrk==4))&& (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40 && mtrans<75 "
+mt_2cut = "((nTrk==3)||(nTrk==4))&& (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger)) && mvis>40 && mvis<500  && mtrans<75 "
 
-DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40 && mtrans<75"
+DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger)) && mvis>40 && mvis<500  && mtrans<75"
 
 if year=="2016pre" or year=="2016post":
-    mt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40 && mtrans<75 "
-    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger && LepCand_trgmatch[muindex])) && mvis>40 && mtrans<75"
+    mt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger)) && mvis>40 && mvis<500  && mtrans<75 "
+    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>30 && isMuonTauTrigger)) && mvis>40 && mvis<500  && mtrans<75"
 
 if year=="2017":
-    mt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && mvis>40 && mtrans<75 "
-    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger && LepCand_trgmatch[muindex] && LepCand_trgmatch[tauindex])) && mvis>40 && mtrans<75"
+    mt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex] )||(taupt>32 && isMuonTauTrigger)) && mvis>40 && mvis<500  && mtrans<75 "
+    DYshapecut = "(nTrk<10) && (Acopl<0.015) && ((taupt>30 && isSingleMuonTrigger && LepCand_trgmatch[muindex])||(taupt>32 && isMuonTauTrigger )) && mvis>40 && mvis<500  && mtrans<75"
 
 
 isocut = "&& isOS && is_isolated"

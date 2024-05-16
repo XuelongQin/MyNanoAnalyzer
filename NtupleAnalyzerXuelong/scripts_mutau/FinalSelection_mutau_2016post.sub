@@ -11,7 +11,11 @@ arguments = 2016post GGToTauTau_Ctb20
 queue 1
 arguments = 2016post GGToWW
 queue 1
+arguments = 2016post GGToMuMu
+queue 1
 arguments = 2016post DY
+queue 1
+arguments = 2016post VV2L2Nu
 queue 1
 arguments = 2016post W
 queue 1

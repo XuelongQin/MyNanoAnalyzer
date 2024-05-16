@@ -10,7 +10,11 @@ arguments = 2016post GGToTauTau_Ctb20
 queue 1
 arguments = 2016post GGToWW
 queue 1
+arguments = 2016post GGToElEl
+queue 1
 arguments = 2016post DY
+queue 1
+arguments = 2016post VV2L2Nu
 queue 1
 arguments = 2016post WW2L2Nu
 queue 1

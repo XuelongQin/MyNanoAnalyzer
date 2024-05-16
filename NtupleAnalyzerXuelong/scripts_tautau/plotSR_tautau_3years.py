@@ -3,6 +3,7 @@ import ROOT
 import re
 import argparse
 from array import array
+ROOT.gROOT.SetBatch(True)
 
 def add_lumi(year):
     lowX=0.55
@@ -112,6 +113,7 @@ ZTT=file.Get(args.channel).Get("ZTT")
 ST=file.Get(args.channel).Get("ST")
 GGTT=file.Get(args.channel).Get("GGTT")
 GGWW=file.Get(args.channel).Get("GGWW")
+GGEE=file.Get(args.channel).Get("GGEE")
 #VV.Add(ST.Clone())
 #VV.Add(W.Clone())
 Fake=file.Get(args.channel).Get("Fake")
@@ -138,6 +140,9 @@ if (args.year == "Run2"):
     GGWW.Add(file1.Get(args.channel).Get("GGWW").Clone())
     GGWW.Add(file2.Get(args.channel).Get("GGWW").Clone())
     GGWW.Add(file3.Get(args.channel).Get("GGWW").Clone())
+    GGEE.Add(file1.Get(args.channel).Get("GGEE").Clone())
+    GGEE.Add(file2.Get(args.channel).Get("GGEE").Clone())
+    GGEE.Add(file3.Get(args.channel).Get("GGEE").Clone())
     Fake.Add(file1.Get(args.channel).Get("Fake").Clone())
     Fake.Add(file2.Get(args.channel).Get("Fake").Clone())
     Fake.Add(file3.Get(args.channel).Get("Fake").Clone())
@@ -167,7 +172,7 @@ TT.SetFillColor(ROOT.TColor.GetColor("#4a4e4d"))
 ZTT.SetFillColor(ROOT.TColor.GetColor("#f6cd61"))
 VV.SetFillColor(ROOT.TColor.GetColor("#ff8c94"))
 Fake.SetFillColor(ROOT.TColor.GetColor("#3da4ab"))
-#GGWW.SetFillColor(ROOT.kGreen+1)
+GGEE.SetFillColor(ROOT.kGreen+1)
 
 Data.SetMarkerStyle(20)
 Data.SetMarkerSize(1)
@@ -178,7 +183,7 @@ Fake.SetLineColor(1)
 Data.SetLineColor(1)
 Data.SetLineWidth(2)
 
-#GGWW.SetLineColor(1)
+GGEE.SetLineColor(1)
 
 
 GGTT.SetLineColor(2)
@@ -190,14 +195,14 @@ stack.Add(TT)
 stack.Add(Fake)
 stack.Add(VV)
 stack.Add(ZTT)
-#stack.Add(GGWW)
+stack.Add(GGEE)
 stack.Add(GGTTfull)
 
 errorBand = ZTT.Clone()
 errorBand.Add(TT)
 errorBand.Add(VV)
 errorBand.Add(Fake)
-#errorBand.Add(GGWW)
+errorBand.Add(GGEE)
 errorBand.Add(GGTTfull)
 
 errorBand.SetMarkerSize(0)
@@ -239,7 +244,7 @@ legende.AddEntry(ZTT,"Z#rightarrow #tau#tau","f")
 legende.AddEntry(TT,"t#bar{t}","f")
 legende.AddEntry(VV,"VV,single-t","f")
 legende.AddEntry(Fake,"Fake","f")
-#legende.AddEntry(GGWW,"#gamma#gamma#rightarrow WW","f")
+legende.AddEntry(GGEE,"#gamma#gamma#rightarrow ee","f")
 #legende.AddEntry(GGTT,"Signal x 3","l")
 legende.AddEntry(GGTTfull,"Signal","f")
 legende.AddEntry(errorBand,"Uncertainty","f")

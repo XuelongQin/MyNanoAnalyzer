@@ -62,8 +62,10 @@ binnum_nt = bins_nt.size-1
 bins = bins_nt
 binnum = binnum_nt
 
-weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
-df = df.Define("totalweight",weight)
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
+if (sample=="GGToTauTau_Ctb20"):
+    weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor*TauG2Weights_ceBRe_0p0"
+df = df.Define("totalweight",weight).Define("totalweight2","totalweight*totalweight")
 fout = TFile("Histo/HistoforFR_{}/{}.root".format(year,sample),"recreate")
 
 print ("Get histo for FR for sample ", sample, " year ", year, " weight ", weight)

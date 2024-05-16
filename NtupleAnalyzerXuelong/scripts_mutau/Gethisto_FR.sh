@@ -1,3 +1,6 @@
+python3 Gethisto_FR.py 2018 GGToTauTau_Ctb20
+python3 Gethisto_FR.py 2018 GGToMuMu
+python3 Gethisto_FR.py 2018 GGToWW
 python3 Gethisto_FR.py 2018 DY
 python3 Gethisto_FR.py 2018 ST_t_top
 python3 Gethisto_FR.py 2018 ST_t_antitop
@@ -10,18 +13,17 @@ python3 Gethisto_FR.py 2018 W2
 python3 Gethisto_FR.py 2018 W3
 python3 Gethisto_FR.py 2018 W4
 hadd -f Histo/HistoforFR_2018/Wall.root Histo/HistoforFR_2018/W.root Histo/HistoforFR_2018/W1.root Histo/HistoforFR_2018/W2.root Histo/HistoforFR_2018/W3.root Histo/HistoforFR_2018/W4.root 
-python3 Gethisto_FR.py 2018 WW2L2Nu
 python3 Gethisto_FR.py 2018 WZ2Q2L
 python3 Gethisto_FR.py 2018 WZ3LNu
-python3 Gethisto_FR.py 2018 ZZ2L2Nu
+python3 Gethisto_FR.py 2018 VV2L2Nu
 python3 Gethisto_FR.py 2018 ZZ2Q2L
 python3 Gethisto_FR.py 2018 ZZ4L
-hadd -f Histo/HistoforFR_2018/VV.root Histo/HistoforFR_2018/WW2L2Nu.root Histo/HistoforFR_2018/WZ2Q2L.root Histo/HistoforFR_2018/WZ3LNu.root Histo/HistoforFR_2018/ZZ2L2Nu.root Histo/HistoforFR_2018/ZZ2Q2L.root Histo/HistoforFR_2018/ZZ4L.root
+hadd -f Histo/HistoforFR_2018/VV.root Histo/HistoforFR_2018/WZ2Q2L.root Histo/HistoforFR_2018/WZ3LNu.root Histo/HistoforFR_2018/VV2L2Nu.root Histo/HistoforFR_2018/ZZ2Q2L.root Histo/HistoforFR_2018/ZZ4L.root
 python3 Gethisto_FR.py 2018 TTTo2L2Nu
 python3 Gethisto_FR.py 2018 TTToHadronic
 python3 Gethisto_FR.py 2018 TTToSemiLeptonic
 hadd -f Histo/HistoforFR_2018/TT.root Histo/HistoforFR_2018/TTToHadronic.root Histo/HistoforFR_2018/TTToSemiLeptonic.root Histo/HistoforFR_2018/TTTo2L2Nu.root
-hadd -f Histo/HistoforFR_2018/MC.root Histo/HistoforFR_2018/DY.root Histo/HistoforFR_2018/ST.root Histo/HistoforFR_2018/VV.root Histo/HistoforFR_2018/TT.root
+hadd -f Histo/HistoforFR_2018/MC.root Histo/HistoforFR_2018/DY.root Histo/HistoforFR_2018/ST.root Histo/HistoforFR_2018/VV.root Histo/HistoforFR_2018/TT.root Histo/HistoforFR_2018/GGToMuMu.root Histo/HistoforFR_2018/GGToWW.root 
 python3 Gethisto_FR.py 2018 SingleMuonA
 python3 Gethisto_FR.py 2018 SingleMuonB
 python3 Gethisto_FR.py 2018 SingleMuonC

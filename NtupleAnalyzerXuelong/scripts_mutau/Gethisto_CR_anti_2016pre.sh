@@ -5,13 +5,12 @@ python3 Gethisto_CR_anti.py 2016pre ST_t_antitop ST
 python3 Gethisto_CR_anti.py 2016pre ST_tW_top ST
 python3 Gethisto_CR_anti.py 2016pre ST_tW_antitop ST
 hadd -f Histo/HistoCR_anti_2016pre/ST.root Histo/HistoCR_anti_2016pre/ST_t_top.root Histo/HistoCR_anti_2016pre/ST_t_antitop.root Histo/HistoCR_anti_2016pre/ST_tW_top.root Histo/HistoCR_anti_2016pre/ST_tW_antitop.root 
-python3 Gethisto_CR_anti.py 2016pre WW2L2Nu VV
 python3 Gethisto_CR_anti.py 2016pre WZ2Q2L VV
 python3 Gethisto_CR_anti.py 2016pre WZ3LNu VV
-python3 Gethisto_CR_anti.py 2016pre ZZ2L2Nu VV
+python3 Gethisto_CR_anti.py 2016pre VV2L2Nu VV
 python3 Gethisto_CR_anti.py 2016pre ZZ2Q2L VV
 python3 Gethisto_CR_anti.py 2016pre ZZ4L VV
-hadd -f Histo/HistoCR_anti_2016pre/VV.root Histo/HistoCR_anti_2016pre/WW2L2Nu.root Histo/HistoCR_anti_2016pre/WZ2Q2L.root Histo/HistoCR_anti_2016pre/WZ3LNu.root Histo/HistoCR_anti_2016pre/ZZ2L2Nu.root Histo/HistoCR_anti_2016pre/ZZ2Q2L.root Histo/HistoCR_anti_2016pre/ZZ4L.root
+hadd -f Histo/HistoCR_anti_2016pre/VV.root Histo/HistoCR_anti_2016pre/WZ2Q2L.root Histo/HistoCR_anti_2016pre/WZ3LNu.root Histo/HistoCR_anti_2016pre/VV2L2Nu.root Histo/HistoCR_anti_2016pre/ZZ2Q2L.root Histo/HistoCR_anti_2016pre/ZZ4L.root
 python3 Gethisto_CR_anti.py 2016pre TTTo2L2Nu TT
 python3 Gethisto_CR_anti.py 2016pre TTToHadronic TT
 python3 Gethisto_CR_anti.py 2016pre TTToSemiLeptonic TT

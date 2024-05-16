@@ -7,6 +7,7 @@ import argparse
 from array import array
 import numpy as np
 from pyFunc.gethisto_SR_mutau import variable
+ROOT.gROOT.SetBatch(True)
 
 def add_lumi(year):
     lowX=0.55

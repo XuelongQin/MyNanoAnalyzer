@@ -1,0 +1,6 @@
+source Gethisto_CR3_anti_2017.sh
+source Gethisto_CR3_shape_2017.sh
+source plotCR3_mutau_3years.sh 2017
+source Gethisto_CR45_anti_2017.sh
+source Gethisto_CR45_shape_2017.sh
+source plotCR45_mutau_3years.sh 2017

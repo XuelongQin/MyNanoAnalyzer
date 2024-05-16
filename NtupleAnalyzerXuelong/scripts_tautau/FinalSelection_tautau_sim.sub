@@ -1,0 +1,26 @@
+executable	= FinalSelection_tautau.sh
+output		= logs/FinalSelection_tautau_sim_$(Process).out
+error		= logs/FinalSelection_tautau_sim_$(Process).error
+log 		= logs/FinalSelection_tautau_sim.log
+request_cpus = 8
++JobFlavour = "workday"
+requirements = (OpSysAndVer =?= "CentOS7")
+
+arguments = 2018 GGToTauTau_Ctb20
+queue 1
+arguments = 2018 DY
+queue 1
+arguments = 2017 GGToTauTau_Ctb20
+queue 1
+arguments = 2017 DY
+queue 1
+arguments = 2016pre GGToTauTau_Ctb20
+queue 1
+arguments = 2016pre DY
+queue 1
+arguments = 2016post GGToTauTau_Ctb20
+queue 1
+arguments = 2016post DY
+queue 1
+
+

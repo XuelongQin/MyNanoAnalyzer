@@ -38,14 +38,14 @@ if "Tau" in sample:
 
 weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
 
-fake_uncertainty = ["CMS_jetfake_tauptextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm0_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm1_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm10_yearUp", \
-    "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_tauptextrap_qcd_mt_dm11_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm0_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm1_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm10_yearUp", \
-    "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearDown", "CMS_jetfake_ntracksextrap_qcd_mt_dm11_yearUp", \
+fake_uncertainty = ["CMS_jetfake_tauptextrap_qcd_tt_dm0_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm0_yearUp", \
+    "CMS_jetfake_tauptextrap_qcd_tt_dm1_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm1_yearUp", \
+    "CMS_jetfake_tauptextrap_qcd_tt_dm10_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm10_yearUp", \
+    "CMS_jetfake_tauptextrap_qcd_tt_dm11_yearDown", "CMS_jetfake_tauptextrap_qcd_tt_dm11_yearUp", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm0Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm0Up", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm1Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm1Up", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm10Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm10Up", \
+    "CMS_jetfake_ntracksextrap_qcd_tt_dm11Down", "CMS_jetfake_ntracksextrap_qcd_tt_dm11Up", \
     ]
 
 fake_func = ["GetFR_tautau_qcd_sys_taupt(qcdFR,taukpt,0,LepCand_DecayMode[tauindex],true)",\
@@ -80,8 +80,8 @@ if sample == "DY":
 else:
     fout = TFile("Histo/HistoCR_anti_{}/{}.root".format(year,sample),"recreate")
     
-tt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
-DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40"
+tt_2cut = "((nTrk==3)||(nTrk==4)) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && mvis<500 "
+DYshapecut = "(nTrk<10) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && mvis<500 "
 
 #if year == "2017":
 #    tt_0cut = "(nTrk==0) && (Acopl<0.015) && tau1pt>40 && tau2pt>40 && mvis>40 && LepCand_trgmatch[tau1index] && LepCand_trgmatch[tau2index]"

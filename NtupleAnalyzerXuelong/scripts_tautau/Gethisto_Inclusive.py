@@ -62,7 +62,7 @@ if ("Tau" in sample):
     realcutsubleading = ""
     realcutdouble = ""
     
-weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF"
+weight = "xsweight*SFweight*Acoweight*nPUtrkweight*nHStrkweight*eeSF*tausfcor"
 
 print ("year is ", year , " sample is ", sample)
 df= RDataFrame("Events","/eos/cms/store/cmst3/group/taug2/AnalysisXuelong/ntuples_tautau_{}_basicsel/{}.root".format(year,sample))

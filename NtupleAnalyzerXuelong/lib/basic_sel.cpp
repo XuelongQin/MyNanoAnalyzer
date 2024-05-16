@@ -299,6 +299,8 @@ TLorentzVector GetLepVector(int Lepindex, ROOT::VecOps::RVec<Float_t> &LepCand_p
 }
 
 
+
+
 //Get xsweight of WJets
 /*float luminosity = 59830.0;
 float nnlo=1.162;
@@ -542,6 +544,48 @@ bool Getis_isolated(ROOT::VecOps::RVec<Int_t> &LepCand_vsjet,int tauindex){
         return false;
 }
 
+float TMass_F(float pt3lep, float px3lep, float py3lep, float met, float metPhi) {
+    return sqrt(pow(pt3lep + met, 2) - pow(px3lep + met * cos(metPhi), 2) - pow(py3lep + met * sin(metPhi), 2));
+}
+
+
+bool Getisfid(int is_emu, int is_etau, int is_mutau, int is_tautau, float fidpt_1, float fideta_1, float fidphi_1, float fidm_1, float fidpt_2, float fideta_2, float fidphi_2, float fidm_2, float fidgen_mtt, float fidntracks, float GenMET_pt, float GenMET_phi){
+
+    TLorentzVector fid_lep1;
+    TLorentzVector fid_lep2;
+    TLorentzVector fid_met;
+    fid_lep1.SetPtEtaPhiM(fidpt_1,fideta_1,fidphi_1,fidm_1);
+    fid_lep2.SetPtEtaPhiM(fidpt_2,fideta_2,fidphi_2,fidm_2);
+    fid_met.SetPtEtaPhiM(GenMET_pt, 0, GenMET_phi, 0);
+
+    float fidacoplanarity = (1.0 -fabs(fid_lep2.DeltaPhi(fid_lep1))/3.14159);
+    float fidmt = TMass_F(fid_lep1.Pt(), fid_lep1.Px(), fid_lep1.Py(), fid_met.Pt(), fid_met.Phi());
+
+    bool is_fiducial=true;
+    if (fidacoplanarity>0.015) is_fiducial=false;
+    if (fid_lep1.DeltaR(fid_lep2)<0.5) is_fiducial=false;
+    if ((fid_lep1+fid_lep2).M()>500) is_fiducial=false;
+    if (is_emu==0 and is_etau==0 and is_mutau==0 and is_tautau==0) is_fiducial=false;
+
+    if (is_emu){
+        if (fid_lep1.Pt()<15 or fid_lep2.Pt()<15 or fabs(fid_lep1.Eta())>2.5 or fabs(fid_lep2.Eta())>2.4) is_fiducial=false;
+        if (fid_lep1.Pt()<24 and fid_lep2.Pt()<24) is_fiducial=false;
+    }
+    if (is_etau){
+        if (fid_lep1.Pt()<25 or fid_lep2.Pt()<30 or fabs(fid_lep1.Eta())>2.5 or fabs(fid_lep2.Eta())>2.3) is_fiducial=false;
+        if (fidmt>75) is_fiducial=false;
+    }
+    if (is_mutau){
+        if (fid_lep1.Pt()<21 or fid_lep2.Pt()<30 or fabs(fid_lep1.Eta())>2.4 or fabs(fid_lep2.Eta())>2.3) is_fiducial=false;
+        if (fidmt>75) is_fiducial=false;
+    }
+    if (is_tautau){
+        if (fid_lep1.Pt()<40 or fid_lep2.Pt()<40 or fabs(fid_lep1.Eta())>2.3 or fabs(fid_lep2.Eta())>2.3) is_fiducial=false;
+    }
+    if (fidntracks>0) is_fiducial=false;
+
+    return is_fiducial;
+}
 
 float GetTransmass(TLorentzVector my_mu, float MET_pt, float MET_phi){
     float muMETdelphi = my_mu.Phi()-MET_phi;
@@ -598,10 +642,10 @@ float GeteeSF(ROOT::VecOps::RVec<Float_t> &GenCand_pt, ROOT::VecOps::RVec<Float_
         gen_lep2.SetPtEtaPhiM(GenCand_pt[1],GenCand_eta[1],GenCand_phi[1],0);
         float ditaumass = (gen_lep1+gen_lep2).M();
         if (nTrk==0){
-            eeSF = 2.433+0.00152 * ditaumass;
+            eeSF = 2.359+0.003404 * ditaumass;
         }
         else{
-            eeSF = 2.518+0.00107 * ditaumass;
+            eeSF = 2.377+0.003163 * ditaumass;
         }
     }
     else {
